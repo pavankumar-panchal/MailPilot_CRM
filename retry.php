@@ -379,7 +379,7 @@ try {
     // 3. UPDATE COUNTS
     updateCsvListCounts($conn);
 
-  
+
 
     // 4. RESPONSE
     $totalResult = $conn->query("SELECT COUNT(*) as total FROM emails");

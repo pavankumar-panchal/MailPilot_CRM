@@ -47,11 +47,12 @@ try {
 
         case '/api/retry-failed':
             if ($method === 'POST') {
-                file_get_contents('/../includes/retry_smtp.php');
-                echo json_encode(['status' => 'success', 'message' => 'Retry process triggered.']);
+                // Start retry_smtp.php in the background
+                $cmd = 'php ' . escapeshellarg(__DIR__ . '/../includes/retry_smtp.php') . ' > /dev/null 2>&1 &';
+                exec($cmd);
+                echo json_encode(['status' => 'success', 'message' => 'Retry process started in background.']);
             }
             break;
-
 
         default:
             http_response_code(404);
