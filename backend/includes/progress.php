@@ -4,7 +4,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
-require '../config/db.php';
+require_once __DIR__ . '/../config/db.php';
+
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 

@@ -152,9 +152,6 @@ function processDomainsInParallel()
     return $processed;
 }
 
-// Set all pending csv_list to running before verification starts
-$conn->query("UPDATE csv_list SET status = 'running' WHERE status = 'pending'");
-
 // Main execution
 try {
     if ($conn->connect_error) {

@@ -1,10 +1,7 @@
 <?php
 // DB Connection
-error_reporting(0);
-$db = new mysqli("localhost", "root", "", "CRM");
-if ($db->connect_error) {
-    die("Connection failed: " . $db->connect_error);
-}
+require_once __DIR__ . '/../config/db.php';
+
 
 // Get active SMTP servers
 $smtps = $db->query("SELECT * FROM smtp_servers WHERE is_active = 1")->fetch_all(MYSQLI_ASSOC);

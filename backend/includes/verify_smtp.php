@@ -1,396 +1,289 @@
 <?php
-// Database connection
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+set_time_limit(0);
+
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET");
+
+// Database configuration
 $servername = "127.0.0.1";
 $username = "root";
 $password = "";
 $dbname = "CRM";
+$log_dbname = "CRM_logs";
 
+// Create main connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-
+$conn->set_charset("utf8mb4");
 if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
+    die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
 }
 
-global $conn;
-
-
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-error_reporting(0);       // Disable all error reporting
-ini_set('display_errors', 0);  // Do not display any errors or warnings on screen
+// Create logs connection
+$conn_logs = new mysqli($servername, $username, $password, $log_dbname);
+$conn_logs->set_charset("utf8mb4");
+if ($conn_logs->connect_error) {
+    die(json_encode(["status" => "error", "message" => "Log DB connection failed: " . $conn_logs->connect_error]));
+}
 
 // Configuration
-define('MAX_WORKERS', 1000); // Number of parallel processes
-define('BATCH_SIZE', 500); // Emails per worker
-define('WORKER_SCRIPT', __DIR__ . '/smtp_worker.php');
-define('LOG_DIR', __DIR__ . '/logs');
-// define('LOG_FILE', LOG_DIR . '/smtp_verification_' . date('Y-m-d') . '.log');
+define('LOG_FILE', __DIR__ . '/../storage/smtp_parallel.log'); // Make sure this directory exists
 
-// Ensure log directory exists
-// if (!file_exists(LOG_DIR)) {
-//     mkdir(LOG_DIR, 0755, true);
-// }
+set_time_limit(0);
+ini_set('memory_limit', '512M');
 
-// Log function
-function logVerification($message, $email = '', $domain = '')
+// --- Logging ---
+function write_log($msg)
 {
-    $timestamp = date('[Y-m-d H:i:s]');
-    $logMessage = "$timestamp";
-    if ($email)
-        $logMessage .= " [$email]";
-    if ($domain)
-        $logMessage .= " [$domain]";
-    $logMessage .= " $message\n";
-
-    // file_put_contents(LOG_FILE, $logMessage, FILE_APPEND);
-    // echo $logMessage;
+    $ts = date('Y-m-d H:i:s');
+    file_put_contents(LOG_FILE, "[$ts] $msg\n", FILE_APPEND);
 }
 
-// Updated function using stream_socket_client()
-function verifyEmailViaSMTP($email, $domain)
-{
-    logVerification("Starting verification", $email, $domain);
-
-    if (!getmxrr($domain, $mxhosts)) {
-        $message = "No MX record found for domain: $domain";
-        logVerification($message, $email, $domain);
-        return ["status" => "error", "message" => $message];
-    }
-
-    $mxIP = gethostbyname($mxhosts[0]);
-    $port = 25;
-    $timeout = 30;
-
-    logVerification("Connecting to MX: $mxhosts[0] ($mxIP) on port $port", $email, $domain);
-
-    $context = stream_context_create();
-    $smtp = stream_socket_client(
-        "tcp://$mxIP:$port",
-        $errno,
-        $errstr,
-        $timeout,
-        STREAM_CLIENT_CONNECT,
-        $context
+// --- SMTP Verification logic (single process) ---
+function insert_smtp_log($conn_logs, $email, $steps, $validation, $validation_response) {
+    $stmt = $conn_logs->prepare("INSERT INTO email_smtp_checks 
+        (email, smtp_connection, ehlo, mail_from, rcpt_to, validation, validation_response) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param(
+        "sssssss",
+        $email,
+        $steps['smtp_connection'],
+        $steps['ehlo'],
+        $steps['mail_from'],
+        $steps['rcpt_to'],
+        $validation,
+        $validation_response
     );
+    $stmt->execute();
+    $stmt->close();
+}
 
+function verifyEmailViaSMTP($email, $domain, $conn_logs) {
+    $ip = false;
+    $mxHost = null;
+    $steps = [
+        'smtp_connection' => 'No',
+        'ehlo' => 'No',
+        'mail_from' => 'No',
+        'rcpt_to' => 'No'
+    ];
+
+    // Try MX record first
+    if (getmxrr($domain, $mxhosts) && !empty($mxhosts)) {
+        $mxIp = @gethostbyname($mxhosts[0]);
+        if ($mxIp !== $mxhosts[0] && filter_var($mxIp, FILTER_VALIDATE_IP)) {
+            $ip = $mxIp;
+            $mxHost = $mxhosts[0];
+        }
+    }
+
+    // Fallback to A record if no MX
+    if (!$ip) {
+        $aRecord = @gethostbyname($domain);
+        if ($aRecord !== $domain && filter_var($aRecord, FILTER_VALIDATE_IP)) {
+            $ip = $aRecord;
+            $mxHost = $domain;
+        }
+    }
+
+    if (!$ip) {
+        insert_smtp_log($conn_logs, $email, $steps, "No valid MX or A record found", "No valid MX or A record found");
+        return [
+            "status" => "invalid",
+            "result" => 0,
+            "response" => "No valid MX or A record found",
+            "domain_status" => 0,
+            "validation_status" => "invalid",
+            "validation_response" => "No valid MX or A record found"
+        ];
+    }
+
+    // SMTP check
+    $port = 25;
+    $timeout = 15;
+    $smtp = @stream_socket_client("tcp://$ip:$port", $errno, $errstr, $timeout);
     if (!$smtp) {
-        $message = "Could not connect to $mxIP: $errstr ($errno)";
-        logVerification($message, $email, $domain);
-        return ["status" => "error", "message" => $message];
+        insert_smtp_log($conn_logs, $email, $steps, "Connection failed: $errstr", "Connection failed: $errstr");
+        return [
+            "status" => "invalid",
+            "result" => 0,
+            "response" => "Connection failed: $errstr",
+            "domain_status" => 0,
+            "validation_status" => "invalid",
+            "validation_response" => "Connection failed: $errstr"
+        ];
     }
-
+    $steps['smtp_connection'] = 'Yes';
     stream_set_timeout($smtp, $timeout);
-
     $response = fgets($smtp, 4096);
-    logVerification("SERVER: " . trim($response), $email, $domain);
-
-    if (substr($response, 0, 3) != '220') {
+    if ($response === false || substr($response, 0, 3) != "220") {
         fclose($smtp);
-        $message = "SMTP server not ready: " . trim($response);
-        logVerification($message, $email, $domain);
-        return ["status" => "error", "message" => $message];
+        insert_smtp_log($conn_logs, $email, $steps, "SMTP server not ready or no response", "SMTP server not ready or no response");
+        return [
+            "status" => "invalid",
+            "result" => 0,
+            "response" => "SMTP server not ready or no response",
+            "domain_status" => 0,
+            "validation_status" => "invalid",
+            "validation_response" => "SMTP server not ready or no response"
+        ];
     }
-
     fputs($smtp, "EHLO server.relyon.co.in\r\n");
-    logVerification("Sent: EHLO server.relyon.co.in", $email, $domain);
-
-    $ehloResponse = '';
+    $ehlo_ok = false;
     while ($line = fgets($smtp, 4096)) {
-        $ehloResponse .= $line;
-        if (substr($line, 3, 1) == ' ')
+        if (substr($line, 3, 1) == " ") {
+            $ehlo_ok = true;
             break;
+        }
     }
-    logVerification("EHLO Response: " . trim($ehloResponse), $email, $domain);
-
+    if (!$ehlo_ok) {
+        fclose($smtp);
+        $steps['ehlo'] = 'No';
+        insert_smtp_log($conn_logs, $email, $steps, "EHLO failed", "EHLO failed");
+        return [
+            "status" => "invalid",
+            "result" => 0,
+            "response" => "EHLO failed",
+            "domain_status" => 0,
+            "validation_status" => "invalid",
+            "validation_response" => "EHLO failed"
+        ];
+    }
+    $steps['ehlo'] = 'Yes';
     fputs($smtp, "MAIL FROM:<info@relyon.co.in>\r\n");
-    logVerification("Sent: MAIL FROM:<info@relyon.co.in>", $email, $domain);
-
-    $response = fgets($smtp, 4096);
-    logVerification("MAIL FROM Response: " . trim($response), $email, $domain);
-
+    $mailfrom_resp = fgets($smtp, 4096);
+    if ($mailfrom_resp === false) {
+        fclose($smtp);
+        $steps['mail_from'] = 'No';
+        insert_smtp_log($conn_logs, $email, $steps, "MAIL FROM failed", "MAIL FROM failed");
+        return [
+            "status" => "invalid",
+            "result" => 0,
+            "response" => "MAIL FROM failed",
+            "domain_status" => 0,
+            "validation_status" => "invalid",
+            "validation_response" => "MAIL FROM failed"
+        ];
+    }
+    $steps['mail_from'] = 'Yes';
     fputs($smtp, "RCPT TO:<$email>\r\n");
-    logVerification("Sent: RCPT TO:<$email>", $email, $domain);
-
-    $response = fgets($smtp, 4096);
-    logVerification("RCPT TO Response: " . trim($response), $email, $domain);
-
-    $result = (substr($response, 0, 3) == '250') ? 1 : 0;
-
+    $rcpt_resp = fgets($smtp, 4096);
+    $responseCode = $rcpt_resp !== false ? substr($rcpt_resp, 0, 3) : null;
+    $steps['rcpt_to'] = ($responseCode == "250" || $responseCode == "251") ? 'Yes' : 'No';
     fputs($smtp, "QUIT\r\n");
     fclose($smtp);
 
-    if ($result === 1) {
-        $message = "Verification successful. MX: $mxIP";
-        logVerification($message, $email, $domain);
-        return ["status" => "success", "result" => 1, "message" => $mxIP];
+    // --- Sanitize validation_response for utf8mb4 ---
+    $validation_response = $rcpt_resp !== false ? mb_convert_encoding($rcpt_resp, 'UTF-8', 'UTF-8') : '';
+    $validation_response = mb_substr($validation_response, 0, 1000, 'UTF-8');
+
+    if ($responseCode == "250" || $responseCode == "251") {
+        insert_smtp_log($conn_logs, $email, $steps, $ip, $validation_response);
+        return [
+            "status" => "valid",
+            "result" => 1,
+            "response" => $ip,
+            "domain_status" => 1,
+            "validation_status" => "valid",
+            "validation_response" => $ip
+        ];
+    } elseif (in_array($responseCode, ["450", "451", "452"])) {
+        insert_smtp_log($conn_logs, $email, $steps, $rcpt_resp, $validation_response);
+        return [
+            "status" => "retryable",
+            "result" => 2,
+            "response" => $rcpt_resp,
+            "domain_status" => 2,
+            "validation_status" => "retryable",
+            "validation_response" => $rcpt_resp
+        ];
     } else {
-        $message = "Invalid response";
-        logVerification($message, $email, $domain);
-        return ["status" => "success", "result" => 0, "message" => $message];
+        insert_smtp_log($conn_logs, $email, $steps, $rcpt_resp, $validation_response);
+        return [
+            "status" => "invalid",
+            "result" => 0,
+            "response" => $rcpt_resp,
+            "domain_status" => 0,
+            "validation_status" => "invalid",
+            "validation_response" => $rcpt_resp
+        ];
     }
 }
 
-// Create worker script with enhanced logging
-function createWorkerScript()
-{
-    $workerCode = '<?php
-    
-
-
-    $servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "CRM";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
-}
-    
-    
-    // Configure logging for worker
-    define(\'LOG_DIR\', __DIR__ . \'/../logs\');
-    // define(\'LOG_FILE\', LOG_DIR . \'/smtp_worker_\' . date(\'Y-m-d\') . \'.log\');
-    
-    // if (!file_exists(LOG_DIR)) {
-    //     mkdir(LOG_DIR, 0755, true);
-    // }
-    
-    function workerLog($message, $email = \'\', $domain = \'\') {
-        $timestamp = date(\'[Y-m-d H:i:s]\');
-        $logMessage = "$timestamp [Worker " . getmypid() . "]";
-        if ($email) $logMessage .= " [$email]";
-        if ($domain) $logMessage .= " [$domain]";
-        $logMessage .= " $message\n";
-        
-        // file_put_contents(LOG_FILE, $logMessage, FILE_APPEND);
-        // echo $logMessage;
-    }
-    
-    $offset = $argv[1] ?? 0;
-    $limit = $argv[2] ?? ' . BATCH_SIZE . ';
-    
-    workerLog("Starting worker process with offset: $offset, limit: $limit");
-    
-    // $emails = $conn->query("SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status = 1 AND domain_processed = 0 LIMIT $offset, $limit");
-    // $emails = $conn->query("SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status = 0 AND domain_processed = 1 LIMIT $offset, $limit");
-
-    $emails = $conn->query("SELECT id,raw_emailid,sp_domain FROM emails WHERE domain_status=1 AND domain_processed=0 LIMIT $offset, $limit");
-
-
-    while ($row = $emails->fetch_assoc()) {
-        $email = $row[\'raw_emailid\'];
-        $domain = $row[\'sp_domain\'];
-        
-        workerLog("Processing email", $email, $domain);
-        
-        $verification = verifyEmailViaSMTP($email, $domain);
-        
-        if ($verification[\'status\'] === \'success\') {
-            $status = $verification[\'result\'];
-            $message = $conn->real_escape_string($verification[\'message\']);
-        } else {
-            $status = 0;
-            $message = "Verification failed ";
-        }
-        
-        workerLog("Result: " . ($status ? "Valid" : "Invalid") . " - $message", $email, $domain);
-        
-        $conn->query("UPDATE emails SET 
-                     domain_status = $status,
-                     validation_response = \'$message\',
-                     domain_processed = 1
-                     WHERE id = {$row[\'id\']}");
-    }
-    
-    function verifyEmailViaSMTP($email, $domain) {
-        workerLog("Starting verification", $email, $domain);
-        
-        if (!getmxrr($domain, $mxhosts)) {
-            $message = "No MX record found for domain: $domain";
-            workerLog($message, $email, $domain);
-            return ["status" => "error", "message" => $message];
-        }
-
-        $mxIP = gethostbyname($mxhosts[0]);
-        $port = 25;
-        $timeout = 30;
-
-        workerLog("Connecting to MX: $mxhosts[0] ($mxIP) on port $port", $email, $domain);
-
-        $context = stream_context_create();
-        $smtp = stream_socket_client(
-            "tcp://$mxIP:$port",
-            $errno,
-            $errstr,
-            $timeout,
-            STREAM_CLIENT_CONNECT,
-            $context
-        );
-
-        if (!$smtp) {
-            $message = "Could not connect to $mxIP: $errstr ($errno)";
-            workerLog($message, $email, $domain);
-            return ["status" => "error", "message" => $message];
-        }
-
-        stream_set_timeout($smtp, $timeout);
-
-        $response = fgets($smtp, 4096);
-        workerLog("SERVER: " . trim($response), $email, $domain);
-
-        if (substr($response, 0, 3) != \'220\') {
-            fclose($smtp);
-            $message = "SMTP server not ready: " . trim($response);
-            workerLog($message, $email, $domain);
-            return ["status" => "error", "message" => $message];
-        }
-
-        fputs($smtp, "EHLO server.relyon.co.in\r\n");
-        workerLog("Sent: EHLO server.relyon.co.in", $email, $domain);
-        
-        $ehloResponse = \'\';
-        while ($line = fgets($smtp, 4096)) {
-            $ehloResponse .= $line;
-            if (substr($line, 3, 1) == \' \') break;
-        }
-        workerLog("EHLO Response: " . trim($ehloResponse), $email, $domain);
-
-        fputs($smtp, "MAIL FROM:<info@relyon.co.in>\r\n");
-        workerLog("Sent: MAIL FROM:<info@relyon.co.in>", $email, $domain);
-        
-        $response = fgets($smtp, 4096);
-        workerLog("MAIL FROM Response: " . trim($response), $email, $domain);
-
-        fputs($smtp, "RCPT TO:<$email>\r\n");
-        workerLog("Sent: RCPT TO:<$email>", $email, $domain);
-        
-        $response = fgets($smtp, 4096);
-        workerLog("RCPT TO Response: " . trim($response), $email, $domain);
-
-        $result = (substr($response, 0, 3) == \'250\') ? 1 : 0;
-
-        fputs($smtp, "QUIT\r\n");
-        fclose($smtp);
-
-        if ($result === 1) {
-            $message = "Verification successful. MX: $mxIP";
-            workerLog($message, $email, $domain);
-            return ["status" => "success", "result" => 1, "message" => $mxIP];
-        } else {
-            $message = "Invalid response";
-            workerLog($message, $email, $domain);
-            return ["status" => "success", "result" => 0, "message" => $message];
-        }
-    }
-    
-    workerLog("Worker process completed");
-    ?>';
-
-    file_put_contents(WORKER_SCRIPT, $workerCode);
-}
-
-// Parallel processing function with domain processing tracking
-function processEmailsInParallel()
-{
-    global $conn;
-
-    if (!file_exists(WORKER_SCRIPT)) {
-        createWorkerScript();
-    }
-
-    // Count only unprocessed emails
-    // $total = $conn->query("SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status = 1 AND domain_processed = 0")->fetch_row()[0];
-    // $total = $conn->query("SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status = 0 AND validation_response='Verification failed'; ")->fetch_row()[0];
-    $total = $conn->query("SELECT COUNT(id), raw_emailid, sp_domain FROM emails WHERE domain_status = 1 AND domain_processed = 0")->fetch_row()[0];
-
-
-    echo " Total emails to process: $total\n";
-
-    if ($total == 0) {
-        echo " All domains have already been processed.\n";
-        return;
-    }
-
-    $batches = ceil($total / BATCH_SIZE);
-    $workers = min(MAX_WORKERS, $batches);
-    $procs = [];
-
-    for ($i = 0; $i < $batches; $i++) {
-        $offset = $i * BATCH_SIZE;
-        $cmd = "php " . WORKER_SCRIPT . " $offset " . BATCH_SIZE;
-        $procs[] = proc_open($cmd, [], $pipes);
-
-        if (count($procs) >= $workers) {
-            proc_close(array_shift($procs));
-        }
-    }
-
-    while (count($procs) > 0) {
-        proc_close(array_shift($procs));
-    }
-}
-
-// Function to reset processed status if needed
-function resetProcessedStatus()
-{
-    global $conn;
-    $conn->query("UPDATE emails SET domain_processed = 0");
-    echo "Reset processing status for all domains.\n";
-}
-
-function updateCsvListCounts($conn)
-{
-    $sql = "
-        UPDATE csv_list cl
-        JOIN (
-            SELECT 
-                csv_list_id,
-                SUM(CASE WHEN domain_status = 1 THEN 1 ELSE 0 END) AS valid_count,
-                SUM(CASE WHEN domain_status = 0 THEN 1 ELSE 0 END) AS invalid_count
-            FROM emails
-            GROUP BY csv_list_id
-        ) AS e ON cl.id = e.csv_list_id
-        SET 
-            cl.valid_count = e.valid_count,
-            cl.invalid_count = e.invalid_count
-    ";
-
-    return $conn->query($sql);
-}
-
-// Main execution
+// --- Main execution ---
 try {
-    logVerification("Starting email verification process");
-    $conn->query("SET NET_WRITE_TIMEOUT = 3600");
-    $conn->query("SET NET_READ_TIMEOUT = 3600");
+    // Update status before processing
+    $conn->query("UPDATE csv_list SET status = 'running' WHERE status = 'pending'");
 
-    // Uncomment the next line if you need to reset processing status
-    // resetProcessedStatus();
+    $start_time = microtime(true);
 
+    // Fetch all emails to process
+    $result = $conn->query("SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status=1 AND domain_processed=0");
+    $processed = 0;
 
-    processEmailsInParallel();
-    logVerification("Processing complete");
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $email = $row["raw_emailid"];
+            $domain = $row["sp_domain"];
+            $email_id = $row["id"];
+            $verify = verifyEmailViaSMTP($email, $domain, $conn_logs);
 
-    echo "\nProcessing complete!\n";
+            // --- Sanitize validation_response for utf8mb4 ---
+            if (isset($verify['validation_response'])) {
+                $verify['validation_response'] = mb_convert_encoding($verify['validation_response'], 'UTF-8', 'UTF-8');
+                $verify['validation_response'] = mb_substr($verify['validation_response'], 0, 1000, 'UTF-8');
+            }
 
-    updateCsvListCounts($conn);
+            $update = $conn->prepare("UPDATE emails SET 
+                domain_status = ?, 
+                domain_processed = 1, 
+                validation_status = ?, 
+                validation_response = ? 
+                WHERE id = ?");
+            if ($update) {
+                $update->bind_param(
+                    "issi",
+                    $verify['domain_status'],
+                    $verify['validation_status'],
+                    $verify['validation_response'],
+                    $email_id
+                );
+                $update->execute();
+                $update->close();
+            }
+
+            write_log("Processed $email_id ($email): {$verify['status']} - {$verify['response']}");
+            $processed++;
+        }
+    }
+
+    $total_time = microtime(true) - $start_time;
+
+    // Get verification stats
+    $total = $conn->query("SELECT COUNT(*) as total FROM emails")->fetch_row()[0];
+    $verified = $conn->query("SELECT COUNT(*) as verified FROM emails WHERE validation_status = 'valid'")->fetch_row()[0];
+
+    echo json_encode([
+        "status" => "success",
+        "processed" => (int) $processed,
+        "total_emails" => (int) $total,
+        "verified_emails" => (int) $verified,
+        "time_seconds" => round($total_time, 2),
+        "rate_per_second" => $total_time > 0 ? round($processed / $total_time, 2) : 0,
+        "message" => "SMTP processing completed"
+    ]);
 
 } catch (Exception $e) {
-    $errorMsg = "Error: " . $e->getMessage();
-    logVerification($errorMsg);
-    echo $errorMsg . "\n";
+    echo json_encode([
+        "status" => "error",
+        "message" => $e->getMessage()
+    ]);
 } finally {
     $conn->close();
+    $conn_logs->close();
 }
-
-
-$result = $conn->query("SELECT id, name, daily_limit, hourly_limit FROM smtp_servers WHERE is_active = 1");
-$rows = [];
-while ($row = $result->fetch_assoc()) {
-    $rows[] = $row;
-}
-echo json_encode($rows);
 ?>

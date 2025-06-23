@@ -1,9 +1,6 @@
 <?php
-// Database connection
-$conn = new mysqli("localhost", "root", "", "CRM");
-if ($conn->connect_error) {
-  die("Database connection failed: " . $conn->connect_error);
-}
+require_once __DIR__ . '/../config/db.php';
+
 
 // Initialize message variables
 $message = '';

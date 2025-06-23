@@ -3,14 +3,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
-require 'db.php';
+require_once __DIR__ . '/../config/db.php';
 
-// Database configuration
-$db = new mysqli("localhost", "root", "", "CRM");
-if ($db->connect_error) {
-    die("Connection failed: " . $db->connect_error);
-}
-$db->set_charset("utf8mb4");
 
 date_default_timezone_set('Asia/Kolkata');
 

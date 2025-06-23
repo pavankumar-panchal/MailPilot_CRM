@@ -1,11 +1,14 @@
 <?php
 error_reporting(0);
-$servername = "127.0.0.1";  // Use IP instead of localhost
-$username = "root";
-$password = "";
-$dbname = "CRM";
+$dbConfig = [
+    'host' => '127.0.0.1',
+    'username' => 'root',
+    'password' => '',
+    'name' => 'CRM', // <-- Make sure this matches your database name
+    'port' => 3306
+];
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($dbConfig['host'], $dbConfig['username'], $dbConfig['password'], $dbConfig['name'], $dbConfig['port']);
 
 // Check connection
 if ($conn->connect_error) {

@@ -1,11 +1,8 @@
 <?php
 header('Content-Type: application/json');
 
-// Database connection
-$conn = new mysqli("localhost", "root", "", "CRM");
-if ($conn->connect_error) {
-    die(json_encode(['error' => 'Database connection failed']));
-}
+require_once __DIR__ . '/../config/db.php';
+
 
 $campaign_id = intval($_GET['id']);
 $sql = "SELECT description, mail_subject, mail_body FROM campaign_master WHERE campaign_id = $campaign_id";

@@ -6,6 +6,54 @@ const emptyCampaign = {
   mail_body: "",
 };
 
+// Glassmorphism Status Message Popup
+const StatusMessage = ({ message, onClose }) =>
+  message && (
+    <div
+      className={`
+        fixed top-6 left-1/2 transform -translate-x-1/2 z-50
+        px-6 py-3 rounded-xl shadow text-base font-semibold
+        flex items-center gap-3
+        transition-all duration-300
+        backdrop-blur-md
+        ${
+          message.type === "error"
+            ? "bg-red-200/60 border border-red-400 text-red-800"
+            : "bg-green-200/60 border border-green-400 text-green-800"
+        }
+      `}
+      style={{
+        minWidth: 250,
+        maxWidth: 400,
+        boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.23)",
+        background:
+          message.type === "error"
+            ? "rgba(255, 0, 0, 0.29)"
+            : "rgba(0, 200, 83, 0.29)",
+        borderRadius: "16px",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+      }}
+      role="alert"
+    >
+      <i
+        className={`fas text-lg ${
+          message.type === "error"
+            ? "fa-exclamation-circle text-red-500"
+            : "fa-check-circle text-green-500"
+        }`}
+      ></i>
+      <span className="flex-1">{message.text}</span>
+      <button
+        onClick={onClose}
+        className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+        aria-label="Close"
+      >
+        <i className="fas fa-times"></i>
+      </button>
+    </div>
+  );
+
 const Campaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,11 +63,13 @@ const Campaigns = () => {
   const [editId, setEditId] = useState(null);
   const [message, setMessage] = useState(null);
 
+  const API_URL = "/backend/routes/api.php/api/campaigns";
+
   // Fetch campaigns
   const fetchCampaigns = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/campaigns");
+      const res = await fetch(API_URL);
       const data = await res.json();
       setCampaigns(Array.isArray(data) ? data : []);
     } catch {
@@ -45,7 +95,7 @@ const Campaigns = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/campaigns", {
+      const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -79,7 +129,7 @@ const Campaigns = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/campaigns/${editId}`, {
+      const res = await fetch(`${API_URL}?id=${editId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -102,7 +152,7 @@ const Campaigns = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this campaign?")) return;
     try {
-      const res = await fetch(`/api/campaigns/${id}`, { method: "DELETE" });
+      const res = await fetch(`${API_URL}?id=${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         setMessage({ type: "success", text: "Campaign deleted successfully!" });
@@ -118,7 +168,7 @@ const Campaigns = () => {
   // Reuse campaign
   const handleReuse = async (id) => {
     try {
-      const res = await fetch(`/api/campaigns/${id}`);
+      const res = await fetch(`${API_URL}?id=${id}`);
       const data = await res.json();
       setForm({
         description: data.description,
@@ -131,10 +181,10 @@ const Campaigns = () => {
     }
   };
 
-  // Auto-hide success message
+  // Auto-hide message after 3 seconds
   useEffect(() => {
-    if (message && message.type === "success") {
-      const timer = setTimeout(() => setMessage(null), 5000);
+    if (message) {
+      const timer = setTimeout(() => setMessage(null), 3000);
       return () => clearTimeout(timer);
     }
   }, [message]);
@@ -146,26 +196,9 @@ const Campaigns = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="container mx-auto mt-12 px-4 py-8 max-w-7xl">
       {/* Status Message */}
-      {message && (
-        <div
-          className={`p-4 mt-10 mb-6 rounded-md shadow-sm flex items-start ${
-            message.type === "success"
-              ? "alert-success bg-green-100 text-green-700 border-l-4 border-green-500"
-              : "alert-error bg-red-100 text-red-700 border-l-4 border-red-500"
-          }`}
-        >
-          <div className="ml-3">
-            <p className="text-sm font-medium">{message.text}</p>
-          </div>
-          <div className="ml-auto pl-3">
-            <button onClick={() => setMessage(null)} className="text-gray-500 hover:text-gray-700">
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-      )}
+      <StatusMessage message={message} onClose={() => setMessage(null)} />
 
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">

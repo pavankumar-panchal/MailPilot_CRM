@@ -11,16 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "CRM";
+require_once __DIR__ . '/../config/db.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
-}
 
 // Handle DELETE request to delete an email by id
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
@@ -74,25 +66,90 @@ if (isset($_GET['export'])) {
     exit;
 }
 
+// Add this export for "Connection Timeout" (Connection refused) results
+
+if (isset($_GET['export']) && $_GET['export'] === 'connection_timeout') {
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="connection_timeout_emails.csv"');
+
+    require_once 'db.php'; // adjust path if needed
+
+    $sql = "SELECT * FROM `emails` WHERE validation_response='Connection failed: Connection refused'";
+    $result = $conn->query($sql);
+
+    // Output CSV header
+    echo "id,email,validation_response\n";
+
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            // Adjust fields as needed
+            echo "{$row['id']},{$row['email']},\"{$row['validation_response']}\"\n";
+        }
+    }
+    exit;
+}
+
+// Retry failed logic
+if (isset($_GET['retry_failed']) && $_GET['retry_failed'] == '1') {
+    try {
+        $sql = "SELECT id, raw_emailid AS email, sp_account, sp_domain, domain_verified, domain_status, validation_response 
+                FROM emails WHERE domain_status = 2 ORDER BY id ASC";
+        $result = $conn->query($sql);
+
+        $emails = [];
+        while ($row = $result->fetch_assoc()) {
+            $row['domain_verified'] = (bool) $row['domain_verified'];
+            $row['domain_status'] = (int) $row['domain_status'];
+            $emails[] = $row;
+        }
+
+        echo json_encode([
+            "status" => "success",
+            "message" => count($emails) . " retry failed emails found.",
+            "data" => $emails,
+            "total" => count($emails)
+        ]);
+    } catch (Exception $e) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Failed to fetch retry failed emails: " . $e->getMessage(),
+            "data" => [],
+            "total" => 0
+        ]);
+    }
+    exit;
+}
+
 // Pagination parameters
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $limit = isset($_GET['limit']) ? max(1, intval($_GET['limit'])) : 100; // default 100 rows per page
 $offset = ($page - 1) * $limit;
 
+// Optional: filter by csv_list_id
+$csv_list_id = isset($_GET['csv_list_id']) ? intval($_GET['csv_list_id']) : 0;
+
 // Optional: search filter
 $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
-$where = '';
+$whereParts = [];
+
+if ($csv_list_id > 0) {
+    $whereParts[] = "csv_list_id = $csv_list_id";
+}
 if ($search !== '') {
-    $where = "WHERE raw_emailid LIKE '%$search%' OR sp_account LIKE '%$search%' OR sp_domain LIKE '%$search%'";
+    $whereParts[] = "(raw_emailid LIKE '%$search%' OR sp_account LIKE '%$search%' OR sp_domain LIKE '%$search%')";
+}
+$where = '';
+if (count($whereParts) > 0) {
+    $where = 'WHERE ' . implode(' AND ', $whereParts);
 }
 
-// Get total count for pagination
-$countResult = $conn->query("SELECT COUNT(*) as total FROM emails $where");
-$total = $countResult ? (int) $countResult->fetch_assoc()['total'] : 0;
-
-// Fetch paginated data
+// Always use pagination for both main and child tables
 $sql = "SELECT id, raw_emailid AS email, sp_account, sp_domain, domain_verified, domain_status, validation_response 
         FROM emails $where ORDER BY id ASC LIMIT $limit OFFSET $offset";
+// Get total count for pagination/search/child
+$countResult = $conn->query("SELECT COUNT(*) as cnt FROM emails $where");
+$total = $countResult ? (int) $countResult->fetch_assoc()['cnt'] : 0;
+
 $result = $conn->query($sql);
 
 $emails = [];

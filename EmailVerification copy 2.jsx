@@ -1,22 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import EmailsList from "./EmailsList";
-import { v4 as uuidv4 } from "uuid";
-
-const checkRetryProgress = async () => {
-  try {
-    const res = await fetch(
-      "http://localhost/Verify_email/backend/includes/retry_smtp.php?progress=1"
-    );
-    return await res.json();
-  } catch (error) {
-    return {
-      processed: 0,
-      total: 0,
-      percent: 0,
-      stage: "error",
-    };
-  }
-};
 
 const EmailVerification = () => {
   // Form state
@@ -46,22 +29,37 @@ const EmailVerification = () => {
     search: "",
   });
 
+  // Export state
+  const [exportModalOpen, setExportModalOpen] = useState(false);
+  const [exportType, setExportType] = useState("valid");
+  const [selectedListIds, setSelectedListIds] = useState([]);
+
   // Details state
   const [expandedListId, setExpandedListId] = useState(null);
 
   const progressInterval = useRef(null);
   const searchTimeout = useRef();
 
-  // Retry failed count state
-  const [retryFailedCount, setRetryFailedCount] = useState(0);
+  // Counts for different statuses
+  const counts = {
+    failed: lists.filter((list) => list.domain_status === 2).length,
+    invalid: lists.reduce((sum, list) => sum + (list.invalid_count || 0), 0),
+    valid: lists.reduce((sum, list) => sum + (list.valid_count || 0), 0),
+    timeout: lists.filter(
+      (list) =>
+        list.validation_response?.toLowerCase().includes("timeout") ||
+        list.validation_response?.toLowerCase().includes("failed to connect")
+    ).length,
+  };
 
-  // Fetch lists
+  // Fetch lists with optimized query
   const fetchLists = async () => {
     try {
       const params = new URLSearchParams({
         page: listPagination.page,
         limit: listPagination.rowsPerPage,
         search: listPagination.search,
+        minimal: "true",
       });
 
       const res = await fetch(
@@ -78,42 +76,9 @@ const EmailVerification = () => {
     }
   };
 
-  // Fetch retry failed count
-  const fetchRetryFailedCount = async () => {
-    try {
-      const res = await fetch(
-        "http://localhost/Verify_email/backend/includes/get_results.php?retry_failed=1"
-      );
-      const data = await res.json();
-      if (data.status === "success") {
-        setRetryFailedCount(data.total);
-        // setStatus({ type: "success", message: data.message });
-      } else {
-        setRetryFailedCount(0);
-        // setStatus({ type: "error", message: data.message });
-      }
-    } catch (error) {
-      setRetryFailedCount(0);
-      // setStatus({ type: "error", message: "Failed to fetch retry failed count" });
-    }
-  };
-
-  // Fetch retry failed count on mount and whenever lists change
-  useEffect(() => {
-    fetchRetryFailedCount();
-  }, [lists]);
-
-  // Optionally, poll lists and retry count every 5 seconds for live updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchLists();
-      fetchRetryFailedCount();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   useEffect(() => {
     fetchLists();
+    // eslint-disable-next-line
   }, [listPagination.page, listPagination.rowsPerPage, listPagination.search]);
 
   const handleInputChange = (e) => {
@@ -148,6 +113,7 @@ const EmailVerification = () => {
           body: formDataObj,
         }
       );
+
       const data = await res.json();
 
       if (data.status === "success") {
@@ -158,8 +124,7 @@ const EmailVerification = () => {
         setShowProgress(true);
         startProgressTracking();
         setFormData({ listName: "", fileName: "", csvFile: null });
-        fetchLists(); // Fetch latest lists
-        fetchRetryFailedCount(); // Fetch latest retry count
+        fetchLists();
       } else {
         setStatus({ type: "error", message: data.message || "Upload failed" });
       }
@@ -170,23 +135,126 @@ const EmailVerification = () => {
     }
   };
 
-  const exportEmails = async (type, listId) => {
-    try {
-      const url = `http://localhost/Verify_email/backend/includes/get_results.php?export=${type}&csv_list_id=${listId}`;
-      const res = await fetch(url);
-      const blob = await res.blob();
+  // Enhanced retry failed function with batch support
+  const handleRetryFailed = async (batchSize = 1000) => {
+    const failedIds = lists
+      .filter((list) => list.domain_status === 2 || list.domain_status === 0)
+      .map((list) => list.id);
 
+    if (failedIds.length === 0) {
+      setStatus({ type: "warning", message: "No failed items to retry" });
+      return;
+    }
+
+    setLoading(true);
+    setStatus({
+      type: "info",
+      message: `Preparing to retry ${failedIds.length} failed items...`,
+    });
+
+    try {
+      for (let i = 0; i < failedIds.length; i += batchSize) {
+        const batch = failedIds.slice(i, i + batchSize);
+
+        const response = await fetch(
+          "http://localhost/Verify_email/backend/includes/retry_failed.php",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids: batch }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.status !== "success") {
+          throw new Error(data.message || "Batch retry failed");
+        }
+
+        setStatus({
+          type: "info",
+          message: `Processing batch ${
+            Math.ceil(i / batchSize) + 1
+          } of ${Math.ceil(failedIds.length / batchSize)}...`,
+        });
+      }
+
+      setStatus({
+        type: "success",
+        message: `Successfully queued ${failedIds.length} items for retry`,
+      });
+      setShowProgress(true);
+      startProgressTracking();
+    } catch (error) {
+      setStatus({
+        type: "error",
+        message: error.message || "Failed to retry items",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Enhanced export function with progress
+  const exportEmails = async (type, listId = null) => {
+    try {
+      setLoading(true);
+      setStatus({ type: "info", message: `Preparing ${type} emails export...` });
+
+      const url = `http://localhost/Verify_email/backend/includes/get_results.php?export=${type}${
+        listId ? `&csv_list_id=${listId}` : ""
+      }&stream=true`;
+
+      const res = await fetch(url);
+
+      if (!res.ok) throw new Error("Export failed");
+
+      const reader = res.body.getReader();
+      const chunks = [];
+      let receivedLength = 0;
+
+      setStatus({ type: "info", message: `Downloading ${type} emails...` });
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        chunks.push(value);
+        receivedLength += value.length;
+
+        if (receivedLength % (1024 * 1024) === 0) {
+          setStatus({
+            type: "info",
+            message: `Downloaded ${Math.round(
+              receivedLength / (1024 * 1024)
+            )}MB of ${type} emails...`,
+          });
+        }
+      }
+
+      const blob = new Blob(chunks);
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = downloadUrl;
-      link.download = `${type}_emails_list_${listId}.csv`;
+      link.download = `${type}_emails_${new Date()
+        .toISOString()
+        .slice(0, 10)}.csv`;
       document.body.appendChild(link);
       link.click();
       link.remove();
 
-      setStatus({ type: "success", message: `Exported ${type} emails list` });
+      setStatus({
+        type: "success",
+        message: `Exported ${type} emails successfully`,
+      });
     } catch (error) {
-      setStatus({ type: "error", message: `Failed to export ${type} emails` });
+      setStatus({
+        type: "error",
+        message: `Export failed: ${error.message}`,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -201,7 +269,6 @@ const EmailVerification = () => {
 
         fetchLists();
 
-        // FIX: Replace invalid unicode 'U+0030' with 0
         if (data.total > 0 && data.processed >= data.total) {
           clearInterval(progressInterval.current);
           setTimeout(() => {
@@ -217,54 +284,6 @@ const EmailVerification = () => {
     }, 2000);
   };
 
-  const StatusMessage = ({ status, onClose }) =>
-    status && (
-      <div
-        className={`
-          fixed top-6 left-1/2 transform -translate-x-1/2 z-50
-          px-6 py-3 rounded-xl shadow text-base font-semibold
-          flex items-center gap-3
-          transition-all duration-300
-          backdrop-blur-md
-          ${
-            status.type === "error"
-              ? "bg-red-200/60 border border-red-400 text-red-800"
-              : "bg-green-200/60 border border-green-400 text-green-800"
-          }
-        `}
-        style={{
-          minWidth: 250,
-          maxWidth: 400,
-          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.23)",
-          background:
-            status.type === "error"
-              ? "rgba(255, 0, 0, 0.29)"
-              : "rgba(0, 200, 83, 0.29)",
-          borderRadius: "16px",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-        }}
-        role="alert"
-      >
-        <i
-          className={`fas text-lg ${
-            status.type === "error"
-              ? "fa-exclamation-circle text-red-500"
-              : "fa-check-circle text-green-500"
-          }`}
-        ></i>
-        <span className="flex-1">{status.message}</span>
-        <button
-          onClick={onClose}
-          className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none"
-          aria-label="Close"
-        >
-          <i className="fas fa-times"></i>
-        </button>
-      </div>
-    );
-
-  // Auto-hide status message
   useEffect(() => {
     if (status) {
       const timer = setTimeout(() => setStatus(null), 4000);
@@ -280,7 +299,48 @@ const EmailVerification = () => {
       }, 2000);
     }
     return () => clearInterval(interval);
+    // eslint-disable-next-line
   }, [showProgress]);
+
+  const StatusMessage = ({ status, onClose }) =>
+    status && (
+      <div
+        className={`
+        fixed top-6 left-1/2 transform -translate-x-1/2 z-50
+        px-6 py-3 rounded-lg shadow-lg text-sm font-medium
+        flex items-center gap-3
+        transition-all duration-300
+        backdrop-blur-sm min-w-[300px] max-w-[90vw]
+        ${
+          status.type === "error"
+            ? "bg-red-100/90 border border-red-200 text-red-800"
+            : status.type === "success"
+            ? "bg-green-100/90 border border-green-200 text-green-800"
+            : status.type === "warning"
+            ? "bg-yellow-100/90 border border-yellow-200 text-yellow-800"
+            : "bg-blue-100/90 border border-blue-200 text-blue-800"
+        }
+      `}
+      >
+        <div
+          className={`w-5 h-5 rounded-full flex items-center justify-center ${
+            status.type === "error"
+              ? "bg-red-500"
+              : status.type === "success"
+              ? "bg-green-500"
+              : status.type === "warning"
+              ? "bg-yellow-500"
+              : "bg-blue-500"
+          }`}
+        >
+          {status.type === "error" ? "!" : status.type === "success" ? "✓" : "i"}
+        </div>
+        <span className="flex-1">{status.message}</span>
+        <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          ×
+        </button>
+      </div>
+    );
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -294,60 +354,45 @@ const EmailVerification = () => {
     }, 400);
   };
 
-  const handleRetryFailed = async () => {
-    setLoading(true);
-    setStatus(null);
+  const openExportModal = (type) => {
+    setExportType(type);
+    setExportModalOpen(true);
+    setSelectedListIds([]);
+  };
 
+  const handleListCheckbox = (listId) => {
+    setSelectedListIds((prev) =>
+      prev.includes(listId)
+        ? prev.filter((id) => id !== listId)
+        : [...prev, listId]
+    );
+  };
+
+  const exportSelectedLists = async () => {
+    if (selectedListIds.length === 0) {
+      setStatus({ type: "error", message: "Select at least one list" });
+      return;
+    }
     try {
-      // Always fetch latest retry-failed count before retry
-      await fetchRetryFailedCount();
+      setLoading(true);
+      const url = `http://localhost/Verify_email/backend/includes/get_results.php?export=${exportType}&csv_list_ids=${selectedListIds.join(
+        ","
+      )}`;
+      const res = await fetch(url);
+      const blob = await res.blob();
 
-      // Start by checking how many need retry
-      const resCount = await fetch(
-        "http://localhost/Verify_email/backend/includes/get_results.php?retry_failed=1"
-      );
-      const countData = await resCount.json();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = `${exportType}_emails.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
 
-      if (countData.total === 0) {
-        setStatus({ type: "error", message: "No failed emails to retry" });
-        setLoading(false);
-        return;
-      }
-
-      // Start the retry process
-      const resStart = await fetch(
-        "http://localhost/Verify_email/backend/routes/api.php/api/retry-failed",
-        { method: "POST" }
-      );
-      const startData = await resStart.json();
-
-      if (startData.status !== "success") {
-        throw new Error(startData.message || "Failed to start retry");
-      }
-
-      setStatus({
-        type: "success",
-        message: `Retry started for ${countData.total} emails`,
-      });
-
-      setShowProgress(true);
-      const progressInterval = setInterval(async () => {
-        const progress = await checkRetryProgress();
-        setProgress(progress);
-
-        fetchLists(); // Keep lists updated during retry
-
-        if (progress.stage === "complete" || progress.stage === "error") {
-          clearInterval(progressInterval);
-          setTimeout(() => {
-            setShowProgress(false);
-            fetchLists();
-            fetchRetryFailedCount();
-          }, 2000);
-        }
-      }, 1500);
+      setStatus({ type: "success", message: `Exported ${exportType} emails.` });
+      setExportModalOpen(false);
     } catch (error) {
-      setStatus({ type: "error", message: error.message });
+      setStatus({ type: "error", message: "Export failed" });
     } finally {
       setLoading(false);
     }
@@ -368,29 +413,15 @@ const EmailVerification = () => {
     }
   };
 
-  const failedCount = lists.filter((list) => list.domain_status === 2).length;
-
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <StatusMessage status={status} onClose={() => setStatus(null)} />
 
       {/* Upload Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8 mt-12">
+      <div className="bg-white rounded-xl shadow border border-gray-200 p-6 mb-8">
         <div className="flex items-center mb-6">
           <div className="bg-blue-100 p-2 rounded-lg mr-4">
-            <svg
-              className="w-6 h-6 text-blue-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
-              />
-            </svg>
+            <UploadIcon />
           </div>
           <h2 className="text-xl font-semibold text-gray-800">
             Upload Email List
@@ -410,7 +441,7 @@ const EmailVerification = () => {
                 value={formData.listName}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                placeholder="e.g. List_2025"
+                placeholder="e.g. Marketing Leads Q3"
                 required
               />
             </div>
@@ -426,7 +457,7 @@ const EmailVerification = () => {
                 value={formData.fileName}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                placeholder="e.g. File_2025.csv"
+                placeholder="e.g. leads_2023_q3.csv"
                 required
               />
             </div>
@@ -555,111 +586,74 @@ const EmailVerification = () => {
       </div>
 
       {/* Lists Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div className="flex items-center">
             <div className="bg-blue-100 p-2 rounded-lg mr-4">
-              <svg
-                className="w-6 h-6 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                />
-              </svg>
+              <ListIcon />
             </div>
             <h2 className="text-xl font-semibold text-gray-800">Email Lists</h2>
           </div>
+
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            {/* Search */}
             <div className="relative flex-grow max-w-md">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg
-                  className="h-5 w-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                <SearchIcon />
               </div>
               <input
                 type="text"
                 placeholder="Search lists..."
-                className="pl-10 w-full border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="pl-10 w-full border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500"
                 value={listPagination.search}
                 onChange={handleSearchChange}
               />
             </div>
-            <div className="flex gap-2">
-              {/* <button
-                onClick={() => exportEmails("valid")}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center"
-              >
-                <svg
-                  className="w-4 h-4 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                  />
-                </svg>
-                Export Valid
-              </button> */}
-              {/* <button
-                onClick={() => exportEmails("invalid")}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center"
-              >
-                <svg
-                  className="w-4 h-4 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                  />
-                </svg>
-                Export Invalid
-              </button> */}
-              <button
-                onClick={handleRetryFailed}
-                disabled={loading || retryFailedCount === 0}
-                className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors flex items-center"
-              >
-                <svg
-                  className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9H9m6 4a8.001 8.001 0 01-15.418 2M15 9h5v5"
-                  />
-                </svg>
-                {loading ? "Retrying..." : `Retry Failed (${retryFailedCount})`}
-              </button>
-            </div>
+          </div>
+        </div>
+
+        {/* Action Toolbar */}
+        <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="flex flex-wrap items-center gap-3">
+            <h3 className="text-sm font-medium text-gray-700 mr-2">
+              Bulk Actions:
+            </h3>
+
+            <button
+              onClick={() => handleRetryFailed()}
+              disabled={counts.failed === 0 || loading}
+              className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 disabled:opacity-50 flex items-center"
+            >
+              <RefreshIcon className="mr-2" />
+              Retry Failed ({counts.failed})
+            </button>
+
+            <button
+              onClick={() => openExportModal("valid")}
+              disabled={counts.valid === 0 || loading}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 flex items-center"
+            >
+              <DownloadIcon className="mr-2" />
+              Export Valid ({counts.valid})
+            </button>
+
+            <button
+              onClick={() => openExportModal("invalid")}
+              disabled={counts.invalid === 0 || loading}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center"
+            >
+              <DownloadIcon className="mr-2" />
+              Export Invalid ({counts.invalid})
+            </button>
+
+            <button
+              onClick={() => openExportModal("timeout")}
+              disabled={counts.timeout === 0 || loading}
+              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 flex items-center"
+            >
+              <DownloadIcon className="mr-2" />
+              Export Timeout ({counts.timeout})
+            </button>
           </div>
         </div>
 
@@ -681,7 +675,7 @@ const EmailVerification = () => {
                   Emails
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Valid/Invalid
+                  Valid/Invalid/Timeout
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
@@ -691,10 +685,7 @@ const EmailVerification = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {lists.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={6}
-                    className="px-6 py-4 text-center text-gray-500 text-sm"
-                  >
+                  <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
                     {listPagination.search
                       ? "No lists match your search criteria"
                       : "No lists found. Upload a CSV file to get started."}
@@ -702,10 +693,7 @@ const EmailVerification = () => {
                 </tr>
               ) : (
                 lists.map((list) => (
-                  <tr
-                    key={list.id}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
+                  <tr key={list.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {list.id}
                     </td>
@@ -718,86 +706,45 @@ const EmailVerification = () => {
                           list.status
                         )}`}
                       >
-                        {list.status.charAt(0).toUpperCase() +
-                          list.status.slice(1)}
+                        {list.status?.charAt(0).toUpperCase() + list.status?.slice(1)}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {list.total_emails} total
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <span className="text-emerald-600 font-medium">
-                        {list.valid_count || 0} valid
-                      </span>{" "}
-                      /{" "}
-                      <span className="text-red-600 font-medium">
-                        {list.invalid_count || 0} invalid
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-green-600 font-medium">
+                          {list.valid_count || 0} valid
+                        </span>
+                        <span className="text-gray-400">|</span>
+                        <span className="text-red-600 font-medium">
+                          {list.invalid_count || 0} invalid
+                        </span>
+                        <span className="text-gray-400">|</span>
+                        <span className="text-yellow-600 font-medium">
+                          {list.timeout_count || 0} timeout
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-2">
-                      <button
-                        onClick={() => setExpandedListId(list.id)}
-                        className="text-blue-600 hover:text-blue-800 transition-colors flex items-center"
-                      >
-                        <svg
-                          className="w-4 h-4 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => setExpandedListId(list.id)}
+                          className="text-blue-600 hover:text-blue-800 flex items-center"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
-                        </svg>
-                        View
-                      </button>
-                      <button
-                        onClick={() => exportEmails("valid", list.id)}
-                        className="text-green-600 hover:text-green-800 transition-colors flex items-center"
-                      >
-                        <svg
-                          className="w-4 h-4 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                          <EyeIcon className="mr-1" />
+                          View
+                        </button>
+                        <button
+                          onClick={() => handleRetryFailed([list.id])}
+                          disabled={list.domain_status !== 2 || loading}
+                          className="text-yellow-600 hover:text-yellow-800 disabled:opacity-50 flex items-center"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                          />
-                        </svg>
-                        Valid
-                      </button>
-                      <button
-                        onClick={() => exportEmails("invalid", list.id)}
-                        className="text-red-600 hover:text-red-800 transition-colors flex items-center"
-                      >
-                        <svg
-                          className="w-4 h-4 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                          />
-                        </svg>
-                        Invalid
-                      </button>
+                          <RefreshIcon className="mr-1" />
+                          Retry
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -960,6 +907,85 @@ const EmailVerification = () => {
         )}
       </div>
 
+      {/* Progress Modal */}
+      {showProgress && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md">
+            <h3 className="text-lg font-medium mb-4">Processing Progress</h3>
+            <div className="mb-4">
+              <div className="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Stage: {progress.stage}</span>
+                <span>
+                  {progress.processed} of {progress.total}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div
+                  className="bg-blue-600 h-2.5 rounded-full"
+                  style={{ width: `${progress.percent}%` }}
+                ></div>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                clearInterval(progressInterval.current);
+                setShowProgress(false);
+              }}
+              className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Export Modal */}
+      {exportModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md">
+            <h3 className="text-lg font-medium mb-4">
+              Export{" "}
+              {exportType.charAt(0).toUpperCase() + exportType.slice(1)} Emails
+            </h3>
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-2">
+                Select lists to export:
+              </p>
+              <div className="max-h-60 overflow-y-auto border rounded-lg">
+                {lists.map((list) => (
+                  <div key={list.id} className="p-2 border-b last:border-b-0">
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedListIds.includes(list.id)}
+                        onChange={() => handleListCheckbox(list.id)}
+                        className="mr-2"
+                      />
+                      {list.list_name} (ID: {list.id})
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setExportModalOpen(false)}
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={exportSelectedLists}
+                disabled={selectedListIds.length === 0 || loading}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+              >
+                {loading ? "Exporting..." : "Export"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Emails List Overlay */}
       {expandedListId && (
         <EmailsList
@@ -970,5 +996,108 @@ const EmailVerification = () => {
     </div>
   );
 };
+
+// Icon components
+const UploadIcon = () => (
+  <svg
+    className="w-6 h-6 text-blue-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+    />
+  </svg>
+);
+
+const ListIcon = () => (
+  <svg
+    className="w-6 h-6 text-blue-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+    />
+  </svg>
+);
+
+const SearchIcon = () => (
+  <svg
+    className="h-5 w-5 text-gray-400"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    />
+  </svg>
+);
+
+const DownloadIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+    />
+  </svg>
+);
+
+const RefreshIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+    />
+  </svg>
+);
+
+const EyeIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+    />
+  </svg>
+);
 
 export default EmailVerification;
