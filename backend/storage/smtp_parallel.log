@@ -1,0 +1,251 @@
+[2025-06-24 14:11:34] Total emails to process: 49989
+[2025-06-24 14:11:34] Total batches: 50, Batch size: 1000
+[2025-06-24 14:11:34] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-06-24 14:11:34] Started worker for IDs 1 - 1000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 1001 - 2000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 2001 - 3000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 3001 - 4000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 4001 - 5000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 5001 - 6000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 6001 - 7000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 7001 - 8000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 8001 - 9000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 9001 - 10000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 10001 - 11000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 11001 - 12000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 12001 - 13000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 13001 - 14000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 14001 - 15000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 15001 - 16000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 16001 - 17000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 17001 - 18000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 18001 - 19000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 19001 - 20000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 20001 - 21000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 21001 - 22000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 22001 - 23000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 23001 - 24000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 24001 - 25000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 25001 - 26000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 26001 - 27000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 27001 - 28000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 28001 - 29000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 29001 - 30000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 30001 - 31000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 31001 - 32000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 32001 - 33000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 33001 - 34000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 34001 - 35000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 35001 - 36000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 36001 - 37000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 37001 - 38000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 38001 - 39000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 39001 - 40000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 40001 - 41000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 41001 - 42000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 42001 - 43000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 43001 - 44000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 44001 - 45000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 45001 - 46000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 46001 - 47000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 47001 - 48000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 48001 - 49000 (1000 emails)
+[2025-06-24 14:11:34] Started worker for IDs 49001 - 49989 (989 emails)
+[2025-06-24 14:13:04] Worker [IDs 42001-43000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'gajanan.joshi@r...', Array, '550 5.1.1 <gaja...', '550 5.1.1 <gaja...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('gajanan.joshi@r...', 'raj-india.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:13:04] Worker [IDs 42001-43000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'gajanan.joshi@r...', Array, '550 5.1.1 <gaja...', '550 5.1.1 <gaja...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('gajanan.joshi@r...', 'raj-india.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:13:43] Worker [IDs 22001-23000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'shadab@saanglob...', Array, '550 5.1.1 <shad...', '550 5.1.1 <shad...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('shadab@saanglob...', 'saanglobal.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:13:43] Worker [IDs 22001-23000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'shadab@saanglob...', Array, '550 5.1.1 <shad...', '550 5.1.1 <shad...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('shadab@saanglob...', 'saanglobal.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:16:36] Worker [IDs 37001-38000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'ceo@closed.com', Array, '550 5.1.1 <ceo@...', '550 5.1.1 <ceo@...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('ceo@closed.com', 'closed.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:16:36] Worker [IDs 37001-38000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'ceo@closed.com', Array, '550 5.1.1 <ceo@...', '550 5.1.1 <ceo@...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('ceo@closed.com', 'closed.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:19:44] Worker [IDs 32001-33000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'ahmad.saifi023@...', Array, '550 mailbox ahm...', '550 mailbox ahm...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('ahmad.saifi023@...', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:19:44] Worker [IDs 32001-33000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'ahmad.saifi023@...', Array, '550 mailbox ahm...', '550 mailbox ahm...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('ahmad.saifi023@...', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:20:23] Worker [IDs 2001-3000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'jalpa.dalwadi@n...', Array, '550 5.1.1 <jalp...', '550 5.1.1 <jalp...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('jalpa.dalwadi@n...', 'novaivifertilit...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:20:23] Worker [IDs 2001-3000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'jalpa.dalwadi@n...', Array, '550 5.1.1 <jalp...', '550 5.1.1 <jalp...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('jalpa.dalwadi@n...', 'novaivifertilit...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:20:46] Worker [IDs 43001-44000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'h2580416@mvrht....', Array, '550 5.1.1 <h258...', '550 5.1.1 <h258...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('h2580416@mvrht....', 'mvrht.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:20:46] Worker [IDs 43001-44000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'h2580416@mvrht....', Array, '550 5.1.1 <h258...', '550 5.1.1 <h258...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('h2580416@mvrht....', 'mvrht.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:23:38] Worker [IDs 23001-24000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sivakumar@illum...', Array, '550 5.1.1 <siva...', '550 5.1.1 <siva...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sivakumar@illum...', 'illuminei.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:23:38] Worker [IDs 23001-24000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sivakumar@illum...', Array, '550 5.1.1 <siva...', '550 5.1.1 <siva...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sivakumar@illum...', 'illuminei.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:29:49] Worker [IDs 5001-6000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'm.shankar@saert...', Array, '550 5.1.1 <m.sh...', '550 5.1.1 <m.sh...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('m.shankar@saert...', 'saertex.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:29:49] Worker [IDs 5001-6000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'm.shankar@saert...', Array, '550 5.1.1 <m.sh...', '550 5.1.1 <m.sh...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('m.shankar@saert...', 'saertex.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:30:59] Worker [IDs 44001-45000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'i946081@mvrht.c...', Array, '550 5.1.1 <i946...', '550 5.1.1 <i946...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('i946081@mvrht.c...', 'mvrht.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:30:59] Worker [IDs 44001-45000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'i946081@mvrht.c...', Array, '550 5.1.1 <i946...', '550 5.1.1 <i946...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('i946081@mvrht.c...', 'mvrht.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:47:24] Worker [IDs 27001-28000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'uday@gnail.com', Array, '550 mailbox uda...', '550 mailbox uda...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('uday@gnail.com', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:47:24] Worker [IDs 27001-28000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'uday@gnail.com', Array, '550 mailbox uda...', '550 mailbox uda...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('uday@gnail.com', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:48:41] Worker [IDs 17001-18000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:48:41] Worker [IDs 17001-18000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:48:58] Worker [IDs 39001-40000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'dhananjay@saang...', Array, '550 5.1.1 <dhan...', '550 5.1.1 <dhan...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('dhananjay@saang...', 'saanglobal.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:48:58] Worker [IDs 39001-40000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'dhananjay@saang...', Array, '550 5.1.1 <dhan...', '550 5.1.1 <dhan...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('dhananjay@saang...', 'saanglobal.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+

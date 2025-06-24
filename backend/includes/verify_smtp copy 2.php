@@ -9,36 +9,30 @@ header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 
-// Database configuration
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "CRM";
-$log_dbname = "CRM_logs";
+// Main DB configuration
+$main_db_host = "174.141.233.174";
+$main_db_user = "email_id";
+$main_db_pass = "55y60jgW*";
+$main_db_name = "email_id";
 
 // Create main connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($main_db_host, $main_db_user, $main_db_pass, $main_db_name);
 $conn->set_charset("utf8mb4");
 if ($conn->connect_error) {
-    die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
+    die(json_encode(["status" => "error", "message" => "Main DB connection failed: " . $conn->connect_error]));
 }
 
-
-
-
-// Separate log DB credentials
-$log_db_host = "127.0.0.1";           // Or your actual IP
-$log_db_user = "CRM_logs";            // Your logs DB user
-$log_db_pass = "55y60jgW*";           // Your logs DB password
-$log_db_name = "CRM_logs";            // Your logs DB name
+// Log DB configuration (local)
+$log_db_host = "127.0.0.1";
+$log_db_user = "CRM_logs";
+$log_db_pass = "55y60jgW*";
+$log_db_name = "CRM_logs";
 
 $conn_logs = new mysqli($log_db_host, $log_db_user, $log_db_pass, $log_db_name);
 $conn_logs->set_charset("utf8mb4");
 if ($conn_logs->connect_error) {
     die(json_encode(["status" => "error", "message" => "Log DB connection failed: " . $conn_logs->connect_error]));
 }
-
-
 
 // Configuration
 define('MAX_WORKERS', 100); // Adjust for your server
@@ -53,33 +47,27 @@ ini_set('memory_limit', '512M');
 if (!file_exists(WORKER_SCRIPT)) {
     $worker_code = <<<'EOC'
 <?php
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "CRM";
-$log_dbname = "CRM_logs";
+// Main DB configuration
+$main_db_host = "174.141.233.174";
+$main_db_user = "email_id";
+$main_db_pass = "55y60jgW*";
+$main_db_name = "email_id";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($main_db_host, $main_db_user, $main_db_pass, $main_db_name);
 $conn->set_charset("utf8mb4");
 if ($conn->connect_error) exit(1);
 
-
-
-// Separate log DB credentials
-$log_db_host = "127.0.0.1";           // Or your actual IP
-$log_db_user = "CRM_logs";            // Your logs DB user
-$log_db_pass = "55y60jgW*";           // Your logs DB password
-$log_db_name = "CRM_logs";            // Your logs DB name
+// Log DB configuration (local)
+$log_db_host = "127.0.0.1";
+$log_db_user = "CRM_logs";
+$log_db_pass = "55y60jgW*";
+$log_db_name = "CRM_logs";
 
 $conn_logs = new mysqli($log_db_host, $log_db_user, $log_db_pass, $log_db_name);
 $conn_logs->set_charset("utf8mb4");
 if ($conn_logs->connect_error) {
     die(json_encode(["status" => "error", "message" => "Log DB connection failed: " . $conn_logs->connect_error]));
 }
-
-
-
-
 
 $start_id = $argv[1] ?? 0;
 $end_id = $argv[2] ?? 0;
@@ -352,7 +340,10 @@ function process_in_parallel($conn)
         // Start new workers if under limit
         while (count($active_procs) < MAX_WORKERS && $batch_idx < $total_batches) {
             $range = $ranges[$batch_idx];
-            $cmd = "php " . escapeshellarg(WORKER_SCRIPT) . " {$range['start']} {$range['end']}";
+            // $cmd = "php " . escapeshellarg(WORKER_SCRIPT) . " {$range['start']} {$range['end']}";
+
+            $cmd = "/opt/plesk/php/8.2/bin/php " . escapeshellarg(WORKER_SCRIPT) . " {$range['start']} {$range['end']}";
+
             $descriptorspec = [0 => ["pipe", "r"], 1 => ["pipe", "w"], 2 => ["pipe", "w"]];
             $proc = proc_open($cmd, $descriptorspec, $pipes);
             if (is_resource($proc)) {
@@ -431,5 +422,6 @@ try {
     ]);
 } finally {
     $conn->close();
+    $conn_logs->close();
 }
 ?>

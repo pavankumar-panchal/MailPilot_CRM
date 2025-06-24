@@ -19,10 +19,6 @@ $dbConfig = [
 ];
 
 
-// Log file configuration
-define('LOG_FILE', __DIR__ . '/../storage/domain_verification.log');
-logMessage("Script started");
-
 // Database connection
 try {
     $conn = new mysqli(
@@ -39,7 +35,6 @@ try {
     $conn->set_charset("utf8mb4");
 } catch (Exception $e) {
     http_response_code(500);
-    logMessage("Database error: " . $e->getMessage());
     die(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
 }
 
@@ -47,18 +42,7 @@ try {
 set_time_limit(0);
 ini_set('memory_limit', '512M');
 
-/**
- * Log messages to file
- */
-function logMessage($message)
-{
-    $timestamp = date('Y-m-d H:i:s');
-    file_put_contents(LOG_FILE, "[$timestamp] $message\n", FILE_APPEND);
-}
 
-/**
- * Verify a domain's DNS records
- */
 function verifyDomain($domain)
 {
     if (empty($domain)) {
@@ -98,7 +82,6 @@ function verifyDomains($conn)
         throw new Exception("Query failed: " . $conn->error);
     }
 
-    logMessage("Found " . $result->num_rows . " domains to verify");
 
     $domains = [];
     while ($row = $result->fetch_assoc()) {
@@ -125,7 +108,6 @@ function verifyDomains($conn)
                 WHERE id = ?");
 
             if ($stmt === false) {
-                logMessage("Prepare failed: " . $conn->error);
                 $errors++;
                 continue;
             }
@@ -135,7 +117,6 @@ function verifyDomains($conn)
             $stmt->bind_param("isi", $status, $response, $domainId);
 
             if (!$stmt->execute()) {
-                logMessage("Update failed for ID {$row['id']}: " . $stmt->error);
                 $errors++;
             } else {
                 $processed++;
@@ -145,7 +126,6 @@ function verifyDomains($conn)
             usleep(50000); // 50ms delay
 
         } catch (Throwable $e) {
-            logMessage("Warning: " . $e->getMessage());
             $errors++;
         }
     }
@@ -184,13 +164,11 @@ try {
 
 } catch (Throwable $e) { // Catch all errors, not just Exception
     http_response_code(500);
-    logMessage("Warning: " . $e->getMessage());
     echo json_encode([
         'status' => 'error',
         'message' => 'An internal error occurred. Please try again later.'
     ]);
 } finally {
-    logMessage("Script completed successfully");
     if (isset($conn)) {
         $conn->close();
     }
