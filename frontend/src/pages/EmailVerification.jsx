@@ -654,7 +654,7 @@ const EmailVerification = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9H9m6 4a8.001 8.001 0 01-15.418 2M15 9h5v5"
+                    d="M4 4v5h5M20 20v-5h-5M5.5 8.5a8 8 0 0113 0M18.5 15.5a8 8 0 01-13 0"
                   />
                 </svg>
                 {loading ? "Retrying..." : `Retry Failed (${retryFailedCount})`}

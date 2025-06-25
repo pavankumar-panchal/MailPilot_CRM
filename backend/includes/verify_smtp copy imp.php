@@ -14,20 +14,12 @@ $servername = "127.0.0.1";
 $username = "root";
 $password = "";
 $dbname = "CRM";
-$log_dbname = "CRM_logs";
 
-// Create main connection
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 $conn->set_charset("utf8mb4");
 if ($conn->connect_error) {
     die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
-}
-
-// Create logs connection
-$conn_logs = new mysqli($servername, $username, $password, $log_dbname);
-$conn_logs->set_charset("utf8mb4");
-if ($conn_logs->connect_error) {
-    die(json_encode(["status" => "error", "message" => "Log DB connection failed: " . $conn_logs->connect_error]));
 }
 
 // Configuration
@@ -47,15 +39,10 @@ $servername = "127.0.0.1";
 $username = "root";
 $password = "";
 $dbname = "CRM";
-$log_dbname = "CRM_logs";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 $conn->set_charset("utf8mb4");
 if ($conn->connect_error) exit(1);
-
-$conn_logs = new mysqli($servername, $username, $password, $log_dbname);
-$conn_logs->set_charset("utf8mb4");
-if ($conn_logs->connect_error) exit(2);
 
 $start_id = $argv[1] ?? 0;
 $end_id = $argv[2] ?? 0;
@@ -69,33 +56,9 @@ function log_worker($msg, $id_range = '') {
     file_put_contents($logfile, "[$ts][$id_range] $msg\n", FILE_APPEND);
 }
 
-function insert_smtp_log($conn_logs, $email, $steps, $validation, $validation_response) {
-    $stmt = $conn_logs->prepare("INSERT INTO email_smtp_checks 
-        (email, smtp_connection, ehlo, mail_from, rcpt_to, validation, validation_response) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param(
-        "sssssss",
-        $email,
-        $steps['smtp_connection'],
-        $steps['ehlo'],
-        $steps['mail_from'],
-        $steps['rcpt_to'],
-        $validation,
-        $validation_response
-    );
-    $stmt->execute();
-    $stmt->close();
-}
-
-function verifyEmailViaSMTP($email, $domain, $conn_logs) {
+function verifyEmailViaSMTP($email, $domain) {
     $ip = false;
     $mxHost = null;
-    $steps = [
-        'smtp_connection' => 'No',
-        'ehlo' => 'No',
-        'mail_from' => 'No',
-        'rcpt_to' => 'No'
-    ];
 
     // Try MX record first
     if (getmxrr($domain, $mxhosts) && !empty($mxhosts)) {
@@ -116,7 +79,6 @@ function verifyEmailViaSMTP($email, $domain, $conn_logs) {
     }
 
     if (!$ip) {
-        insert_smtp_log($conn_logs, $email, $steps, "No valid MX or A record found", "No valid MX or A record found");
         return [
             "status" => "invalid",
             "result" => 0,
@@ -132,7 +94,6 @@ function verifyEmailViaSMTP($email, $domain, $conn_logs) {
     $timeout = 15;
     $smtp = @stream_socket_client("tcp://$ip:$port", $errno, $errstr, $timeout);
     if (!$smtp) {
-        insert_smtp_log($conn_logs, $email, $steps, "Connection failed: $errstr", "Connection failed: $errstr");
         return [
             "status" => "invalid",
             "result" => 0,
@@ -142,12 +103,10 @@ function verifyEmailViaSMTP($email, $domain, $conn_logs) {
             "validation_response" => "Connection failed: $errstr"
         ];
     }
-    $steps['smtp_connection'] = 'Yes';
     stream_set_timeout($smtp, $timeout);
     $response = fgets($smtp, 4096);
     if ($response === false || substr($response, 0, 3) != "220") {
         fclose($smtp);
-        insert_smtp_log($conn_logs, $email, $steps, "SMTP server not ready or no response", "SMTP server not ready or no response");
         return [
             "status" => "invalid",
             "result" => 0,
@@ -167,8 +126,6 @@ function verifyEmailViaSMTP($email, $domain, $conn_logs) {
     }
     if (!$ehlo_ok) {
         fclose($smtp);
-        $steps['ehlo'] = 'No';
-        insert_smtp_log($conn_logs, $email, $steps, "EHLO failed", "EHLO failed");
         return [
             "status" => "invalid",
             "result" => 0,
@@ -178,13 +135,10 @@ function verifyEmailViaSMTP($email, $domain, $conn_logs) {
             "validation_response" => "EHLO failed"
         ];
     }
-    $steps['ehlo'] = 'Yes';
     fputs($smtp, "MAIL FROM:<info@relyon.co.in>\r\n");
     $mailfrom_resp = fgets($smtp, 4096);
     if ($mailfrom_resp === false) {
         fclose($smtp);
-        $steps['mail_from'] = 'No';
-        insert_smtp_log($conn_logs, $email, $steps, "MAIL FROM failed", "MAIL FROM failed");
         return [
             "status" => "invalid",
             "result" => 0,
@@ -194,20 +148,13 @@ function verifyEmailViaSMTP($email, $domain, $conn_logs) {
             "validation_response" => "MAIL FROM failed"
         ];
     }
-    $steps['mail_from'] = 'Yes';
     fputs($smtp, "RCPT TO:<$email>\r\n");
     $rcpt_resp = fgets($smtp, 4096);
     $responseCode = $rcpt_resp !== false ? substr($rcpt_resp, 0, 3) : null;
-    $steps['rcpt_to'] = ($responseCode == "250" || $responseCode == "251") ? 'Yes' : 'No';
     fputs($smtp, "QUIT\r\n");
     fclose($smtp);
 
-    // --- Sanitize validation_response for utf8mb4 ---
-    $validation_response = $rcpt_resp !== false ? mb_convert_encoding($rcpt_resp, 'UTF-8', 'UTF-8') : '';
-    $validation_response = mb_substr($validation_response, 0, 1000, 'UTF-8');
-
     if ($responseCode == "250" || $responseCode == "251") {
-        insert_smtp_log($conn_logs, $email, $steps, $ip, $validation_response);
         return [
             "status" => "valid",
             "result" => 1,
@@ -217,7 +164,6 @@ function verifyEmailViaSMTP($email, $domain, $conn_logs) {
             "validation_response" => $ip
         ];
     } elseif (in_array($responseCode, ["450", "451", "452"])) {
-        insert_smtp_log($conn_logs, $email, $steps, $rcpt_resp, $validation_response);
         return [
             "status" => "retryable",
             "result" => 2,
@@ -227,7 +173,6 @@ function verifyEmailViaSMTP($email, $domain, $conn_logs) {
             "validation_response" => $rcpt_resp
         ];
     } else {
-        insert_smtp_log($conn_logs, $email, $steps, $rcpt_resp, $validation_response);
         return [
             "status" => "invalid",
             "result" => 0,
@@ -244,11 +189,13 @@ if ($result) {
         $email = $row["raw_emailid"];
         $domain = $row["sp_domain"];
         $email_id = $row["id"];
-        $verify = verifyEmailViaSMTP($email, $domain, $conn_logs);
+        $verify = verifyEmailViaSMTP($email, $domain);
 
         // --- Sanitize validation_response for utf8mb4 ---
         if (isset($verify['validation_response'])) {
+            // Convert to UTF-8, remove invalid bytes
             $verify['validation_response'] = mb_convert_encoding($verify['validation_response'], 'UTF-8', 'UTF-8');
+            // Optionally, truncate to 1000 chars if you want to limit size
             $verify['validation_response'] = mb_substr($verify['validation_response'], 0, 1000, 'UTF-8');
         }
 
@@ -276,7 +223,6 @@ if ($result) {
     log_worker("Query failed: " . $conn->error, "$start_id-$end_id");
 }
 $conn->close();
-$conn_logs->close();
 EOC;
     file_put_contents(WORKER_SCRIPT, $worker_code);
 }
