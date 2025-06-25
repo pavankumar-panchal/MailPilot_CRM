@@ -249,3 +249,1390 @@ Stack trace:
 #3 {main}
   thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
 
+[2025-06-24 14:51:39] Worker [IDs 11001-12000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:51:39] Worker [IDs 11001-12000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:51:54] Worker [IDs 3001-4000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:51:54] Worker [IDs 3001-4000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:52:02] Worker [IDs 29001-30000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:52:02] Worker [IDs 29001-30000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:52:12] Worker [IDs 8001-9000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:52:12] Worker [IDs 8001-9000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:52:15] Worker [IDs 28001-29000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:52:15] Worker [IDs 28001-29000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:52:31] Worker [IDs 4001-5000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:52:31] Worker [IDs 4001-5000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:53:01] Worker [IDs 9001-10000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:53:01] Worker [IDs 9001-10000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:53:55] Worker [IDs 40001-41000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'elst_engineer@v...', Array, '550 5.7.51 Tena...', '550 5.7.51 Tena...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('elst_engineer@v...', 'vlindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:53:55] Worker [IDs 40001-41000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'elst_engineer@v...', Array, '550 5.7.51 Tena...', '550 5.7.51 Tena...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('elst_engineer@v...', 'vlindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 14:53:55] Worker [IDs 15001-16000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:53:55] Worker [IDs 15001-16000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:10] Worker [IDs 6001-7000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:10] Worker [IDs 6001-7000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:28] Worker [IDs 7001-8000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:28] Worker [IDs 7001-8000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:41] Worker [IDs 30001-31000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:41] Worker [IDs 30001-31000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:46] Worker [IDs 14001-15000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:46] Worker [IDs 14001-15000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:48] Worker [IDs 10001-11000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:54:48] Worker [IDs 10001-11000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:55:12] Worker [IDs 34001-35000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:55:12] Worker [IDs 34001-35000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:55:59] Worker [IDs 36001-37000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:55:59] Worker [IDs 36001-37000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:56:13] Worker [IDs 13001-14000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:56:13] Worker [IDs 13001-14000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:57:06] Worker [IDs 33001-34000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 14:57:06] Worker [IDs 33001-34000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 15:00:37] Worker [IDs 41001-42000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'g.balakrishnan@...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('g.balakrishnan@...', 'caparo.co.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:00:37] Worker [IDs 41001-42000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'g.balakrishnan@...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('g.balakrishnan@...', 'caparo.co.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:00:40] Worker [IDs 38001-39000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'd.fernandes@dir...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('d.fernandes@dir...', 'direction.biz', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:00:40] Worker [IDs 38001-39000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'd.fernandes@dir...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('d.fernandes@dir...', 'direction.biz', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:00:41] Worker [IDs 1001-2000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'ips_bglr@apollo...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('ips_bglr@apollo...', 'apollohospitals...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:00:41] Worker [IDs 1001-2000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'ips_bglr@apollo...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('ips_bglr@apollo...', 'apollohospitals...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:00:44] Worker [IDs 19001-20000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 15:00:44] Worker [IDs 19001-20000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-24 15:00:53] Worker [IDs 35001-36000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'bhanugarg@acmes...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('bhanugarg@acmes...', 'acmespaces.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:00:53] Worker [IDs 35001-36000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'bhanugarg@acmes...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('bhanugarg@acmes...', 'acmespaces.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:22] Worker [IDs 46001-47000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@freemansgr...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@freemansgr...', 'freemansgroup.c...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:22] Worker [IDs 46001-47000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@freemansgr...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@freemansgr...', 'freemansgroup.c...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:24] Worker [IDs 25001-26000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'support@pilgrim...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('support@pilgrim...', 'pilgrimaide.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:24] Worker [IDs 25001-26000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'support@pilgrim...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('support@pilgrim...', 'pilgrimaide.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:25] Worker [IDs 49001-49989] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@s3solution...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@s3solution...', 's3solutions.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:25] Worker [IDs 49001-49989] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@s3solution...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@s3solution...', 's3solutions.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:32] Worker [IDs 18001-19000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sales@lakeeshop...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sales@lakeeshop...', 'lakeeshop.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:32] Worker [IDs 18001-19000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sales@lakeeshop...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sales@lakeeshop...', 'lakeeshop.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:35] Worker [IDs 48001-49000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@narayanmar...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@narayanmar...', 'narayanmarinete...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:01:35] Worker [IDs 48001-49000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@narayanmar...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@narayanmar...', 'narayanmarinete...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:02:03] Worker [IDs 1-1000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@vetromoda....', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@vetromoda....', 'vetromoda.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:02:03] Worker [IDs 1-1000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@vetromoda....', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@vetromoda....', 'vetromoda.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:02:10] Worker [IDs 45001-46000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@caturatech...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@caturatech...', 'caturatech.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:02:10] Worker [IDs 45001-46000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@caturatech...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@caturatech...', 'caturatech.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:02:16] Worker [IDs 47001-48000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@jsrexports...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@jsrexports...', 'jsrexports.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:02:16] Worker [IDs 47001-48000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@jsrexports...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@jsrexports...', 'jsrexports.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-24 15:02:16] Processing complete. Remaining unprocessed emails: 0
+[2025-06-25 07:38:21] Total emails to process: 49989
+[2025-06-25 07:38:21] Total batches: 100, Batch size: 500
+[2025-06-25 07:38:21] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-06-25 07:38:21] Started worker for IDs 1 - 500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 501 - 1000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 1001 - 1500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 1501 - 2000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 2001 - 2500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 2501 - 3000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 3001 - 3500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 3501 - 4000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 4001 - 4500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 4501 - 5000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 5001 - 5500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 5501 - 6000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 6001 - 6500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 6501 - 7000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 7001 - 7500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 7501 - 8000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 8001 - 8500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 8501 - 9000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 9001 - 9500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 9501 - 10000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 10001 - 10500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 10501 - 11000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 11001 - 11500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 11501 - 12000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 12001 - 12500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 12501 - 13000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 13001 - 13500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 13501 - 14000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 14001 - 14500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 14501 - 15000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 15001 - 15500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 15501 - 16000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 16001 - 16500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 16501 - 17000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 17001 - 17500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 17501 - 18000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 18001 - 18500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 18501 - 19000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 19001 - 19500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 19501 - 20000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 20001 - 20500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 20501 - 21000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 21001 - 21500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 21501 - 22000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 22001 - 22500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 22501 - 23000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 23001 - 23500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 23501 - 24000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 24001 - 24500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 24501 - 25000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 25001 - 25500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 25501 - 26000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 26001 - 26500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 26501 - 27000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 27001 - 27500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 27501 - 28000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 28001 - 28500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 28501 - 29000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 29001 - 29500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 29501 - 30000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 30001 - 30500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 30501 - 31000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 31001 - 31500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 31501 - 32000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 32001 - 32500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 32501 - 33000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 33001 - 33500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 33501 - 34000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 34001 - 34500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 34501 - 35000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 35001 - 35500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 35501 - 36000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 36001 - 36500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 36501 - 37000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 37001 - 37500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 37501 - 38000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 38001 - 38500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 38501 - 39000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 39001 - 39500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 39501 - 40000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 40001 - 40500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 40501 - 41000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 41001 - 41500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 41501 - 42000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 42001 - 42500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 42501 - 43000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 43001 - 43500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 43501 - 44000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 44001 - 44500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 44501 - 45000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 45001 - 45500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 45501 - 46000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 46001 - 46500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 46501 - 47000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 47001 - 47500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 47501 - 48000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 48001 - 48500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 48501 - 49000 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 49001 - 49500 (500 emails)
+[2025-06-25 07:38:21] Started worker for IDs 49501 - 49989 (489 emails)
+[2025-06-25 07:38:22] Worker [IDs 2001-2500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'jack.ferns@casa...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('jack.ferns@casa...', 'casadeluzgoa.co...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 2001-2500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'jack.ferns@casa...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('jack.ferns@casa...', 'casadeluzgoa.co...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 15501-16000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 15501-16000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 49501-49989] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 49501-49989] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 16001-16500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 16001-16500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 16501-17000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 16501-17000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 17501-18000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 17501-18000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 19001-19500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 19001-19500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 19501-20000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 19501-20000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 20001-20500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 20001-20500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 20501-21000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 20501-21000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 21501-22000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 21501-22000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 27001-27500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 27001-27500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 30501-31000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 30501-31000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 33001-33500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 33001-33500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 33501-34000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 33501-34000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 34501-35000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 34501-35000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 35001-35500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 35001-35500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 35501-36000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 35501-36000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 36001-36500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 36001-36500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 36501-37000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 36501-37000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 37001-37500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 37001-37500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 37501-38000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 37501-38000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-25 07:38:22] Worker [IDs 45001-45500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 45001-45500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 46501-47000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 46501-47000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 47001-47500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 47001-47500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-25 07:38:22] Worker [IDs 13001-13500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'prikkkara.cochi...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('prikkkara.cochi...', 'benfranklin.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 13001-13500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'prikkkara.cochi...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('prikkkara.cochi...', 'benfranklin.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 26501-27000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'surjoshankar.se...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('surjoshankar.se...', 'orixindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 26501-27000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'surjoshankar.se...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('surjoshankar.se...', 'orixindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 42501-43000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'girishpatel@ban...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('girishpatel@ban...', 'banasdairy.coop', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 42501-43000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'girishpatel@ban...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('girishpatel@ban...', 'banasdairy.coop', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 45501-46000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@astralpipe...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@astralpipe...', 'astralpipes.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 45501-46000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@astralpipe...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@astralpipe...', 'astralpipes.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 30001-30500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'vpi@venusgroups...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('vpi@venusgroups...', 'venusgroups.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 30001-30500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'vpi@venusgroups...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('vpi@venusgroups...', 'venusgroups.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 43001-43500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'gujarat@clinimi...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('gujarat@clinimi...', 'cliniminds.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 43001-43500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'gujarat@clinimi...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('gujarat@clinimi...', 'cliniminds.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 34001-34500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'anthonyg@karlei...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('anthonyg@karlei...', 'karleinfra.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 34001-34500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'anthonyg@karlei...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('anthonyg@karlei...', 'karleinfra.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 18001-18500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sakthivel.mariy...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sakthivel.mariy...', 'carnivalcinemas...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 18001-18500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sakthivel.mariy...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sakthivel.mariy...', 'carnivalcinemas...', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 43501-44000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'harvinderrathee...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('harvinderrathee...', 'koyo.co.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:22] Worker [IDs 43501-44000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'harvinderrathee...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('harvinderrathee...', 'koyo.co.in', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:23] Worker [IDs 14001-14500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'pwilliamson@pel...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('pwilliamson@pel...', 'pel-state.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:23] Worker [IDs 14001-14500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'pwilliamson@pel...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('pwilliamson@pel...', 'pel-state.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:23] Worker [IDs 47501-48000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@imdcindia....', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@imdcindia....', 'imdcindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:23] Worker [IDs 47501-48000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'info@imdcindia....', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('info@imdcindia....', 'imdcindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:23] Worker [IDs 8001-8500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'mkhan@distophar...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('mkhan@distophar...', 'distopharma.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:23] Worker [IDs 8001-8500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'mkhan@distophar...', Array, '550 5.7.1 Servi...', '550 5.7.1 Servi...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('mkhan@distophar...', 'distopharma.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:23] Worker [IDs 25001-25500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sugadhanad@khca...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sugadhanad@khca...', 'khcaa.org', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:38:23] Worker [IDs 25001-25500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sugadhanad@khca...', Array, '550 Mail reject...', '550 Mail reject...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sugadhanad@khca...', 'khcaa.org', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:40:01] Worker [IDs 5501-6000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'madhukar.raju@h...', Array, '550 5.1.1 <madh...', '550 5.1.1 <madh...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('madhukar.raju@h...', 'hafeleindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:40:01] Worker [IDs 5501-6000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'madhukar.raju@h...', Array, '550 5.1.1 <madh...', '550 5.1.1 <madh...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('madhukar.raju@h...', 'hafeleindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:40:52] Worker [IDs 22001-22500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'shadab@saanglob...', Array, '550 5.7.51 Tena...', '550 5.7.51 Tena...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('shadab@saanglob...', 'saanglobal.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:40:52] Worker [IDs 22001-22500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'shadab@saanglob...', Array, '550 5.7.51 Tena...', '550 5.7.51 Tena...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('shadab@saanglob...', 'saanglobal.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:47:30] Worker [IDs 32001-32500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'ahmad.saifi023@...', Array, '550 mailbox ahm...', '550 mailbox ahm...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('ahmad.saifi023@...', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:47:30] Worker [IDs 32001-32500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'ahmad.saifi023@...', Array, '550 mailbox ahm...', '550 mailbox ahm...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('ahmad.saifi023@...', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:50:55] Worker [IDs 23001-23500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sivakumar@illum...', Array, '550 5.7.51 Tena...', '550 5.7.51 Tena...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sivakumar@illum...', 'illuminei.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:50:55] Worker [IDs 23001-23500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'sivakumar@illum...', Array, '550 5.7.51 Tena...', '550 5.7.51 Tena...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('sivakumar@illum...', 'illuminei.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:51:43] Worker [IDs 27501-28000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'uday@gnail.com', Array, '550 mailbox uda...', '550 mailbox uda...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('uday@gnail.com', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:51:43] Worker [IDs 27501-28000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'uday@gnail.com', Array, '550 mailbox uda...', '550 mailbox uda...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('uday@gnail.com', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:52:23] Worker [IDs 39501-40000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'dhananjay@saang...', Array, '550 5.1.1 <dhan...', '550 5.1.1 <dhan...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('dhananjay@saang...', 'saanglobal.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:52:23] Worker [IDs 39501-40000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'dhananjay@saang...', Array, '550 5.1.1 <dhan...', '550 5.1.1 <dhan...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('dhananjay@saang...', 'saanglobal.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:54:56] Worker [IDs 42001-42500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'geetanjali.arek...', Array, '550 5.1.1 <geet...', '550 5.1.1 <geet...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('geetanjali.arek...', 'rahejahospital....', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:54:56] Worker [IDs 42001-42500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'geetanjali.arek...', Array, '550 5.1.1 <geet...', '550 5.1.1 <geet...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('geetanjali.arek...', 'rahejahospital....', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:55:38] Worker [IDs 22501-23000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:55:38] Worker [IDs 22501-23000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:56:34] Worker [IDs 40501-41000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'elst_engineer@v...', Array, '550 5.7.51 Tena...', '550 5.7.51 Tena...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('elst_engineer@v...', 'vlindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:56:34] Worker [IDs 40501-41000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'elst_engineer@v...', Array, '550 5.7.51 Tena...', '550 5.7.51 Tena...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('elst_engineer@v...', 'vlindia.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:56:41] Worker [IDs 9501-10000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:56:41] Worker [IDs 9501-10000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:57:03] Worker [IDs 10001-10500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:57:03] Worker [IDs 10001-10500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:57:06] Worker [IDs 5001-5500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'm.shankar@saert...', Array, '550 5.1.1 <m.sh...', '550 5.1.1 <m.sh...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('m.shankar@saert...', 'saertex.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:57:06] Worker [IDs 5001-5500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'm.shankar@saert...', Array, '550 5.1.1 <m.sh...', '550 5.1.1 <m.sh...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('m.shankar@saert...', 'saertex.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:58:15] Worker [IDs 13501-14000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:15] Worker [IDs 13501-14000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:17] Worker [IDs 4001-4500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:17] Worker [IDs 4001-4500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:18] Worker [IDs 11001-11500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:18] Worker [IDs 11001-11500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:18] Worker [IDs 44001-44500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'iaol.bhajanpura...', Array, '550 mailbox iao...', '550 mailbox iao...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('iaol.bhajanpura...', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:58:18] Worker [IDs 44001-44500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect string value: '\xD3\xCA\xCF\xE4\xB2\xBB...' for column `CRM_logs`.`email_smtp_checks`.`validation` at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'iaol.bhajanpura...', Array, '550 mailbox iao...', '550 mailbox iao...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('iaol.bhajanpura...', 'gnail.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:58:37] Worker [IDs 29501-30000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:37] Worker [IDs 29501-30000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:52] Worker [IDs 24001-24500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:58:52] Worker [IDs 24001-24500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:59:20] Worker [IDs 15001-15500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:59:20] Worker [IDs 15001-15500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:59:21] Worker [IDs 9001-9500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:59:21] Worker [IDs 9001-9500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 07:59:45] Worker [IDs 38501-39000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'd.shyambabu@meg...', Array, '550 5.1.1 <d.sh...', '550 5.1.1 <d.sh...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('d.shyambabu@meg...', 'megsanlabs.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 07:59:45] Worker [IDs 38501-39000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Data too long for column 'validation' at row 1 in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:42
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(42): mysqli_stmt->execute()
+#1 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(186): insert_smtp_log(Object(mysqli), 'd.shyambabu@meg...', Array, '550 5.1.1 <d.sh...', '550 5.1.1 <d.sh...')
+#2 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(203): verifyEmailViaSMTP('d.shyambabu@meg...', 'megsanlabs.com', Object(mysqli))
+#3 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
+
+[2025-06-25 08:00:00] Worker [IDs 6001-6500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:00:00] Worker [IDs 6001-6500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:00:24] Worker [IDs 7001-7500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:00:24] Worker [IDs 7001-7500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:00:40] Worker [IDs 12501-13000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:00:40] Worker [IDs 12501-13000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:01:15] Worker [IDs 14501-15000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:01:15] Worker [IDs 14501-15000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:01:16] Worker [IDs 8501-9000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:01:16] Worker [IDs 8501-9000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:01:18] Worker [IDs 31001-31500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:01:18] Worker [IDs 31001-31500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:02:04] Worker [IDs 40001-40500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:02:04] Worker [IDs 40001-40500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:02:26] Worker [IDs 41001-41500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:02:26] Worker [IDs 41001-41500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:02:52] Worker [IDs 49001-49500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:02:52] Worker [IDs 49001-49500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:05:18] Worker [IDs 44501-45000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:05:18] Worker [IDs 44501-45000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:05:21] Worker [IDs 32501-33000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:05:21] Worker [IDs 32501-33000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:05:42] Worker [IDs 48501-49000] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:05:42] Worker [IDs 48501-49000] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:06:30] Worker [IDs 38001-38500] OUTPUT: 
+Notice: fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:06:30] Worker [IDs 38001-38500] ERROR: PHP Notice:  fputs(): Send of 31 bytes failed with errno=104 Connection reset by peer in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 138
+
+[2025-06-25 08:11:06] Processing complete. Remaining unprocessed emails: 26121
+[2025-06-25 08:13:29] Total emails to process: 47
+[2025-06-25 08:13:29] Total batches: 1, Batch size: 500
+[2025-06-25 08:13:29] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-06-25 08:13:29] Started worker for IDs 1 - 47 (47 emails)
+[2025-06-25 08:14:50] Processing complete. Remaining unprocessed emails: 0
+[2025-06-25 08:36:16] Total emails to process: 47
+[2025-06-25 08:36:16] Total batches: 1, Batch size: 500
+[2025-06-25 08:36:16] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-06-25 08:36:16] Started worker for IDs 1 - 47 (47 emails)
+[2025-06-25 08:37:37] Processing complete. Remaining unprocessed emails: 0
+[2025-06-25 08:44:16] Total emails to process: 47
+[2025-06-25 08:44:16] Total batches: 1, Batch size: 500
+[2025-06-25 08:44:16] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-06-25 08:44:16] Started worker for IDs 1 - 47 (47 emails)
+[2025-06-25 08:45:50] Processing complete. Remaining unprocessed emails: 0
+[2025-06-25 08:56:13] Total emails to process: 47
+[2025-06-25 08:56:13] Total batches: 1, Batch size: 500
+[2025-06-25 08:56:13] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-06-25 08:56:13] Started worker for IDs 1 - 47 (47 emails)
+[2025-06-25 08:57:30] Processing complete. Remaining unprocessed emails: 0

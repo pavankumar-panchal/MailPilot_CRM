@@ -37,12 +37,9 @@ if ($conn->connect_error) {
 // if ($conn_logs->connect_error) {
 //     die(json_encode(["status" => "error", "message" => "Log DB connection failed: " . $conn_logs->connect_error]));
 // }
-
-
-
 // Configuration
 define('MAX_WORKERS', 100); // Adjust for your server
-define('EMAILS_PER_WORKER', 1000);
+define('EMAILS_PER_WORKER', 500);
 define('WORKER_SCRIPT', __DIR__ . '/smtp_worker.php');
 define('LOG_FILE', __DIR__ . '/../storage/smtp_parallel.log'); // Make sure this directory exists
 
