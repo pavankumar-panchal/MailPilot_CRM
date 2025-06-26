@@ -2220,3 +2220,859 @@ Stack trace:
   thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 42
 
 [2025-06-26 10:25:53] Processing complete. Remaining unprocessed emails: 49241
+[2025-06-26 13:32:10] Total emails to process: 49805
+[2025-06-26 13:32:10] Total batches: 100, Batch size: 500
+[2025-06-26 13:32:10] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-06-26 13:32:10] Started worker for IDs 1 - 500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 501 - 1000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 1001 - 1500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 1501 - 2000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 2001 - 2500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 2501 - 3000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 3001 - 3500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 3501 - 4000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 4001 - 4500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 4501 - 5000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 5001 - 5500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 5501 - 6000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 6001 - 6500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 6501 - 7000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 7001 - 7500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 7501 - 8000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 8001 - 8500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 8501 - 9000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 9001 - 9500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 9501 - 10000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 10001 - 10500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 10501 - 11000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 11001 - 11500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 11501 - 12000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 12001 - 12500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 12501 - 13000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 13001 - 13500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 13501 - 14000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 14001 - 14500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 14501 - 15000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 15001 - 15500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 15501 - 16000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 16001 - 16500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 16501 - 17000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 17001 - 17500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 17501 - 18000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 18001 - 18500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 18501 - 19000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 19001 - 19500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 19501 - 20000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 20001 - 20500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 20501 - 21000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 21001 - 21500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 21501 - 22000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 22001 - 22500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 22501 - 23000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 23001 - 23500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 23501 - 24000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 24001 - 24500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 24501 - 25000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 25001 - 25500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 25501 - 26000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 26001 - 26500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 26501 - 27000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 27001 - 27500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 27501 - 28000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 28001 - 28500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 28501 - 29000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 29001 - 29500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 29501 - 30000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 30001 - 30500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 30501 - 31000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 31001 - 31500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 31501 - 32000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 32001 - 32500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 32501 - 33000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 33001 - 33500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 33501 - 34000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 34001 - 34500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 34501 - 35000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 35001 - 35500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 35501 - 36000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 36001 - 36500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 36501 - 37000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 37001 - 37500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 37501 - 38000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 38001 - 38500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 38501 - 39000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 39001 - 39500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 39501 - 40000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 40001 - 40500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 40501 - 41000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 41001 - 41500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 41501 - 42000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 42001 - 42500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 42501 - 43000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 43001 - 43500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 43501 - 44000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 44001 - 44500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 44501 - 45000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 45001 - 45500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 45501 - 46000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 46001 - 46500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 46501 - 47000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 47001 - 47500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 47501 - 48000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 48001 - 48500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 48501 - 49000 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 49001 - 49500 (500 emails)
+[2025-06-26 13:32:10] Started worker for IDs 49501 - 49805 (305 emails)
+[2025-06-26 13:32:10] Worker [IDs 20501-21000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 20501-21000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 25001-25500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 25001-25500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 27501-28000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 27501-28000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 30501-31000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 30501-31000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 34001-34500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 34001-34500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 37001-37500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 37001-37500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 38501-39000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 38501-39000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 40501-41000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 40501-41000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 44501-45000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 44501-45000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 45501-46000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 45501-46000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 34501-35000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 34501-35000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 35501-36000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 35501-36000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 37501-38000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 37501-38000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 39001-39500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 39001-39500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 39501-40000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 39501-40000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 42501-43000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 42501-43000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 43001-43500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 43001-43500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:32:10] Worker [IDs 43501-44000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 43501-44000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 44001-44500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 44001-44500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 46001-46500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 46001-46500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 46501-47000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 46501-47000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 47001-47500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 47001-47500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 47501-48000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 47501-48000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 48001-48500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 48001-48500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 49001-49500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:32:10] Worker [IDs 49001-49500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:51] Total emails to process: 49805
+[2025-06-26 13:58:51] Total batches: 100, Batch size: 500
+[2025-06-26 13:58:51] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-06-26 13:58:51] Started worker for IDs 1 - 500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 501 - 1000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 1001 - 1500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 1501 - 2000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 2001 - 2500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 2501 - 3000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 3001 - 3500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 3501 - 4000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 4001 - 4500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 4501 - 5000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 5001 - 5500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 5501 - 6000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 6001 - 6500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 6501 - 7000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 7001 - 7500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 7501 - 8000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 8001 - 8500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 8501 - 9000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 9001 - 9500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 9501 - 10000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 10001 - 10500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 10501 - 11000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 11001 - 11500 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 11501 - 12000 (500 emails)
+[2025-06-26 13:58:51] Started worker for IDs 12001 - 12500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 12501 - 13000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 13001 - 13500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 13501 - 14000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 14001 - 14500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 14501 - 15000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 15001 - 15500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 15501 - 16000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 16001 - 16500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 16501 - 17000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 17001 - 17500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 17501 - 18000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 18001 - 18500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 18501 - 19000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 19001 - 19500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 19501 - 20000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 20001 - 20500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 20501 - 21000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 21001 - 21500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 21501 - 22000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 22001 - 22500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 22501 - 23000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 23001 - 23500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 23501 - 24000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 24001 - 24500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 24501 - 25000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 25001 - 25500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 25501 - 26000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 26001 - 26500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 26501 - 27000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 27001 - 27500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 27501 - 28000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 28001 - 28500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 28501 - 29000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 29001 - 29500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 29501 - 30000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 30001 - 30500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 30501 - 31000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 31001 - 31500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 31501 - 32000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 32001 - 32500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 32501 - 33000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 33001 - 33500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 33501 - 34000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 34001 - 34500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 34501 - 35000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 35001 - 35500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 35501 - 36000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 36001 - 36500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 36501 - 37000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 37001 - 37500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 37501 - 38000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 38001 - 38500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 38501 - 39000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 39001 - 39500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 39501 - 40000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 40001 - 40500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 40501 - 41000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 41001 - 41500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 41501 - 42000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 42001 - 42500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 42501 - 43000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 43001 - 43500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 43501 - 44000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 44001 - 44500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 44501 - 45000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 45001 - 45500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 45501 - 46000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 46001 - 46500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 46501 - 47000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 47001 - 47500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 47501 - 48000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 48001 - 48500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 48501 - 49000 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 49001 - 49500 (500 emails)
+[2025-06-26 13:58:52] Started worker for IDs 49501 - 49805 (305 emails)
+[2025-06-26 13:58:52] Worker [IDs 25001-25500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 25001-25500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 25501-26000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 25501-26000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 26001-26500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 26001-26500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 27501-28000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 27501-28000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 28501-29000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 28501-29000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 29001-29500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 29001-29500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 30001-30500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 30001-30500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 30501-31000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 30501-31000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 33501-34000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 33501-34000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 34001-34500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 34001-34500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 34501-35000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 34501-35000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 36001-36500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 36001-36500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 37001-37500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 37001-37500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 38001-38500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 38001-38500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 38501-39000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 38501-39000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 39501-40000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 39501-40000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 40001-40500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 40001-40500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 43501-44000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 43501-44000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 45001-45500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 45001-45500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 45501-46000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 45501-46000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 46501-47000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 46501-47000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 47501-48000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 47501-48000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 48001-48500] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 48001-48500] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 48501-49000] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 48501-49000] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:12
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(12): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM_logs')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 12
+
+[2025-06-26 13:58:52] Worker [IDs 49501-49805] OUTPUT: 
+Fatal error: Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
+[2025-06-26 13:58:52] Worker [IDs 49501-49805] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php(8): mysqli->__construct('127.0.0.1', 'root', Object(SensitiveParameterValue), 'CRM')
+#1 {main}
+  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/smtp_worker.php on line 8
+
