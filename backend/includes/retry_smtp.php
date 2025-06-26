@@ -14,36 +14,32 @@ $servername = "127.0.0.1";
 $username = "root";
 $password = "";
 $dbname = "CRM";
-
-// $log_dbname = "CRM_logs";
+$log_dbname = "CRM_logs";
 
 // Create main connection
-$main_conn = new mysqli($servername, $username, $password, $dbname);
-$main_conn->set_charset("utf8mb4");
-if ($main_conn->connect_error) {
-    die(json_encode(["status" => "error", "message" => "Main connection failed: " . $main_conn->connect_error]));
+$conn = new mysqli($servername, $username, $password, $dbname);
+$conn->set_charset("utf8mb4");
+if ($conn->connect_error) {
+    die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
 }
 
 // Create log connection
 $log_conn = new mysqli($servername, $username, $password, $log_dbname);
 $log_conn->set_charset("utf8mb4");
 if ($log_conn->connect_error) {
-    die(json_encode(["status" => "error", "message" => "Log connection failed: " . $log_conn->connect_error]));
+    die(json_encode(["status" => "error", "message" => "Log DB connection failed: " . $log_conn->connect_error]));
 }
 
 // Configuration
-define('EMAILS_PER_BATCH', 100);
 define('LOG_FILE', __DIR__ . '/../storage/retry_smtp.log');
-
-set_time_limit(0);
 ini_set('memory_limit', '512M');
 
 // Logging function
-// function write_log($msg)
-// {
-//     $ts = date('Y-m-d H:i:s');
-//     file_put_contents(LOG_FILE, "[$ts] $msg\n", FILE_APPEND);
-// }
+function write_log($msg)
+{
+    $ts = date('Y-m-d H:i:s');
+    file_put_contents(LOG_FILE, "[$ts] $msg\n", FILE_APPEND);
+}
 
 function insert_smtp_log($log_conn, $email, $steps, $validation, $validation_response)
 {
@@ -51,7 +47,7 @@ function insert_smtp_log($log_conn, $email, $steps, $validation, $validation_res
         (email, smtp_connection, ehlo, mail_from, rcpt_to, validation, validation_response) 
         VALUES (?, ?, ?, ?, ?, ?, ?)");
     if (!$stmt) {
-        write_log("Prepare failed: " . $log_conn->error);
+        write_log("Prepare failed for SMTP log: " . $log_conn->error);
         return false;
     }
     $stmt->bind_param(
@@ -66,13 +62,13 @@ function insert_smtp_log($log_conn, $email, $steps, $validation, $validation_res
     );
     $success = $stmt->execute();
     if (!$success) {
-        write_log("Execute failed: " . $stmt->error);
+        write_log("Execute failed for SMTP log: " . $stmt->error);
     }
     $stmt->close();
     return $success;
 }
 
-function verifyEmailViaSMTP($email, $domain, $main_conn, $log_conn)
+function verifyEmailViaSMTP($email, $domain, $conn, $log_conn)
 {
     $ip = false;
     $mxHost = null;
@@ -215,21 +211,25 @@ function verifyEmailViaSMTP($email, $domain, $main_conn, $log_conn)
     }
 }
 
-function process_emails($main_conn, $log_conn)
+function process_emails($conn, $log_conn)
 {
     $processed = 0;
+    $batch_size = 100; // Process emails in batches of 100
+
+    // Get total count of retryable emails
+    $result = $conn->query("SELECT COUNT(*) as total FROM emails WHERE domain_status=2");
+    $row = $result->fetch_assoc();
+    $total = $row['total'];
+    write_log("Starting SMTP processing for $total retryable emails");
+
     $offset = 0;
-    $limit = EMAILS_PER_BATCH;
-
-    write_log("Starting SMTP processing for retryable emails");
-
     while (true) {
-        // Get batch of emails with domain_status=2
-        $query = "SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status=2 LIMIT $offset, $limit";
-        $result = $main_conn->query($query);
+        // Get batch of emails to process
+        $query = "SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status=2 LIMIT $offset, $batch_size";
+        $result = $conn->query($query);
 
         if (!$result || $result->num_rows == 0) {
-            break;
+            break; // No more emails to process
         }
 
         while ($row = $result->fetch_assoc()) {
@@ -237,9 +237,7 @@ function process_emails($main_conn, $log_conn)
             $domain = $row["sp_domain"];
             $email_id = $row["id"];
 
-            write_log("Processing email ID $email_id: $email");
-
-            $verify = verifyEmailViaSMTP($email, $domain, $main_conn, $log_conn);
+            $verify = verifyEmailViaSMTP($email, $domain, $conn, $log_conn);
 
             // Sanitize validation_response
             if (isset($verify['validation_response'])) {
@@ -247,7 +245,7 @@ function process_emails($main_conn, $log_conn)
                 $verify['validation_response'] = mb_substr($verify['validation_response'], 0, 1000, 'UTF-8');
             }
 
-            $update = $main_conn->prepare("UPDATE emails SET 
+            $update = $conn->prepare("UPDATE emails SET 
                 domain_status = ?, 
                 domain_processed = 1, 
                 validation_status = ?, 
@@ -265,18 +263,12 @@ function process_emails($main_conn, $log_conn)
                 $update->close();
             }
 
-            $processed++;
             write_log("Processed $email_id ($email): {$verify['status']} - {$verify['response']}");
+            $processed++;
         }
 
-        $offset += $limit;
+        $offset += $batch_size;
     }
-
-    // Log how many retryable emails remain
-    $result = $main_conn->query("SELECT COUNT(*) as remaining FROM emails WHERE domain_status=2");
-    $row = $result->fetch_assoc();
-    $remaining = $row ? $row['remaining'] : 0;
-    write_log("Processing complete. Remaining retryable emails: $remaining");
 
     return $processed;
 }
@@ -325,21 +317,21 @@ function updateCsvListCounts($conn)
 // Main execution
 try {
     $start_time = microtime(true);
-    $processed = process_emails($main_conn, $log_conn);
+    $processed = process_emails($conn, $log_conn);
     $total_time = microtime(true) - $start_time;
 
     // Update campaign stats
-    updateCsvListCounts($main_conn);
+    updateCsvListCounts($conn);
 
     // Check if all emails are processed (no more retryable)
-    $remainingOtherStatus = $main_conn->query("SELECT COUNT(*) FROM emails WHERE domain_status=2")->fetch_row()[0];
+    $remainingOtherStatus = $conn->query("SELECT COUNT(*) FROM emails WHERE domain_status=2")->fetch_row()[0];
     if ($remainingOtherStatus == 0) {
-        $main_conn->query("UPDATE csv_list SET status = 'completed' WHERE status = 'running'");
+        $conn->query("UPDATE csv_list SET status = 'completed' WHERE status = 'running'");
     }
 
     // Get verification stats
-    $total = $main_conn->query("SELECT COUNT(*) as total FROM emails")->fetch_row()[0];
-    $verified = $main_conn->query("SELECT COUNT(*) as verified FROM emails WHERE validation_status = 'valid'")->fetch_row()[0];
+    $total = $conn->query("SELECT COUNT(*) as total FROM emails")->fetch_row()[0];
+    $verified = $conn->query("SELECT COUNT(*) as verified FROM emails WHERE validation_status = 'valid'")->fetch_row()[0];
 
     echo json_encode([
         "status" => "success",
@@ -357,7 +349,6 @@ try {
         "message" => $e->getMessage()
     ]);
 } finally {
-    $main_conn->close();
+    $conn->close();
     $log_conn->close();
 }
-?>
