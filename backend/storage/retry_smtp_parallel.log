@@ -1,32 +1,5 @@
-[2025-06-25 08:28:54] Total retryable emails to process: 5
-[2025-06-25 08:28:54] Total batches: 1, Batch size: 100
-[2025-06-25 08:28:54] Starting parallel SMTP processing for retryable emails with MAX_WORKERS=10
-[2025-06-25 08:28:54] Started worker for IDs 21 - 47 (27 emails)
-[2025-06-25 08:28:56] Worker [IDs 21-47] OUTPUT: 
-Fatal error: Uncaught mysqli_sql_exception: Table 'CRM.email_smtp_checks' doesn't exist in /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php:26
-Stack trace:
-#0 /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php(26): mysqli->prepare('INSERT INTO ema...')
-#1 /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php(174): insert_smtp_log(Object(mysqli), 'eswarbabukarnam...', Array, '452-4.2.2 The r...', '452-4.2.2 The r...')
-#2 /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php(191): verifyEmailViaSMTP('eswarbabukarnam...', 'gmail.com', Object(mysqli))
-#3 {main}
-  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php on line 26
-
-[2025-06-25 08:28:56] Worker [IDs 21-47] ERROR: PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'CRM.email_smtp_checks' doesn't exist in /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php:26
-Stack trace:
-#0 /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php(26): mysqli->prepare('INSERT INTO ema...')
-#1 /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php(174): insert_smtp_log(Object(mysqli), 'eswarbabukarnam...', Array, '452-4.2.2 The r...', '452-4.2.2 The r...')
-#2 /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php(191): verifyEmailViaSMTP('eswarbabukarnam...', 'gmail.com', Object(mysqli))
-#3 {main}
-  thrown in /opt/lampp/htdocs/Verify_email/backend/includes/retry_smtp_worker.php on line 26
-
-[2025-06-25 08:28:56] Processing complete. Remaining retryable emails: 5
-[2025-06-25 08:34:20] Total retryable emails to process: 5
-[2025-06-25 08:34:20] Total batches: 1, Batch size: 100
-[2025-06-25 08:34:20] Starting parallel SMTP processing for retryable emails with MAX_WORKERS=10
-[2025-06-25 08:34:20] Started worker for IDs 21 - 47 (27 emails)
-[2025-06-25 08:34:29] Processing complete. Remaining retryable emails: 0
-[2025-06-25 08:39:57] Total retryable emails to process: 5
-[2025-06-25 08:39:57] Total batches: 1, Batch size: 100
-[2025-06-25 08:39:57] Starting parallel SMTP processing for retryable emails with MAX_WORKERS=10
-[2025-06-25 08:39:57] Started worker for IDs 21 - 47 (27 emails)
-[2025-06-25 08:40:06] Processing complete. Remaining retryable emails: 0
+[2025-06-25 14:39:38] Total retryable emails to process: 5
+[2025-06-25 14:39:38] Total batches: 1, Batch size: 100
+[2025-06-25 14:39:38] Starting parallel SMTP processing for retryable emails with MAX_WORKERS=10
+[2025-06-25 14:39:38] Started worker for IDs 21 - 47 (27 emails)
+[2025-06-25 14:39:45] Processing complete. Remaining retryable emails: 0
