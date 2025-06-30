@@ -16,9 +16,10 @@ const StatusMessage = ({ message, onClose }) =>
         flex items-center gap-3
         transition-all duration-300
         backdrop-blur-md
-        ${message.type === "error"
-          ? "bg-red-200/60 border border-red-400 text-red-800"
-          : "bg-green-200/60 border border-green-400 text-green-800"
+        ${
+          message.type === "error"
+            ? "bg-red-200/60 border border-red-400 text-red-800"
+            : "bg-green-200/60 border border-green-400 text-green-800"
         }
       `}
       style={{
@@ -36,10 +37,11 @@ const StatusMessage = ({ message, onClose }) =>
       role="alert"
     >
       <i
-        className={`fas text-lg ${message.type === "error"
-          ? "fa-exclamation-circle text-red-500"
-          : "fa-check-circle text-green-500"
-          }`}
+        className={`fas text-lg ${
+          message.type === "error"
+            ? "fa-exclamation-circle text-red-500"
+            : "fa-check-circle text-green-500"
+        }`}
       ></i>
       <span className="flex-1">{message.text}</span>
       <button
@@ -105,7 +107,10 @@ const Campaigns = () => {
         setForm(emptyCampaign);
         fetchCampaigns();
       } else {
-        setMessage({ type: "error", text: data.message || "Failed to add campaign." });
+        setMessage({
+          type: "error",
+          text: data.message || "Failed to add campaign.",
+        });
       }
     } catch {
       setMessage({ type: "error", text: "Failed to add campaign." });
@@ -139,7 +144,10 @@ const Campaigns = () => {
         setForm(emptyCampaign);
         fetchCampaigns();
       } else {
-        setMessage({ type: "error", text: data.message || "Failed to update campaign." });
+        setMessage({
+          type: "error",
+          text: data.message || "Failed to update campaign.",
+        });
       }
     } catch {
       setMessage({ type: "error", text: "Failed to update campaign." });
@@ -148,7 +156,8 @@ const Campaigns = () => {
 
   // Delete campaign
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this campaign?")) return;
+    if (!window.confirm("Are you sure you want to delete this campaign?"))
+      return;
     try {
       const res = await fetch(`${API_URL}?id=${id}`, { method: "DELETE" });
       const data = await res.json();
@@ -156,7 +165,10 @@ const Campaigns = () => {
         setMessage({ type: "success", text: "Campaign deleted successfully!" });
         fetchCampaigns();
       } else {
-        setMessage({ type: "error", text: data.message || "Failed to delete campaign." });
+        setMessage({
+          type: "error",
+          text: data.message || "Failed to delete campaign.",
+        });
       }
     } catch {
       setMessage({ type: "error", text: "Failed to delete campaign." });
@@ -240,19 +252,28 @@ const Campaigns = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td
+                    colSpan={5}
+                    className="px-6 py-4 text-center text-sm text-gray-500"
+                  >
                     Loading...
                   </td>
                 </tr>
               ) : campaigns.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td
+                    colSpan={5}
+                    className="px-6 py-4 text-center text-sm text-gray-500"
+                  >
                     No campaigns found. Add one to get started.
                   </td>
                 </tr>
               ) : (
                 campaigns.map((c) => (
-                  <tr key={c.campaign_id} className="hover:bg-gray-50 transition-colors duration-150">
+                  <tr
+                    key={c.campaign_id}
+                    className="hover:bg-gray-50 transition-colors duration-150"
+                  >
                     <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500">
                       {c.campaign_id}
                     </td>
@@ -316,13 +337,18 @@ const Campaigns = () => {
                 <i className="fas fa-plus-circle mr-2 text-blue-600"></i>
                 Add New Campaign
               </h3>
-              <button onClick={() => setModalOpen(false)} className="text-gray-400 hover:text-gray-500">
+              <button
+                onClick={() => setModalOpen(false)}
+                className="text-gray-400 hover:text-gray-500"
+              >
                 <i className="fas fa-times"></i>
               </button>
             </div>
             <form className="space-y-4" onSubmit={handleAdd}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Description
+                </label>
                 <input
                   type="text"
                   name="description"
@@ -334,7 +360,9 @@ const Campaigns = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email Subject</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Subject
+                </label>
                 <input
                   type="text"
                   name="mail_subject"
@@ -346,7 +374,9 @@ const Campaigns = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email Body</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Body
+                </label>
                 <textarea
                   name="mail_body"
                   rows={8}
@@ -386,13 +416,18 @@ const Campaigns = () => {
                 <i className="fas fa-edit mr-2 text-blue-600"></i>
                 Edit Campaign
               </h3>
-              <button onClick={() => setEditModalOpen(false)} className="text-gray-400 hover:text-gray-500">
+              <button
+                onClick={() => setEditModalOpen(false)}
+                className="text-gray-400 hover:text-gray-500"
+              >
                 <i className="fas fa-times"></i>
               </button>
             </div>
             <form className="space-y-4" onSubmit={handleUpdate}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Description
+                </label>
                 <input
                   type="text"
                   name="description"
@@ -403,7 +438,9 @@ const Campaigns = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email Subject</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Subject
+                </label>
                 <input
                   type="text"
                   name="mail_subject"
@@ -414,7 +451,9 @@ const Campaigns = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email Body</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Body
+                </label>
                 <textarea
                   name="mail_body"
                   rows={8}
