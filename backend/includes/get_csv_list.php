@@ -29,7 +29,8 @@ if ($search !== '') {
 // Get total count
 $countSql = "SELECT COUNT(*) as total FROM csv_list $where";
 $stmt = $conn->prepare($countSql);
-if ($where !== '') $stmt->bind_param(str_repeat('s', count($params)), ...$params);
+if ($where !== '')
+    $stmt->bind_param(str_repeat('s', count($params)), ...$params);
 $stmt->execute();
 $countResult = $stmt->get_result();
 $total = $countResult->fetch_assoc()['total'] ?? 0;

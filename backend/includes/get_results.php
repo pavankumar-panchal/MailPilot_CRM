@@ -13,10 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/../config/db.php';
 
-
-// Handle DELETE request to delete an email by id
+// --- DELETE EMAIL BY ID ---
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    // Parse raw input for DELETE (since PHP doesn't populate $_DELETE)
     parse_str(file_get_contents("php://input"), $deleteVars);
     $id = isset($deleteVars['id']) ? intval($deleteVars['id']) : 0;
     if ($id > 0) {
@@ -37,126 +35,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     exit;
 }
 
-// Export CSV if requested
+// --- EXPORT CSV (STREAMING, FILTERED) ---
 if (isset($_GET['export'])) {
     $type = $_GET['export'];
-    $status = ($type === 'valid') ? 1 : 0;
-    // Fetch all columns for export
-    $result = $conn->query("SELECT raw_emailid FROM emails WHERE domain_status = $status");
+    $csv_list_id = isset($_GET['csv_list_id']) ? intval($_GET['csv_list_id']) : 0;
+    $where = [];
+    $filename = $type . '_emails.csv';
 
-    // Dynamically get column names
-    $fields = [];
-    if ($result && $result->field_count > 0) {
-        while ($fieldinfo = $result->fetch_field()) {
-            $fields[] = $fieldinfo->name;
-        }
+    if ($type === 'valid') {
+        $where[] = "domain_status = 1";
+    } elseif ($type === 'invalid') {
+        $where[] = "domain_status = 0";
+    } elseif ($type === 'connection_timeout') {
+        $where[] = "(validation_response LIKE '%timeout%' OR validation_response LIKE '%Connection refused%')";
+        $filename = 'connection_timeout_emails.csv';
     }
 
-    // Set CSV headers
-    header('Content-Type: text/csv');
-    header('Content-Disposition: attachment; filename="' . $type . '_emails.csv"');
-    $out = fopen('php://output', 'w');
-    fputcsv($out, $fields);
+    if ($csv_list_id > 0) {
+        $where[] = "csv_list_id = $csv_list_id";
+    }
+    $whereSql = count($where) ? "WHERE " . implode(" AND ", $where) : "";
 
-    // Output all rows
-    while ($row = $result->fetch_assoc()) {
-        fputcsv($out, array_values($row));
+    // Stream CSV output (no memory build-up)
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    $sql = "SELECT id, raw_emailid AS email, sp_account, sp_domain, domain_verified, domain_status, validation_response FROM emails $whereSql ORDER BY id ASC";
+    $result = $conn->query($sql);
+
+    $out = fopen('php://output', 'w');
+    // Write CSV header
+    fputcsv($out, ["ID", "EMAIL", "ACCOUNT", "DOMAIN", "VERIFIED", "STATUS", "RESPONSE"]);
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            fputcsv($out, [
+                $row['id'], $row['email'], $row['sp_account'], $row['sp_domain'],
+                $row['domain_verified'], $row['domain_status'], $row['validation_response']
+            ]);
+        }
     }
     fclose($out);
     exit;
 }
 
-// Add this export for "Connection Timeout" (Connection refused) results
-
-if (isset($_GET['export']) && $_GET['export'] === 'connection_timeout') {
-    header('Content-Type: text/csv');
-    header('Content-Disposition: attachment; filename="connection_timeout_emails.csv"');
-
-    require_once 'db.php'; // adjust path if needed
-
-    $sql = "SELECT * FROM `emails` WHERE validation_response='Connection failed: Connection refused'";
-    $result = $conn->query($sql);
-
-    // Output CSV header
-    echo "id,email,validation_response\n";
-
-    if ($result && $result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            // Adjust fields as needed
-            echo "{$row['id']},{$row['email']},\"{$row['validation_response']}\"\n";
-        }
-    }
-    exit;
-}
-
-// Retry failed logic
+// --- RETRY FAILED (PAGINATED) ---
 if (isset($_GET['retry_failed']) && $_GET['retry_failed'] == '1') {
-    try {
-        $sql = "SELECT id, raw_emailid AS email, sp_account, sp_domain, domain_verified, domain_status, validation_response 
-                FROM emails WHERE domain_status = 2 ORDER BY id ASC";
-        $result = $conn->query($sql);
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $limit = isset($_GET['limit']) ? max(1, intval($_GET['limit'])) : 100;
+    $offset = ($page - 1) * $limit;
+    $csv_list_id = isset($_GET['csv_list_id']) ? intval($_GET['csv_list_id']) : 0;
 
-        $emails = [];
+    $where = ["domain_status = 2"];
+    if ($csv_list_id > 0) $where[] = "csv_list_id = $csv_list_id";
+    $whereSql = "WHERE " . implode(" AND ", $where);
+
+    $sql = "SELECT id, raw_emailid AS email, sp_account, sp_domain, domain_verified, domain_status, validation_response 
+            FROM emails $whereSql ORDER BY id ASC LIMIT $limit OFFSET $offset";
+    $countSql = "SELECT COUNT(*) as cnt FROM emails $whereSql";
+    $result = $conn->query($sql);
+    $countResult = $conn->query($countSql);
+    $total = $countResult ? (int) $countResult->fetch_assoc()['cnt'] : 0;
+
+    $emails = [];
+    if ($result) {
         while ($row = $result->fetch_assoc()) {
             $row['domain_verified'] = (bool) $row['domain_verified'];
             $row['domain_status'] = (int) $row['domain_status'];
             $emails[] = $row;
         }
-
-        echo json_encode([
-            "status" => "success",
-            "message" => count($emails) . " retry failed emails found.",
-            "data" => $emails,
-            "total" => count($emails)
-        ]);
-    } catch (Exception $e) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Failed to fetch retry failed emails: " . $e->getMessage(),
-            "data" => [],
-            "total" => 0
-        ]);
     }
+
+    echo json_encode([
+        "status" => "success",
+        "message" => "Success",
+        "data" => $emails,
+        "total" => $total,
+        "page" => $page,
+        "limit" => $limit,
+    ]);
     exit;
 }
 
-// Pagination parameters
+// --- PAGINATED EMAIL LIST (STRICT, SAFE FOR 2 CRORE DATA) ---
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $limit = isset($_GET['limit']) ? max(1, intval($_GET['limit'])) : 100; // default 100 rows per page
 $offset = ($page - 1) * $limit;
 
-// Optional: filter by csv_list_id
 $csv_list_id = isset($_GET['csv_list_id']) ? intval($_GET['csv_list_id']) : 0;
-
-// Optional: search filter
-$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+$filter = isset($_GET['filter']) ? $_GET['filter'] : '';
 $whereParts = [];
-
 if ($csv_list_id > 0) {
     $whereParts[] = "csv_list_id = $csv_list_id";
 }
-if ($search !== '') {
-    $whereParts[] = "(raw_emailid LIKE '%$search%' OR sp_account LIKE '%$search%' OR sp_domain LIKE '%$search%')";
+if ($filter !== '') {
+    if ($filter === 'valid') $whereParts[] = "domain_status = 1";
+    if ($filter === 'invalid') $whereParts[] = "domain_status = 0";
+    if ($filter === 'timeout') $whereParts[] = "(validation_response LIKE '%timeout%' OR validation_response LIKE '%Connection refused%' OR validation_response LIKE '%failed to connect%')";
 }
-$where = '';
-if (count($whereParts) > 0) {
-    $where = 'WHERE ' . implode(' AND ', $whereParts);
-}
+$where = count($whereParts) ? 'WHERE ' . implode(' AND ', $whereParts) : '';
 
-// Always use pagination for both main and child tables
+// Always use pagination for all list endpoints
 $sql = "SELECT id, raw_emailid AS email, sp_account, sp_domain, domain_verified, domain_status, validation_response 
         FROM emails $where ORDER BY id ASC LIMIT $limit OFFSET $offset";
-// Get total count for pagination/search/child
 $countResult = $conn->query("SELECT COUNT(*) as cnt FROM emails $where");
 $total = $countResult ? (int) $countResult->fetch_assoc()['cnt'] : 0;
 
 $result = $conn->query($sql);
-
 $emails = [];
-while ($row = $result->fetch_assoc()) {
-    $row['domain_verified'] = (bool) $row['domain_verified'];
-    $row['domain_status'] = (int) $row['domain_status'];
-    $emails[] = $row;
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $row['domain_verified'] = (bool) $row['domain_verified'];
+        $row['domain_status'] = (int) $row['domain_status'];
+        $emails[] = $row;
+    }
 }
 
 echo json_encode([
@@ -165,3 +155,4 @@ echo json_encode([
     "page" => $page,
     "limit" => $limit
 ]);
+exit;
