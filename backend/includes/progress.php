@@ -6,11 +6,21 @@ header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 require_once __DIR__ . '/../config/db.php';
 
-
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-
 try {
+    // Check if any emails are in progress (not fully processed)
+    $inProgressResult = $conn->query("SELECT COUNT(*) as cnt FROM emails WHERE domain_verified = 0 OR (domain_processed = 0 AND (domain_status IS NULL OR domain_status = ''))");
+    $inProgress = $inProgressResult->fetch_assoc()['cnt'] ?? 0;
+
+    if ($inProgress == 0) {
+        echo json_encode([
+            "stage" => "idle",
+            "message" => "No verification in progress"
+        ]);
+        exit;
+    }
+
     // Step 1: Domain progress
     $domainTotalResult = $conn->query("SELECT COUNT(*) as total FROM emails");
     $domainTotal = $domainTotalResult->fetch_assoc()['total'] ?? 0;

@@ -9,6 +9,7 @@ const checkRetryProgress = async () => {
     );
     return await res.json();
   } catch (error) {
+    console.error("Error checking retry progress:", error);
     return {
       processed: 0,
       total: 0,
@@ -30,6 +31,7 @@ const EmailVerification = () => {
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState({
+
     processed: 0,
     total: 0,
     percent: 0,
@@ -72,6 +74,7 @@ const EmailVerification = () => {
       setLists(Array.isArray(data.data) ? data.data : []);
       setListPagination((prev) => ({ ...prev, total: data.total || 0 }));
     } catch (error) {
+      console.error("Error fetching lists:", error);
       setLists([]);
       setListPagination((prev) => ({ ...prev, total: 0 }));
       setStatus({ type: "error", message: "Failed to load lists" });
@@ -93,6 +96,7 @@ const EmailVerification = () => {
         // setStatus({ type: "error", message: data.message });
       }
     } catch (error) {
+      console.error("Error fetching retry failed count:", error);
       setRetryFailedCount(0);
       // setStatus({ type: "error", message: "Failed to fetch retry failed count" });
     }
@@ -164,6 +168,7 @@ const EmailVerification = () => {
         setStatus({ type: "error", message: data.message || "Upload failed" });
       }
     } catch (error) {
+      console.error("Error uploading file:", error);
       setStatus({ type: "error", message: "Network error" });
     } finally {
       setLoading(false);
@@ -211,6 +216,7 @@ const EmailVerification = () => {
           }, 1000);
         }
       } catch (error) {
+        console.error("Error fetching progress:", error);
         clearInterval(progressInterval.current);
         setShowProgress(false);
       }
@@ -226,10 +232,9 @@ const EmailVerification = () => {
           flex items-center gap-3
           transition-all duration-300
           backdrop-blur-md
-          ${
-            status.type === "error"
-              ? "bg-red-200/60 border border-red-400 text-red-800"
-              : "bg-green-200/60 border border-green-400 text-green-800"
+          ${status.type === "error"
+            ? "bg-red-200/60 border border-red-400 text-red-800"
+            : "bg-green-200/60 border border-green-400 text-green-800"
           }
         `}
         style={{
@@ -247,11 +252,10 @@ const EmailVerification = () => {
         role="alert"
       >
         <i
-          className={`fas text-lg ${
-            status.type === "error"
+          className={`fas text-lg ${status.type === "error"
               ? "fa-exclamation-circle text-red-500"
               : "fa-check-circle text-green-500"
-          }`}
+            }`}
         ></i>
         <span className="flex-1">{status.message}</span>
         <button

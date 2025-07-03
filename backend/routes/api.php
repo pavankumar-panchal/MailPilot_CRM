@@ -13,45 +13,64 @@ $request = str_replace($basePath, '', $fullPath);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Normalize request for query params (so /api/master/campaigns and /api/master/campaigns?id=1 both match)
+$request = preg_replace('/\?.*/', '', $request);
+
 try {
     switch ($request) {
         case '/api/upload':
-            require __DIR__ . './../public/email_processor.php';
+            require __DIR__ . '/../public/email_processor.php';
             break;
 
         case '/api/results':
             require __DIR__ . '/../includes/get_results.php';
             break;
-
+     
         case '/api/monitor/campaigns':
             if ($method === 'GET')
                 require __DIR__ . '/../includes/monitor_campaigns.php';
             break;
 
         case '/api/master/campaigns':
-            if ($method === 'GET')
-                require __DIR__ . '/../includes/master_campaigns.php';
-            if ($method === 'POST')
-                require __DIR__ . '/../includes/master_campaign_actions.php';
+            // Route all methods to the unified campaigns API
+            require __DIR__ . '/../includes/campaign.php';
             break;
 
         case '/api/master/smtps':
-            // Accept all methods for SMTPs
             require __DIR__ . '/../includes/master_smtps.php';
             break;
 
-        case '/api/master/distribute':
-            if ($method === 'POST')
-                require __DIR__ . '/../includes/master_distribute.php';
+        case '/api/master/distribution':
+            require __DIR__ . '/../includes/campaign_distribution.php';
             break;
 
         case '/api/retry-failed':
             if ($method === 'POST') {
-                // Start retry_smtp.php in the background
                 $cmd = 'php ' . escapeshellarg(__DIR__ . '/../includes/retry_smtp.php') . ' > /dev/null 2>&1 &';
                 exec($cmd);
                 echo json_encode(['status' => 'success', 'message' => 'Retry process started in background.']);
             }
+            break;
+
+        case '/api/master/email-counts':
+            // Return total, pending, sent, failed counts
+            $result = $conn->query("
+                SELECT
+                    COUNT(*) AS total_valid,
+                    SUM(CASE WHEN mb.status IS NULL OR mb.status = 'pending' THEN 1 ELSE 0 END) AS pending,
+                    SUM(CASE WHEN mb.status = 'success' THEN 1 ELSE 0 END) AS sent,
+                    SUM(CASE WHEN mb.status = 'failed' THEN 1 ELSE 0 END) AS failed
+                FROM emails e
+                LEFT JOIN mail_blaster mb ON mb.to_mail = e.raw_emailid
+                WHERE e.domain_status = 1
+            ");
+            $row = $result->fetch_assoc();
+            echo json_encode([
+                'total_valid' => (int)$row['total_valid'],
+                'pending' => (int)$row['pending'],
+                'sent' => (int)$row['sent'],
+                'failed' => (int)$row['failed'],
+            ]);
             break;
 
         default:

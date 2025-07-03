@@ -1,5 +1,0 @@
-[2025-06-25 14:39:38] Total retryable emails to process: 5
-[2025-06-25 14:39:38] Total batches: 1, Batch size: 100
-[2025-06-25 14:39:38] Starting parallel SMTP processing for retryable emails with MAX_WORKERS=10
-[2025-06-25 14:39:38] Started worker for IDs 21 - 47 (27 emails)
-[2025-06-25 14:39:45] Processing complete. Remaining retryable emails: 0

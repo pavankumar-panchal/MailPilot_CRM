@@ -61,14 +61,14 @@ const EmailsList = ({ listId, onClose }) => {
     fetchListEmails();
   }, [listId]);
 
-  // Reset pagination when filter changes
+  // Reset pagination when filter or rowsPerPage changes
   useEffect(() => {
     setPagination((prev) => ({
       ...prev,
       page: 1,
       total: filteredEmails.length,
     }));
-  }, [filter]);
+  }, [filter, pagination.rowsPerPage]);
 
   // Status message component
   const StatusMessage = ({ status, onClose }) =>
@@ -345,22 +345,18 @@ const EmailsList = ({ listId, onClose }) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${email.domain_status == 1
-                          ? "bg-blue-100 text-blue-800"
-                          : email.domain_status == 0
-                            ? "bg-orange-100 text-red-800"
-                            : isTimeout(email)
-                              ? "bg-yellow-100 text-yellow-800"
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${isTimeout(email)
+                            ? "bg-yellow-100 text-yellow-800"
+                            : email.domain_status == 1
+                              ? "bg-blue-100 text-blue-800"
                               : "bg-orange-100 text-red-800"
                           }`}
                       >
-                        {email.domain_status == 1
-                          ? "Correct"
-                          : email.domain_status == 0
-                            ? "Wrong"
-                            : isTimeout(email)
-                              ? "Timeout"
-                              : "Wrong"}
+                        {isTimeout(email)
+                          ? "Timeout"
+                          : email.domain_status == 1
+                            ? "Correct"
+                            : "Wrong"}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
@@ -428,11 +424,12 @@ const EmailsList = ({ listId, onClose }) => {
                   id="rows-per-page"
                   value={pagination.rowsPerPage}
                   onChange={(e) => {
-                    setPagination({
+                    setPagination((prev) => ({
+                      ...prev,
                       page: 1,
                       rowsPerPage: Number(e.target.value),
                       total: filteredEmails.length,
-                    });
+                    }));
                   }}
                   className="border border-gray-300 rounded-md shadow-sm py-1 pl-2 pr-8 text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >

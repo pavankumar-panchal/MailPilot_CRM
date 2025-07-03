@@ -16,10 +16,9 @@ const StatusMessage = ({ message, onClose }) =>
         flex items-center gap-3
         transition-all duration-300
         backdrop-blur-md
-        ${
-          message.type === "error"
-            ? "bg-red-200/60 border border-red-400 text-red-800"
-            : "bg-green-200/60 border border-green-400 text-green-800"
+        ${message.type === "error"
+          ? "bg-red-200/60 border border-red-400 text-red-800"
+          : "bg-green-200/60 border border-green-400 text-green-800"
         }
       `}
       style={{
@@ -37,11 +36,10 @@ const StatusMessage = ({ message, onClose }) =>
       role="alert"
     >
       <i
-        className={`fas text-lg ${
-          message.type === "error"
+        className={`fas text-lg ${message.type === "error"
             ? "fa-exclamation-circle text-red-500"
             : "fa-check-circle text-green-500"
-        }`}
+          }`}
       ></i>
       <span className="flex-1">{message.text}</span>
       <button
@@ -63,7 +61,7 @@ const Campaigns = () => {
   const [editId, setEditId] = useState(null);
   const [message, setMessage] = useState(null);
 
-  const API_URL = "/verify_email/backend/routes/api.php/api/master/campaigns";
+  const API_URL = "http://localhost/Verify_email/backend/routes/api.php/api/master/campaigns";
 
   // Fetch campaigns
   const fetchCampaigns = async () => {
