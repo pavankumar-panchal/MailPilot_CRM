@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../config/db.php';
 
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -18,7 +20,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 try {
     if ($method === 'POST') {
-        $input = $_POST;
+        $input = json_decode(file_get_contents('php://input'), true) ?? [];
         $action = $input['action'] ?? null;
 
         if ($action === 'start_campaign') {
@@ -53,6 +55,21 @@ try {
                 'campaigns' => getCampaignsWithStats(),
                 'smtp_servers' => getSMTPServers()
             ];
+        } elseif ($action === 'email_counts') {
+            $campaign_id = (int)($input['campaign_id'] ?? 0);
+            $response['success'] = true;
+            $response['data'] = getEmailCounts($conn, $campaign_id);
+        } elseif ($action === 'get_distribution') {
+            $campaign_id = (int)$input['campaign_id'];
+            $stmt = $conn->prepare("SELECT cd.smtp_id, cd.percentage, ss.name, ss.daily_limit, ss.hourly_limit
+                                    FROM campaign_distribution cd
+                                    JOIN smtp_servers ss ON cd.smtp_id = ss.id
+                                    WHERE cd.campaign_id = ?");
+            $stmt->bind_param("i", $campaign_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $response['success'] = true;
+            $response['data'] = $result->fetch_all(MYSQLI_ASSOC);
         } else {
             throw new Exception('Invalid action');
         }
@@ -72,10 +89,10 @@ try {
 
 echo json_encode($response);
 
-
 // --- Helper Functions ---
 
-function saveDistribution($conn, $campaign_id, $distributions) {
+function saveDistribution($conn, $campaign_id, $distributions)
+{
     $conn->begin_transaction();
     try {
         $delete_stmt = $conn->prepare("DELETE FROM campaign_distribution WHERE campaign_id = ?");
@@ -105,7 +122,8 @@ function saveDistribution($conn, $campaign_id, $distributions) {
     }
 }
 
-function autoDistribute($conn, $campaign_id) {
+function autoDistribute($conn, $campaign_id)
+{
     $email_result = $conn->query("SELECT COUNT(*) AS total FROM emails WHERE domain_status = 1");
     $email_data = $email_result->fetch_assoc();
     $total_emails = $email_data['total'];
@@ -131,13 +149,14 @@ function autoDistribute($conn, $campaign_id) {
     }
 }
 
-function getCampaignsWithStats() {
+function getCampaignsWithStats()
+{
     global $conn;
     $query = "SELECT 
                 cm.campaign_id, 
                 cm.description, 
                 cm.mail_subject,
-                (SELECT COUNT(*) FROM emails WHERE domain_status = 1) AS valid_emails,
+                COALESCE((SELECT COUNT(*) FROM emails WHERE domain_status = 1 AND domain_processed = 1), 0) AS valid_emails,
                 (SELECT SUM(percentage) FROM campaign_distribution WHERE campaign_id = cm.campaign_id) AS distributed_percentage,
                 cs.status as campaign_status,
                 COALESCE(cs.total_emails, 0) as total_emails,
@@ -153,6 +172,12 @@ function getCampaignsWithStats() {
     $campaigns = $result->fetch_all(MYSQLI_ASSOC);
 
     foreach ($campaigns as &$campaign) {
+        $campaign['valid_emails'] = (int)($campaign['valid_emails'] ?? 0);
+        $campaign['distributed_percentage'] = (float)($campaign['distributed_percentage'] ?? 0);
+        $campaign['total_emails'] = (int)($campaign['total_emails'] ?? 0);
+        $campaign['pending_emails'] = (int)($campaign['pending_emails'] ?? 0);
+        $campaign['sent_emails'] = (int)($campaign['sent_emails'] ?? 0);
+        $campaign['failed_emails'] = (int)($campaign['failed_emails'] ?? 0);
         $campaign['remaining_percentage'] = 100 - ($campaign['distributed_percentage'] ?? 0);
         $total = max($campaign['total_emails'], 1);
         $sent = min($campaign['sent_emails'], $total);
@@ -163,48 +188,80 @@ function getCampaignsWithStats() {
                                     cd.percentage, 
                                     ss.name,
                                     ss.daily_limit,
-                                    ss.hourly_limit,
-                                    FLOOR(? * cd.percentage / 100) AS email_count
+                                    ss.hourly_limit
                                 FROM campaign_distribution cd
                                 JOIN smtp_servers ss ON cd.smtp_id = ss.id
                                 WHERE cd.campaign_id = ?");
-        $dist_stmt->bind_param("ii", $campaign['valid_emails'], $campaign['campaign_id']);
+        $dist_stmt->bind_param("i", $campaign['campaign_id']);
         $dist_stmt->execute();
         $dist_result = $dist_stmt->get_result();
-        $campaign['current_distributions'] = $dist_result->fetch_all(MYSQLI_ASSOC);
+        $raw_distributions = $dist_result->fetch_all(MYSQLI_ASSOC);
+
+        // Calculate email_count using the helper
+        $campaign['current_distributions'] = calculateEmailDistribution(
+            $campaign['valid_emails'],
+            $raw_distributions
+        );
     }
     return $campaigns;
 }
 
-function getSMTPServers() {
+function getSMTPServers()
+{
     global $conn;
     $query = "SELECT id, name, host, email, daily_limit, hourly_limit FROM smtp_servers WHERE is_active = 1";
     $result = $conn->query($query);
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
-function calculateOptimalDistribution($total_emails, $smtp_servers) {
+function calculateOptimalDistribution($total_emails, $smtp_servers)
+{
     $distribution = [];
-    $total_capacity = 0;
-    foreach ($smtp_servers as $server) {
-        $daily_capacity = min($server['daily_limit'], $server['hourly_limit'] * 24);
-        $total_capacity += $daily_capacity;
-    }
-    if ($total_capacity > 0) {
+    $count = count($smtp_servers);
+    if ($count > 0) {
+        $equal_percentage = round(100 / $count, 2);
         foreach ($smtp_servers as $server) {
-            $daily_capacity = min($server['daily_limit'], $server['hourly_limit'] * 24);
-            $percentage = ($daily_capacity / $total_capacity) * 100;
             $distribution[] = [
                 'smtp_id' => $server['id'],
-                'percentage' => round($percentage, 2),
-                'email_count' => floor($total_emails * $percentage / 100)
+                'percentage' => $equal_percentage,
+                'email_count' => floor($total_emails * $equal_percentage / 100)
             ];
         }
     }
     return $distribution;
 }
 
-function startCampaign($conn, $campaign_id) {
+function calculateEmailDistribution($total_emails, $distributions) {
+    $result = [];
+    $assigned = 0;
+    $remainders = [];
+
+    foreach ($distributions as $i => $dist) {
+        $raw = $total_emails * ($dist['percentage'] / 100);
+        $floored = floor($raw);
+        $assigned += $floored;
+        $result[$i] = [
+            'smtp_id' => $dist['smtp_id'],
+            'percentage' => $dist['percentage'],
+            'email_count' => $floored,
+        ];
+        $remainders[$i] = $raw - $floored;
+    }
+
+    // Distribute the remaining emails to the largest remainders
+    $left = $total_emails - $assigned;
+    arsort($remainders); // sort by largest remainder
+    foreach (array_keys($remainders) as $i) {
+        if ($left <= 0) break;
+        $result[$i]['email_count'] += 1;
+        $left--;
+    }
+
+    return $result;
+}
+
+function startCampaign($conn, $campaign_id)
+{
     $max_retries = 3;
     $retry_count = 0;
     $success = false;
@@ -257,7 +314,8 @@ function startCampaign($conn, $campaign_id) {
     $conn->query("SET SESSION innodb_lock_wait_timeout = 50");
 }
 
-function getEmailCounts($conn, $campaign_id) {
+function getEmailCounts($conn, $campaign_id)
+{
     $result = $conn->query("
             SELECT 
                 COUNT(*) as total_valid,
@@ -271,7 +329,8 @@ function getEmailCounts($conn, $campaign_id) {
     return $result->fetch_assoc();
 }
 
-function startEmailBlasterProcess($campaign_id) {
+function startEmailBlasterProcess($campaign_id)
+{
     $lock_file = "/tmp/email_blaster_{$campaign_id}.lock";
     if (file_exists($lock_file)) {
         $pid = file_get_contents($lock_file);
@@ -290,7 +349,8 @@ function startEmailBlasterProcess($campaign_id) {
     }
 }
 
-function pauseCampaign($conn, $campaign_id) {
+function pauseCampaign($conn, $campaign_id)
+{
     $max_retries = 3;
     $retry_count = 0;
     $success = false;
@@ -323,11 +383,13 @@ function pauseCampaign($conn, $campaign_id) {
     $conn->query("SET SESSION innodb_lock_wait_timeout = 50");
 }
 
-function stopEmailBlasterProcess($campaign_id) {
+function stopEmailBlasterProcess($campaign_id)
+{
     exec("pkill -f 'email_blaster.php $campaign_id'");
 }
 
-function retryFailedEmails($conn, $campaign_id) {
+function retryFailedEmails($conn, $campaign_id)
+{
     $result = $conn->query("
             SELECT COUNT(*) as failed_count 
             FROM mail_blaster 

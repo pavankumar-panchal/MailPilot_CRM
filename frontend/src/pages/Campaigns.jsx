@@ -37,8 +37,8 @@ const StatusMessage = ({ message, onClose }) =>
     >
       <i
         className={`fas text-lg ${message.type === "error"
-            ? "fa-exclamation-circle text-red-500"
-            : "fa-check-circle text-green-500"
+          ? "fa-exclamation-circle text-red-500"
+          : "fa-check-circle text-green-500"
           }`}
       ></i>
       <span className="flex-1">{message.text}</span>

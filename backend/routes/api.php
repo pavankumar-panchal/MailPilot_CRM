@@ -25,7 +25,7 @@ try {
         case '/api/results':
             require __DIR__ . '/../includes/get_results.php';
             break;
-     
+
         case '/api/monitor/campaigns':
             if ($method === 'GET')
                 require __DIR__ . '/../includes/monitor_campaigns.php';

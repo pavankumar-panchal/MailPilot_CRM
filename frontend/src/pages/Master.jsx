@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost/Verify_email/backend/routes/api.php/api/master";
+const API_PUBLIC_URL = "http://localhost/Verify_email/backend/public";
 
 const Master = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -10,8 +10,8 @@ const Master = () => {
   const [message, setMessage] = useState(null);
   const [expandedCampaigns, setExpandedCampaigns] = useState({});
   const [distributions, setDistributions] = useState({});
-  const [emailCounts, setEmailCounts] = useState({ total_valid: 0, pending: 0, sent: 0, failed: 0 });
-  
+  const [emailCounts, setEmailCounts] = useState({});
+
   // Fade out status message after 3s
   useEffect(() => {
     if (message) {
@@ -20,27 +20,21 @@ const Master = () => {
     }
   }, [message]);
 
-  // Fetch data on component mount
+  // Fetch campaigns and SMTP servers on mount
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [campaignsRes, smtpsRes, countsRes] = await Promise.all([
-          axios.get(`${API_BASE_URL}/campaigns`),
-          axios.get(`${API_BASE_URL}/smtps`),
-          axios.get(`${API_BASE_URL}/email-counts`)
-        ]);
-
-        setCampaigns(campaignsRes.data);
-        setSmtpServers(smtpsRes.data);
-        setEmailCounts(countsRes.data);
+        const res = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+          action: "list",
+        });
+        setCampaigns(res.data.data.campaigns || []);
+        setSmtpServers(res.data.data.smtp_servers || []);
         setLoading(false);
       } catch (error) {
-        console.error("Error loading data:", error);
         setMessage({ type: "error", text: "Failed to load data" });
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -50,34 +44,46 @@ const Master = () => {
     setExpandedCampaigns((prev) => ({ ...prev, [campaignId]: isExpanded }));
 
     if (isExpanded) {
-      // Always fetch latest SMTPs when expanding
-      try {
-        const smtpsRes = await axios.get(`${API_BASE_URL}/smtps`);
-        setSmtpServers(smtpsRes.data);
-      } catch (error) {
-        console.error("Error fetching SMTP servers:", error);
-        setMessage({ type: "error", text: "Failed to fetch SMTP servers" });
-      }
+      await fetchEmailCounts(campaignId);
+      await fetchDistributions(campaignId);
     }
+  };
 
-    if (isExpanded && !distributions[campaignId]) {
-      try {
-        const res = await axios.get(
-          `${API_BASE_URL}/distribution?campaign_id=${campaignId}`
-        );
-        setDistributions((prev) => ({ ...prev, [campaignId]: res.data }));
-      } catch (error) {
-        setMessage({
-          type: "error",
-          text: error.response?.data?.error || "Failed to load distributions",
-        });
-      }
+  // Fetch email counts
+  const fetchEmailCounts = async (campaignId) => {
+    try {
+      const res = await axios.post("http://localhost/Verify_email/backend/public/campaigns_master.php", {
+        action: "email_counts",
+        campaign_id: campaignId
+      });
+      setEmailCounts((prev) => ({
+        ...prev,
+        [campaignId]: res.data.data,
+      }));
+    } catch (error) {
+      setMessage({ type: "error", text: "Failed to fetch email counts" });
+    }
+  };
+
+  // Fetch distributions
+  const fetchDistributions = async (campaignId) => {
+    try {
+      const res = await axios.post("http://localhost/Verify_email/backend/public/campaigns_master.php", {
+        action: "get_distribution",
+        campaign_id: campaignId
+      });
+      setDistributions((prev) => ({
+        ...prev,
+        [campaignId]: res.data.data,
+      }));
+    } catch (error) {
+      setMessage({ type: "error", text: "Failed to fetch distributions" });
     }
   };
 
   // Add distribution row
   const addDistribution = (campaignId) => {
-    const campaign = campaigns.find(c => c.campaign_id === campaignId);
+    const campaign = campaigns.find((c) => c.campaign_id === campaignId);
     if (!campaign) return;
 
     const currentTotal = (distributions[campaignId] || []).reduce(
@@ -88,7 +94,7 @@ const Master = () => {
     if (availablePercentage <= 0) {
       setMessage({
         type: "error",
-        text: "You have already allocated 100% of emails"
+        text: "You have already allocated 100% of emails",
       });
       return;
     }
@@ -105,7 +111,7 @@ const Master = () => {
         {
           smtp_id: smtpServers[0]?.id || "",
           percentage: Math.min(10, availablePercentage).toFixed(1),
-          email_count: Math.floor(campaign.valid_emails * Math.min(10, availablePercentage) / 100)
+          email_count: Math.floor(campaign.valid_emails * Math.min(10, availablePercentage) / 100),
         },
       ],
     }));
@@ -121,7 +127,7 @@ const Master = () => {
 
   // Update distribution field
   const updateDistribution = (campaignId, index, field, value) => {
-    const campaign = campaigns.find(c => c.campaign_id === campaignId);
+    const campaign = campaigns.find((c) => c.campaign_id === campaignId);
     if (!campaign) return;
 
     setDistributions((prev) => {
@@ -130,11 +136,12 @@ const Master = () => {
       );
 
       // Recalculate email counts if percentage changed
-      if (field === 'percentage') {
+      if (field === "percentage") {
         let pct = parseFloat(value) || 0;
         if (pct < 1) pct = 1;
         const currentTotal = newDistributions.reduce(
-          (sum, d, idx) => sum + (idx === index ? 0 : (parseFloat(d.percentage) || 0)), 0
+          (sum, d, idx) => sum + (idx === index ? 0 : (parseFloat(d.percentage) || 0)),
+          0
         );
         const maxAllowed = 100 - currentTotal;
         if (pct > maxAllowed) pct = maxAllowed;
@@ -146,29 +153,35 @@ const Master = () => {
 
       return {
         ...prev,
-        [campaignId]: newDistributions
+        [campaignId]: newDistributions,
       };
     });
   };
 
   // Calculate remaining percentage for a campaign
   const getRemainingPercentage = (campaignId) => {
-    const campaign = campaigns.find(c => c.campaign_id === campaignId);
+    const campaign = campaigns.find((c) => c.campaign_id === campaignId);
     if (!campaign) return 0;
 
-    const currentTotal = (distributions[campaignId] || []).reduce(
-      (sum, d) => sum + (parseFloat(d.percentage) || 0), 0
-    );
-
-    return 100 - currentTotal;
+    // If distributions are loaded, use them; otherwise, use backend value
+    if (distributions[campaignId] && distributions[campaignId].length > 0) {
+      const currentTotal = distributions[campaignId].reduce(
+        (sum, d) => sum + (parseFloat(d.percentage) || 0),
+        0
+      );
+      return Math.max(0, 100 - currentTotal);
+    } else {
+      // Use backend value as fallback
+      return Math.max(0, 100 - (parseFloat(campaign.distributed_percentage) || 0));
+    }
   };
 
   // Save distribution
   const saveDistribution = async (campaignId) => {
     try {
-      // Validate before saving
       const total = (distributions[campaignId] || []).reduce(
-        (sum, d) => sum + (parseFloat(d.percentage) || 0), 0
+        (sum, d) => sum + (parseFloat(d.percentage) || 0),
+        0
       );
 
       if (total > 100) {
@@ -180,10 +193,12 @@ const Master = () => {
       }
 
       // Check SMTP limits
-      const campaign = campaigns.find(c => c.campaign_id === campaignId);
+      const campaign = campaigns.find((c) => c.campaign_id === campaignId);
       const overLimit = (distributions[campaignId] || []).some((dist) => {
-        const smtp = smtpServers.find((s) => s.id === dist.smtp_id);
-        const emailCount = Math.floor(campaign.valid_emails * (parseFloat(dist.percentage) || 0) / 100);
+        const smtp = smtpServers.find((s) => String(s.id) === String(dist.smtp_id));
+        const emailCount = Math.floor(
+          campaign.valid_emails * (parseFloat(dist.percentage) || 0) / 100
+        );
         return smtp && emailCount > smtp.daily_limit;
       });
 
@@ -195,16 +210,20 @@ const Master = () => {
         return;
       }
 
-      const res = await axios.post(`${API_BASE_URL}/distribution`, {
+      // Save
+      const res = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "distribute",
         campaign_id: campaignId,
-        distribution: distributions[campaignId],
+        distribution: distributions[campaignId] // <-- FIX: use distributions state directly
       });
 
       setMessage({ type: "success", text: res.data.message });
 
       // Refresh campaigns to get updated data
-      const campaignsRes = await axios.get(`${API_BASE_URL}/campaigns`);
-      setCampaigns(campaignsRes.data);
+      const listRes = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "list",
+      });
+      setCampaigns(listRes.data.data.campaigns || []);
     } catch (error) {
       setMessage({
         type: "error",
@@ -216,20 +235,19 @@ const Master = () => {
   // Auto-distribute
   const autoDistribute = async (campaignId) => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/auto-distribute`, {
+      const res = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "auto_distribute",
         campaign_id: campaignId,
       });
 
       setMessage({ type: "success", text: res.data.message });
 
       // Refresh data
-      const [campaignsRes, distributionRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}/campaigns`),
-        axios.get(`${API_BASE_URL}/distribution?campaign_id=${campaignId}`),
-      ]);
-
-      setCampaigns(campaignsRes.data);
-      setDistributions((prev) => ({ ...prev, [campaignId]: distributionRes.data }));
+      await fetchDistributions(campaignId);
+      const listRes = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "list",
+      });
+      setCampaigns(listRes.data.data.campaigns || []);
     } catch (error) {
       setMessage({
         type: "error",
@@ -241,20 +259,18 @@ const Master = () => {
   // Start campaign
   const startCampaign = async (campaignId) => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/start-campaign`, {
-        campaign_id: campaignId,
+      const res = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "start_campaign",
+        campaign_id: campaignId
       });
 
       setMessage({ type: "success", text: res.data.message });
 
-      // Start email blaster in background
-      await axios.post(`${API_BASE_URL}/start-email-blaster`, {
-        campaign_id: campaignId
-      });
-
       // Refresh campaigns
-      const campaignsRes = await axios.get(`${API_BASE_URL}/campaigns`);
-      setCampaigns(campaignsRes.data);
+      const listRes = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "list",
+      });
+      setCampaigns(listRes.data.data.campaigns || []);
     } catch (error) {
       setMessage({
         type: "error",
@@ -266,20 +282,18 @@ const Master = () => {
   // Pause campaign
   const pauseCampaign = async (campaignId) => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/pause-campaign`, {
+      const res = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "pause_campaign",
         campaign_id: campaignId,
       });
 
       setMessage({ type: "success", text: res.data.message });
 
-      // Stop email blaster process
-      await axios.post(`${API_BASE_URL}/stop-email-blaster`, {
-        campaign_id: campaignId
-      });
-
       // Refresh campaigns
-      const campaignsRes = await axios.get(`${API_BASE_URL}/campaigns`);
-      setCampaigns(campaignsRes.data);
+      const listRes = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "list",
+      });
+      setCampaigns(listRes.data.data.campaigns || []);
     } catch (error) {
       setMessage({
         type: "error",
@@ -291,15 +305,18 @@ const Master = () => {
   // Retry failed emails
   const retryFailedEmails = async (campaignId) => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/retry-failed`, {
+      const res = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "retry_failed",
         campaign_id: campaignId,
       });
 
       setMessage({ type: "success", text: res.data.message });
 
       // Refresh campaigns
-      const campaignsRes = await axios.get(`${API_BASE_URL}/campaigns`);
-      setCampaigns(campaignsRes.data);
+      const listRes = await axios.post(`${API_PUBLIC_URL}/campaigns_master.php`, {
+        action: "list",
+      });
+      setCampaigns(listRes.data.data.campaigns || []);
     } catch (error) {
       setMessage({
         type: "error",
@@ -315,10 +332,10 @@ const Master = () => {
 
     return (
       <span className={`px-2 py-1 rounded text-xs font-semibold ${statusClass === 'running' ? 'bg-blue-500 text-white' :
-          statusClass === 'paused' ? 'bg-gray-500 text-white' :
-            statusClass === 'completed' ? 'bg-green-500 text-white' :
-              statusClass === 'failed' ? 'bg-red-500 text-white' :
-                'bg-yellow-500 text-white'
+        statusClass === 'paused' ? 'bg-gray-500 text-white' :
+          statusClass === 'completed' ? 'bg-green-500 text-white' :
+            statusClass === 'failed' ? 'bg-red-500 text-white' :
+              'bg-yellow-500 text-white'
         }`}>
         {statusText}
       </span>
@@ -347,8 +364,8 @@ const Master = () => {
         role="alert"
       >
         <i className={`fas text-lg ${message.type === "error"
-            ? "fa-exclamation-circle text-red-500"
-            : "fa-check-circle text-green-500"
+          ? "fa-exclamation-circle text-red-500"
+          : "fa-check-circle text-green-500"
           }`}></i>
         <span className="flex-1">{message.text}</span>
         <button
@@ -379,6 +396,7 @@ const Master = () => {
           {campaigns.map((campaign) => {
             const remainingPercentage = getRemainingPercentage(campaign.campaign_id);
             const campaignDistributions = distributions[campaign.campaign_id] || [];
+            const counts = emailCounts[campaign.campaign_id] || {};
 
             return (
               <div
@@ -397,7 +415,7 @@ const Master = () => {
                       <div className="flex items-center space-x-4">
                         <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">
                           <i className="fas fa-envelope mr-1"></i>
-                          {campaign.valid_emails?.toLocaleString()} Emails
+                          {Number(campaign.valid_emails)?.toLocaleString()} Emails
                         </span>
                         {remainingPercentage > 0 ? (
                           <span className="inline-flex items-center px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-sm font-medium">
@@ -411,6 +429,13 @@ const Master = () => {
                           </span>
                         )}
                         <StatusBadge status={campaign.campaign_status} />
+                        {/* Email counts */}
+                        {expandedCampaigns[campaign.campaign_id] && (
+                          <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-800 text-xs font-medium">
+                            <i className="fas fa-list mr-1"></i>
+                            Total: {counts.total_valid || 0} | Pending: {counts.pending || 0} | Sent: {counts.sent || 0} | Failed: {counts.failed || 0}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="flex space-x-2 items-center">
@@ -420,8 +445,8 @@ const Master = () => {
                       >
                         <i
                           className={`fas ${expandedCampaigns[campaign.campaign_id]
-                              ? "fa-chevron-up"
-                              : "fa-chevron-down"
+                            ? "fa-chevron-up"
+                            : "fa-chevron-down"
                             } text-sm`}
                         ></i>
                       </button>
@@ -466,9 +491,10 @@ const Master = () => {
                     <div className="mt-6">
                       <div className="space-y-3 mb-4">
                         {campaignDistributions.map((dist, index) => {
-                          const smtp = smtpServers.find((s) => s.id === dist.smtp_id);
-                          const percentage = parseFloat(dist.percentage) || 0;
-                          const emailCount = Math.floor(campaign.valid_emails * (percentage / 100));
+                          const smtp = smtpServers.find((s) => String(s.id) === String(dist.smtp_id));
+                          const validEmails = Number(campaign.valid_emails) || 0;
+                          const percentage = Number(dist.percentage) || 0;
+                          const emailCount = Math.floor(validEmails * (percentage / 100));
 
                           let badgeClass = "bg-gray-200 text-gray-800";
                           let badgeMsg = "";
