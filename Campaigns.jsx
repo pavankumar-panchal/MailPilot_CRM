@@ -4,7 +4,6 @@ const emptyCampaign = {
   description: "",
   mail_subject: "",
   mail_body: "",
-  attachment: null,
 };
 
 // Glassmorphism Status Message Popup
@@ -59,16 +58,8 @@ const Campaigns = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [form, setForm] = useState(emptyCampaign);
-  const [attachmentFile, setAttachmentFile] = useState(null);
   const [editId, setEditId] = useState(null);
   const [message, setMessage] = useState(null);
-
-  // Pagination state
-  const [pagination, setPagination] = useState({
-    page: 1,
-    rowsPerPage: 10,
-    total: 0,
-  });
 
   const API_URL = "http://localhost/Verify_email/backend/routes/api.php/api/master/campaigns";
 
@@ -78,26 +69,9 @@ const Campaigns = () => {
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
-      if (Array.isArray(data)) {
-        setCampaigns(data);
-        setPagination((prev) => ({
-          ...prev,
-          total: data.length,
-        }));
-      } else {
-        setCampaigns([]);
-        setPagination((prev) => ({
-          ...prev,
-          total: 0,
-        }));
-      }
+      setCampaigns(Array.isArray(data) ? data : []);
     } catch {
       setMessage({ type: "error", text: "Failed to load campaigns." });
-      setCampaigns([]);
-      setPagination((prev) => ({
-        ...prev,
-        total: 0,
-      }));
     }
     setLoading(false);
   };
@@ -108,39 +82,27 @@ const Campaigns = () => {
 
   // Handle form input
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "attachment") {
-      setAttachmentFile(files[0]);
-    } else {
-      setForm((f) => ({
-        ...f,
-        [name]: value,
-      }));
-    }
+    const { name, value } = e.target;
+    setForm((f) => ({
+      ...f,
+      [name]: value,
+    }));
   };
 
   // Add campaign
   const handleAdd = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("description", form.description);
-    formData.append("mail_subject", form.mail_subject);
-    formData.append("mail_body", form.mail_body);
-    if (attachmentFile) {
-      formData.append("attachment", attachmentFile);
-    }
-
     try {
       const res = await fetch(API_URL, {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
       const data = await res.json();
       if (data.success) {
         setMessage({ type: "success", text: "Campaign added successfully!" });
         setModalOpen(false);
         setForm(emptyCampaign);
-        setAttachmentFile(null);
         fetchCampaigns();
       } else {
         setMessage({
@@ -153,43 +115,31 @@ const Campaigns = () => {
     }
   };
 
-  // Edit campaign (no change needed for attachment)
+  // Edit campaign
   const handleEdit = (campaign) => {
     setEditId(campaign.campaign_id);
     setForm({
       description: campaign.description,
       mail_subject: campaign.mail_subject,
       mail_body: campaign.mail_body,
-      attachment: null,
     });
-    setAttachmentFile(null);
     setEditModalOpen(true);
   };
 
   // Update campaign
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("description", form.description);
-    formData.append("mail_subject", form.mail_subject);
-    formData.append("mail_body", form.mail_body);
-    if (attachmentFile) {
-      formData.append("attachment", attachmentFile);
-    }
-    // Tell backend this is an update
-    formData.append("_method", "PUT");
-
     try {
       const res = await fetch(`${API_URL}?id=${editId}`, {
-        method: "POST", // Still POST for file upload, backend checks _method
-        body: formData,
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
       const data = await res.json();
       if (data.success) {
         setMessage({ type: "success", text: "Campaign updated successfully!" });
         setEditModalOpen(false);
         setForm(emptyCampaign);
-        setAttachmentFile(null);
         fetchCampaigns();
       } else {
         setMessage({
@@ -232,10 +182,7 @@ const Campaigns = () => {
         description: data.description,
         mail_subject: data.mail_subject,
         mail_body: data.mail_body,
-        attachment: null,
       });
-      setEditId(null); // <-- Clear editId so handleAdd will be used
-      setAttachmentFile(null); // <-- Clear any previous file
       setModalOpen(true);
     } catch {
       setMessage({ type: "error", text: "Failed to load campaign for reuse." });
@@ -256,15 +203,8 @@ const Campaigns = () => {
     return words.slice(0, 30).join(" ") + (words.length > 30 ? "..." : "");
   };
 
-  // Pagination logic
-  const totalPages = Math.max(1, Math.ceil(pagination.total / pagination.rowsPerPage));
-  const paginatedCampaigns = campaigns.slice(
-    (pagination.page - 1) * pagination.rowsPerPage,
-    pagination.page * pagination.rowsPerPage
-  );
-
   return (
-    <div className="container mx-auto mt-12 px-2 sm:px-4 py-8 max-w-7xl">
+    <div className="container mx-auto mt-12 px-4 py-8 max-w-7xl">
       {/* Status Message */}
       <StatusMessage message={message} onClose={() => setMessage(null)} />
 
@@ -284,59 +224,8 @@ const Campaigns = () => {
         </button>
       </div>
 
-      {/* Responsive Campaigns List */}
-      <div className="block sm:hidden">
-        {paginatedCampaigns.map((c) => (
-          <div
-            key={c.campaign_id}
-            className="bg-white rounded-2xl shadow p-4 mb-4 flex flex-col"
-          >
-            <div className="flex justify-between items-start">
-              <div>
-                <div className="text-lg font-bold text-gray-900 mb-1">
-                  ID: {c.campaign_id}
-                </div>
-                <div className="font-semibold text-gray-900">Description:</div>
-                <div className="text-gray-600 text-base mb-2 break-words">
-                  {c.description}
-                </div>
-              </div>
-              <div className="flex flex-col gap-2 items-end ml-2">
-                <button
-                  onClick={() => handleEdit(c)}
-                  className="text-blue-600 hover:text-blue-800 p-1 rounded"
-                  title="Edit"
-                >
-                  <i className="fas fa-edit text-xl"></i>
-                </button>
-                <button
-                  onClick={() => handleReuse(c.campaign_id)}
-                  className="text-green-600 hover:text-green-800 p-1 rounded"
-                  title="Reuse"
-                >
-                  <i className="fas fa-copy text-xl"></i>
-                </button>
-                <button
-                  onClick={() => handleDelete(c.campaign_id)}
-                  className="text-red-600 hover:text-red-800 p-1 rounded"
-                  title="Delete"
-                >
-                  <i className="fas fa-trash text-xl"></i>
-                </button>
-              </div>
-            </div>
-            <div className="mt-2">
-              <div className="font-semibold text-gray-900">Subject:</div>
-              <div className="text-gray-700 text-sm break-words mb-1">{c.mail_subject}</div>
-              <div className="font-semibold text-gray-900">Email Preview:</div>
-              <div className="text-gray-500 text-sm break-words">{preview(c.mail_body)}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Desktop Table */}
-      <div className="hidden sm:block bg-white rounded-lg shadow overflow-hidden">
+      {/* Campaigns Table */}
+      <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -378,7 +267,7 @@ const Campaigns = () => {
                   </td>
                 </tr>
               ) : (
-                paginatedCampaigns.map((c) => (
+                campaigns.map((c) => (
                   <tr
                     key={c.campaign_id}
                     className="hover:bg-gray-50 transition-colors duration-150"
@@ -437,142 +326,6 @@ const Campaigns = () => {
         </div>
       </div>
 
-      {/* Pagination Controls */}
-      {campaigns.length > 0 && (
-        <div className="flex flex-col items-center justify-center mt-6 px-1 gap-2">
-          <div className="text-xs sm:text-sm text-gray-500 mb-2">
-            Showing{" "}
-            <span className="font-medium">
-              {(pagination.page - 1) * pagination.rowsPerPage + 1}
-            </span>{" "}
-            to{" "}
-            <span className="font-medium">
-              {Math.min(
-                pagination.page * pagination.rowsPerPage,
-                pagination.total
-              )}
-            </span>{" "}
-            of <span className="font-medium">{pagination.total}</span>{" "}
-            campaigns
-          </div>
-          <div className="flex flex-wrap items-center gap-2 pb-5">
-            <button
-              onClick={() =>
-                setPagination((prev) => ({ ...prev, page: 1 }))
-              }
-              disabled={pagination.page === 1}
-              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
-            >
-              <svg
-                className="w-5 h-5 text-gray-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={() =>
-                setPagination((prev) => ({
-                  ...prev,
-                  page: prev.page - 1,
-                }))
-              }
-              disabled={pagination.page === 1}
-              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
-            >
-              <svg
-                className="w-5 h-5 text-gray-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <span className="text-xs sm:text-sm font-medium text-gray-700">
-              Page {pagination.page} of {totalPages}
-            </span>
-            <button
-              onClick={() =>
-                setPagination((prev) => ({
-                  ...prev,
-                  page: Math.min(totalPages, prev.page + 1),
-                }))
-              }
-              disabled={pagination.page >= totalPages}
-              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
-            >
-              <svg
-                className="w-5 h-5 text-gray-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={() =>
-                setPagination((prev) => ({
-                  ...prev,
-                  page: totalPages,
-                }))
-              }
-              disabled={pagination.page >= totalPages}
-              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
-            >
-              <svg
-                className="w-5 h-5 text-gray-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-            <select
-              value={pagination.rowsPerPage}
-              onChange={(e) =>
-                setPagination((prev) => ({
-                  ...prev,
-                  rowsPerPage: Number(e.target.value),
-                  page: 1,
-                }))
-              }
-              className="border p-2 rounded-lg text-xs sm:text-sm bg-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
-            >
-              {[10, 25, 50, 100].map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      )}
-
       {/* Add Campaign Modal */}
       {modalOpen && (
         <div className="fixed inset-0 bg-gr bg-black/30 backdrop-blur-md backdrop-saturate-150 border border-white/20 shadow-xl overflow-y-auto h-full w-full z-50 flex items-center justify-center">
@@ -589,7 +342,7 @@ const Campaigns = () => {
                 <i className="fas fa-times"></i>
               </button>
             </div>
-            <form className="space-y-4" onSubmit={handleAdd} encType="multipart/form-data">
+            <form className="space-y-4" onSubmit={handleAdd}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Description
@@ -632,25 +385,6 @@ const Campaigns = () => {
                   onChange={handleChange}
                 ></textarea>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-black-700 mb-1">
-                  Attachment
-                </label>
-                <input
-                  type="file"
-                  name="attachment"
-                  className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                  onChange={handleChange}
-                  // Example: accept only PDF, images, and docs. Adjust as needed.
-                  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv,.txt"
-                  id="attachment-input"
-                />
-                <div className="text-xs text-gray-500 mt-1">
-                  {attachmentFile
-                    ? `Selected: ${attachmentFile.name}`
-                    : "No file chosen"}
-                </div>
-              </div>
               <div className="flex justify-end pt-4 space-x-3">
                 <button
                   type="button"
@@ -687,7 +421,7 @@ const Campaigns = () => {
                 <i className="fas fa-times"></i>
               </button>
             </div>
-            <form className="space-y-4" onSubmit={handleUpdate} encType="multipart/form-data">
+            <form className="space-y-4" onSubmit={handleUpdate}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Description
@@ -726,23 +460,6 @@ const Campaigns = () => {
                   value={form.mail_body}
                   onChange={handleChange}
                 ></textarea>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Attachment
-                </label>
-                <input
-                  type="file"
-                  name="attachment"
-                  className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                  onChange={handleChange}
-                  accept="*"
-                />
-                {attachmentFile && (
-                  <div className="text-xs text-gray-500 mt-1">
-                    Selected: {attachmentFile.name}
-                  </div>
-                )}
               </div>
               <div className="flex justify-end pt-4 space-x-3">
                 <button

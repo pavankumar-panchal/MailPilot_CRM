@@ -14,8 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Helper: get input data for POST/PUT
-function getInputData() {
+// Helper: get input data for PUT (not used for POST with files)
+function getInputData()
+{
     $input = file_get_contents('php://input');
     return json_decode($input, true) ?? [];
 }
@@ -31,6 +32,13 @@ try {
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             if ($row) {
+                // Optionally, don't send the full attachment in list view
+                if (isset($row['attachment'])) {
+                    $row['has_attachment'] = !empty($row['attachment']);
+                    unset($row['attachment']);
+                }
+                // When rendering mail_body in HTML
+                $row['mail_body'] = nl2br(htmlspecialchars($row['mail_body']));
                 echo json_encode($row);
             } else {
                 http_response_code(404);
@@ -46,6 +54,13 @@ try {
                 $preview = implode(' ', array_slice($words, 0, 30));
                 if (count($words) > 30) $preview .= '...';
                 $row['mail_body_preview'] = $preview;
+                // Optionally, don't send the full attachment in list view
+                if (isset($row['attachment'])) {
+                    $row['has_attachment'] = !empty($row['attachment']);
+                    unset($row['attachment']);
+                }
+                // When rendering mail_body in HTML
+                $row['mail_body'] = nl2br(htmlspecialchars($row['mail_body']));
                 $campaigns[] = $row;
             }
             echo json_encode($campaigns);
@@ -53,12 +68,53 @@ try {
         }
     }
 
-    // POST /api/master/campaigns
+    // POST /api/master/campaigns (multipart/form-data for file upload)
     if ($method === 'POST') {
-        $data = getInputData();
-        $description = $conn->real_escape_string($data['description'] ?? '');
-        $mail_subject = $conn->real_escape_string($data['mail_subject'] ?? '');
-        $mail_body = $conn->real_escape_string($data['mail_body'] ?? '');
+        // Check for update via POST with _method=PUT
+        if (isset($_POST['_method']) && $_POST['_method'] === 'PUT' && isset($_GET['id'])) {
+            $id = intval($_GET['id']);
+            $description = $conn->real_escape_string($_POST['description'] ?? '');
+            $mail_subject = $conn->real_escape_string($_POST['mail_subject'] ?? '');
+            $mail_body = $conn->real_escape_string($_POST['mail_body'] ?? '');
+            $attachment = null;
+            if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK) {
+                $attachment = file_get_contents($_FILES['attachment']['tmp_name']);
+            }
+
+            if (!$description || !$mail_subject || !$mail_body) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => 'All fields are required.']);
+                exit;
+            }
+
+            if ($attachment !== null) {
+                $stmt = $conn->prepare("UPDATE campaign_master SET description=?, mail_subject=?, mail_body=?, attachment=? WHERE campaign_id=?");
+                $stmt->bind_param("ssssi", $description, $mail_subject, $mail_body, $null, $id);
+                $stmt->send_long_data(3, $attachment);
+                $null = null;
+            } else {
+                $stmt = $conn->prepare("UPDATE campaign_master SET description=?, mail_subject=?, mail_body=? WHERE campaign_id=?");
+                $stmt->bind_param("sssi", $description, $mail_subject, $mail_body, $id);
+            }
+
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true, 'message' => 'Campaign updated successfully!']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['success' => false, 'message' => 'Error updating campaign: ' . $conn->error]);
+            }
+            exit;
+        }
+
+        // Normal insert (no _method=PUT)
+        $description = $conn->real_escape_string($_POST['description'] ?? '');
+        $mail_subject = $conn->real_escape_string($_POST['mail_subject'] ?? '');
+        $mail_body = $conn->real_escape_string($_POST['mail_body'] ?? '');
+
+        $attachment = null;
+        if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK) {
+            $attachment = file_get_contents($_FILES['attachment']['tmp_name']);
+        }
 
         if (!$description || !$mail_subject || !$mail_body) {
             http_response_code(400);
@@ -66,8 +122,17 @@ try {
             exit;
         }
 
-        $sql = "INSERT INTO campaign_master (description, mail_subject, mail_body) VALUES ('$description', '$mail_subject', '$mail_body')";
-        if ($conn->query($sql)) {
+        if ($attachment !== null) {
+            $stmt = $conn->prepare("INSERT INTO campaign_master (description, mail_subject, mail_body, attachment) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $description, $mail_subject, $mail_body, $null);
+            $stmt->send_long_data(3, $attachment);
+            $null = null;
+        } else {
+            $stmt = $conn->prepare("INSERT INTO campaign_master (description, mail_subject, mail_body) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $description, $mail_subject, $mail_body);
+        }
+
+        if ($stmt->execute()) {
             echo json_encode(['success' => true, 'message' => 'Campaign added successfully!']);
         } else {
             http_response_code(500);
@@ -76,33 +141,71 @@ try {
         exit;
     }
 
-    // PUT /api/master/campaigns?id=1
+    // PUT /api/master/campaigns?id=1 (multipart/form-data for file upload)
     if ($method === 'PUT') {
+        // For PUT, most clients send JSON, but for file upload, use POST with _method=PUT
+        // Here, we only support JSON for PUT (no file upload)
         if (!isset($_GET['id'])) {
             http_response_code(400);
             echo json_encode(['success' => false, 'message' => 'Campaign ID is required.']);
             exit;
         }
         $id = intval($_GET['id']);
-        $data = getInputData();
-        $description = $conn->real_escape_string($data['description'] ?? '');
-        $mail_subject = $conn->real_escape_string($data['mail_subject'] ?? '');
-        $mail_body = $conn->real_escape_string($data['mail_body'] ?? '');
+        // If you want to support file upload for update, use POST with _method=PUT
+        if (isset($_POST['_method']) && $_POST['_method'] === 'PUT') {
+            $description = $conn->real_escape_string($_POST['description'] ?? '');
+            $mail_subject = $conn->real_escape_string($_POST['mail_subject'] ?? '');
+            $mail_body = $conn->real_escape_string($_POST['mail_body'] ?? '');
+            $attachment = null;
+            if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK) {
+                $attachment = file_get_contents($_FILES['attachment']['tmp_name']);
+            }
 
-        if (!$description || !$mail_subject || !$mail_body) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'All fields are required.']);
+            if (!$description || !$mail_subject || !$mail_body) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => 'All fields are required.']);
+                exit;
+            }
+
+            if ($attachment !== null) {
+                $stmt = $conn->prepare("UPDATE campaign_master SET description=?, mail_subject=?, mail_body=?, attachment=? WHERE campaign_id=?");
+                $stmt->bind_param("ssssi", $description, $mail_subject, $mail_body, $null, $id);
+                $stmt->send_long_data(3, $attachment);
+                $null = null;
+            } else {
+                $stmt = $conn->prepare("UPDATE campaign_master SET description=?, mail_subject=?, mail_body=? WHERE campaign_id=?");
+                $stmt->bind_param("sssi", $description, $mail_subject, $mail_body, $id);
+            }
+
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true, 'message' => 'Campaign updated successfully!']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['success' => false, 'message' => 'Error updating campaign: ' . $conn->error]);
+            }
+            exit;
+        } else {
+            // JSON PUT (no file upload)
+            $data = getInputData();
+            $description = $conn->real_escape_string($data['description'] ?? '');
+            $mail_subject = $conn->real_escape_string($data['mail_subject'] ?? '');
+            $mail_body = $conn->real_escape_string($data['mail_body'] ?? '');
+
+            if (!$description || !$mail_subject || !$mail_body) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => 'All fields are required.']);
+                exit;
+            }
+
+            $sql = "UPDATE campaign_master SET description='$description', mail_subject='$mail_subject', mail_body='$mail_body' WHERE campaign_id=$id";
+            if ($conn->query($sql)) {
+                echo json_encode(['success' => true, 'message' => 'Campaign updated successfully!']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['success' => false, 'message' => 'Error updating campaign: ' . $conn->error]);
+            }
             exit;
         }
-
-        $sql = "UPDATE campaign_master SET description='$description', mail_subject='$mail_subject', mail_body='$mail_body' WHERE campaign_id=$id";
-        if ($conn->query($sql)) {
-            echo json_encode(['success' => true, 'message' => 'Campaign updated successfully!']);
-        } else {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Error updating campaign: ' . $conn->error]);
-        }
-        exit;
     }
 
     // DELETE /api/master/campaigns?id=1

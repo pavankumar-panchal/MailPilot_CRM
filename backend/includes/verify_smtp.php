@@ -407,23 +407,36 @@ try {
     $processed = process_in_parallel($conn);
     $total_time = microtime(true) - $start_time;
 
+    // Check if all emails are processed (domain_processed=1 and domain_status in (1,2))
+    $check = $conn->query("SELECT COUNT(*) as cnt FROM emails WHERE (domain_processed != 1 OR (domain_status NOT IN (1,2)))");
+    $row = $check->fetch_assoc();
+    if ($row['cnt'] == 0) {
+        // All processed and valid/retryable, mark csv_list as completed
+        $conn->query("UPDATE csv_list SET status = 'completed' WHERE status = 'running'");
+    }
+
     // Get verification stats
-    $total = $conn->query("SELECT COUNT(*) as total FROM emails")->fetch_row()[0];
-    $verified = $conn->query("SELECT COUNT(*) as verified FROM emails WHERE validation_status = 'valid'")->fetch_row()[0];
+    $total    = $conn->query("SELECT COUNT(*) as total FROM emails")->fetch_row()[0];
+    $verified = $conn->query("SELECT COUNT(*) as valid FROM emails WHERE domain_status = 1")->fetch_row()[0];
+    $invalid  = $conn->query("SELECT COUNT(*) as invalid FROM emails WHERE domain_status = 0")->fetch_row()[0];
+
+    // Update csv_list with valid and invalid counts (safe, as values are integers)
+    $conn->query("UPDATE csv_list SET valid_count = $verified, invalid_count = $invalid WHERE status IN ('running', 'completed')");
 
     echo json_encode([
-        "status" => "success",
-        "processed" => (int) $processed,
-        "total_emails" => (int) $total,
-        "verified_emails" => (int) $verified,
-        "time_seconds" => round($total_time, 2),
-        "rate_per_second" => round($processed / $total_time, 2),
-        "message" => "Parallel SMTP processing completed"
+        "status"           => "success",
+        "processed"        => (int) $processed,
+        "total_emails"     => (int) $total,
+        "verified_emails"  => (int) $verified,
+        "invalid_emails"   => (int) $invalid,
+        "time_seconds"     => round($total_time, 2),
+        "rate_per_second"  => $total_time > 0 ? round($processed / $total_time, 2) : 0,
+        "message"          => "Parallel SMTP processing completed"
     ]);
 
 } catch (Exception $e) {
     echo json_encode([
-        "status" => "error",
+        "status"  => "error",
         "message" => $e->getMessage()
     ]);
 } finally {

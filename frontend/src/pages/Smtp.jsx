@@ -316,13 +316,13 @@ const Smtp = () => {
                         onClick={() => handleEdit(server)}
                         className="text-indigo-600 hover:text-indigo-900 mr-3"
                       >
-                        <i className="fas fa-edit mr-1"></i> Edit
+                        <i className="fas fa-edit mr-1"></i> 
                       </button>
                       <button
                         onClick={() => handleDelete(server.id)}
                         className="text-red-600 hover:text-red-900"
                       >
-                        <i className="fas fa-trash mr-1"></i> Delete
+                        <i className="fas fa-trash mr-1"></i> 
                       </button>
                     </td>
                   </tr>

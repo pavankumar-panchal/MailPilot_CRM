@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Trigger email processing in background
         exec("php email_blaster.php $campaign_id > /dev/null 2>&1 &");
-
     } elseif (isset($_POST['pause_campaign'])) {
         $campaign_id = intval($_POST['campaign_id']);
         pauseCampaign($conn, $campaign_id);
@@ -86,7 +85,6 @@ function startCampaign($conn, $campaign_id)
 
             $message = "Campaign #$campaign_id started successfully!";
             $message_type = 'success';
-
         } catch (mysqli_sql_exception $e) {
             $conn->rollback();
 
@@ -196,7 +194,6 @@ function pauseCampaign($conn, $campaign_id)
             }
 
             $conn->commit();
-
         } catch (mysqli_sql_exception $e) {
             $conn->rollback();
 
@@ -500,7 +497,7 @@ $conn->close();
 
         <script>
             // Auto-refresh campaign status every 10 seconds
-            setInterval(function () {
+            setInterval(function() {
                 if (window.location.href.indexOf('view=') === -1) {
                     // Only refresh if we're not viewing a specific campaign
                     fetch(window.location.href)

@@ -59,12 +59,11 @@ export default function Navbar() {
                 onBlur={() =>
                   setTimeout(() => setMonitorDropdownOpen(false), 150)
                 }
-                className={`${monitorLinks.some((l) =>
-                  window.location.pathname.startsWith(l.to)
-                )
+                className={`${
+                  window.location.pathname.startsWith("/monitor/")
                     ? "bg-blue-50 text-blue-600"
                     : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
-                  } px-3 py-2 rounded-md text-sm font-medium flex items-center`}
+                } px-3 py-2 rounded-md text-sm font-medium flex items-center`}
                 type="button"
               >
                 <i className="fas fa-chart-line mr-2"></i> Monitor
@@ -137,19 +136,19 @@ export default function Navbar() {
             <div className="border-t border-gray-200 pt-2">
               <button
                 onClick={() => setMonitorMobileOpen((v) => !v)}
-                className={`w-full pl-3 pr-4 py-2 border-l-4 text-base font-medium flex justify-between items-center ${monitorLinks.some((l) =>
-                  window.location.pathname.startsWith(l.to)
-                )
+                className={`w-full pl-3 pr-4 py-2 border-l-4 text-base font-medium flex justify-between items-center ${
+                  window.location.pathname.startsWith("/monitor/")
                     ? "bg-blue-50 text-blue-600 border-blue-500"
                     : "text-gray-600 hover:bg-blue-50 hover:text-blue-600 border-transparent"
-                  }`}
+                }`}
               >
                 <div className="flex items-center">
                   <i className="fas fa-chart-line mr-2"></i> Monitor
                 </div>
                 <i
-                  className={`fas fa-chevron-right transition-transform duration-200 ${monitorMobileOpen ? "transform rotate-90" : ""
-                    }`}
+                  className={`fas fa-chevron-right transition-transform duration-200 ${
+                    monitorMobileOpen ? "transform rotate-90" : ""
+                  }`}
                 ></i>
               </button>
               {monitorMobileOpen && (

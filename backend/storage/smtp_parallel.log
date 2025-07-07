@@ -1,0 +1,85 @@
+[2025-07-03 11:35:03] Total emails to process: 47
+[2025-07-03 11:35:03] Total batches: 1, Batch size: 500
+[2025-07-03 11:35:03] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-03 11:35:03] Started worker for IDs 1 - 47 (47 emails)
+[2025-07-03 11:36:23] Processing complete. Remaining unprocessed emails: 0
+[2025-07-03 11:36:33] Total emails to process: 47
+[2025-07-03 11:36:33] Total batches: 1, Batch size: 500
+[2025-07-03 11:36:33] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-03 11:36:33] Started worker for IDs 1 - 47 (47 emails)
+[2025-07-03 11:36:34] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 13:39:09] Total emails to process: 36
+[2025-07-07 13:39:09] Total batches: 1, Batch size: 500
+[2025-07-07 13:39:09] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 13:39:09] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 13:39:30] Total emails to process: 36
+[2025-07-07 13:39:30] Total batches: 1, Batch size: 500
+[2025-07-07 13:39:30] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 13:39:30] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 13:40:11] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 13:40:11] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 13:52:30] Total emails to process: 47
+[2025-07-07 13:52:30] Total batches: 1, Batch size: 500
+[2025-07-07 13:52:30] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 13:52:30] Started worker for IDs 1 - 47 (47 emails)
+[2025-07-07 13:52:30] Processing complete. Remaining unprocessed emails: 11
+[2025-07-07 13:53:08] Total emails to process: 47
+[2025-07-07 13:53:08] Total batches: 1, Batch size: 500
+[2025-07-07 13:53:08] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 13:53:08] Started worker for IDs 1 - 47 (47 emails)
+[2025-07-07 13:53:21] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 14:54:16] Total emails to process: 36
+[2025-07-07 14:54:16] Total batches: 1, Batch size: 500
+[2025-07-07 14:54:16] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 14:54:16] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 14:55:15] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 14:58:53] Total emails to process: 36
+[2025-07-07 14:58:53] Total batches: 1, Batch size: 500
+[2025-07-07 14:58:53] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 14:58:53] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 14:58:53] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 14:59:01] Total emails to process: 36
+[2025-07-07 14:59:01] Total batches: 1, Batch size: 500
+[2025-07-07 14:59:01] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 14:59:01] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 14:59:01] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 14:59:13] Total emails to process: 36
+[2025-07-07 14:59:13] Total batches: 1, Batch size: 500
+[2025-07-07 14:59:13] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 14:59:13] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 14:59:13] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 15:01:13] Total emails to process: 36
+[2025-07-07 15:01:13] Total batches: 1, Batch size: 500
+[2025-07-07 15:01:13] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 15:01:13] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 15:01:13] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 15:02:25] Total emails to process: 36
+[2025-07-07 15:02:25] Total batches: 1, Batch size: 500
+[2025-07-07 15:02:25] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 15:02:25] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 15:02:25] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 15:03:24] Total emails to process: 36
+[2025-07-07 15:03:24] Total batches: 1, Batch size: 500
+[2025-07-07 15:03:24] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 15:03:24] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 15:03:25] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 15:03:45] Total emails to process: 36
+[2025-07-07 15:03:45] Total batches: 1, Batch size: 500
+[2025-07-07 15:03:45] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 15:03:45] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 15:03:45] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 15:06:05] Total emails to process: 36
+[2025-07-07 15:06:05] Total batches: 1, Batch size: 500
+[2025-07-07 15:06:05] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 15:06:05] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 15:06:05] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 15:08:34] Total emails to process: 36
+[2025-07-07 15:08:34] Total batches: 1, Batch size: 500
+[2025-07-07 15:08:34] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 15:08:34] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 15:08:34] Processing complete. Remaining unprocessed emails: 0
+[2025-07-07 15:10:07] Total emails to process: 36
+[2025-07-07 15:10:07] Total batches: 1, Batch size: 500
+[2025-07-07 15:10:07] Starting parallel SMTP processing with MAX_WORKERS=100
+[2025-07-07 15:10:07] Started worker for IDs 1 - 36 (36 emails)
+[2025-07-07 15:10:07] Processing complete. Remaining unprocessed emails: 0
