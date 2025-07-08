@@ -95,9 +95,8 @@ const EmailSent = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`status-badge px-2 py-1 rounded text-xs font-semibold ${
-                            statusColors[status] || "bg-gray-400"
-                          } text-white`}
+                          className={`status-badge px-2 py-1 rounded text-xs font-semibold ${statusColors[status] || "bg-gray-400"
+                            } text-white`}
                         >
                           {campaign.campaign_status || "Not started"}
                         </span>
