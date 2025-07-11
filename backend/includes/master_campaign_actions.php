@@ -12,16 +12,20 @@ if ($cid && $action) {
     // You can move your PHP logic from your previous code here
     if ($action === 'start_campaign') {
         // ... call your startCampaign($conn, $cid) ...
-        $success = true; $message = "Campaign started!";
+        $success = true;
+        $message = "Campaign started!";
     } elseif ($action === 'pause_campaign') {
         // ... call your pauseCampaign($conn, $cid) ...
-        $success = true; $message = "Campaign paused!";
+        $success = true;
+        $message = "Campaign paused!";
     } elseif ($action === 'retry_failed') {
         // ... call your retryFailedEmails($conn, $cid) ...
-        $success = true; $message = "Retrying failed emails!";
+        $success = true;
+        $message = "Retrying failed emails!";
     } elseif ($action === 'auto_distribute') {
         // ... call your auto-distribution logic ...
-        $success = true; $message = "Auto-distribution done!";
+        $success = true;
+        $message = "Auto-distribution done!";
     }
 }
 echo json_encode(['success' => $success, 'message' => $message]);

@@ -249,7 +249,9 @@ $conn->close();
             </div>
         </div>
         <!-- Add Campaign Modal -->
-        <div id="addCampaignModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+
+        <div id="addCampaignModal"
+            class="hidden fixed inset-0 bg-black/30 backdrop-blur-md backdrop-saturate-150 overflow-y-auto h-full w-full">
             <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-medium text-gray-900">
@@ -301,7 +303,8 @@ $conn->close();
 
         <!-- Edit Campaign Modal -->
         <?php if ($editCampaign): ?>
-            <div id="editCampaignModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+            <div id="editCampaignModal"
+                class="fixed inset-0  bg-black/30 backdrop-blur-md backdrop-saturate-150 overflow-y-auto h-full w-full">
                 <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-lg font-medium text-gray-900">

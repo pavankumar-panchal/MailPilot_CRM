@@ -9,6 +9,7 @@ const checkRetryProgress = async () => {
     );
     return await res.json();
   } catch (error) {
+    console.error("Error checking retry progress:", error);
     return {
       processed: 0,
       total: 0,
@@ -54,6 +55,7 @@ const EmailVerification = () => {
 
   // Retry failed count state
   const [retryFailedCount, setRetryFailedCount] = useState(0);
+  const [retryingList, setRetryingList] = useState({}); // { [listId]: boolean }
 
   // Fetch lists
   const fetchLists = async () => {
@@ -72,6 +74,7 @@ const EmailVerification = () => {
       setLists(Array.isArray(data.data) ? data.data : []);
       setListPagination((prev) => ({ ...prev, total: data.total || 0 }));
     } catch (error) {
+      console.error("Error fetching lists:", error);
       setLists([]);
       setListPagination((prev) => ({ ...prev, total: 0 }));
       setStatus({ type: "error", message: "Failed to load lists" });
@@ -93,6 +96,7 @@ const EmailVerification = () => {
         // setStatus({ type: "error", message: data.message });
       }
     } catch (error) {
+      console.error("Error fetching retry failed count:", error);
       setRetryFailedCount(0);
       // setStatus({ type: "error", message: "Failed to fetch retry failed count" });
     }
@@ -164,6 +168,7 @@ const EmailVerification = () => {
         setStatus({ type: "error", message: data.message || "Upload failed" });
       }
     } catch (error) {
+      console.error("Error uploading file:", error);
       setStatus({ type: "error", message: "Network error" });
     } finally {
       setLoading(false);
@@ -211,6 +216,7 @@ const EmailVerification = () => {
           }, 1000);
         }
       } catch (error) {
+        console.error("Error fetching progress:", error);
         clearInterval(progressInterval.current);
         setShowProgress(false);
       }
@@ -350,6 +356,47 @@ const EmailVerification = () => {
       setStatus({ type: "error", message: error.message });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRetryFailedByList = async (listId) => {
+    setRetryingList((prev) => ({ ...prev, [listId]: true }));
+    setStatus(null);
+
+    try {
+      // Fetch failed count for this list
+      const resCount = await fetch(
+        `http://localhost/Verify_email/backend/includes/get_results.php?retry_failed=1&csv_list_id=${listId}`
+      );
+      const countData = await resCount.json();
+
+      if (!countData.total || countData.total === 0) {
+        setStatus({ type: "error", message: "No failed emails to retry for this list" });
+        setRetryingList((prev) => ({ ...prev, [listId]: false }));
+        return;
+      }
+
+      // Start retry for this list
+      const resStart = await fetch(
+        `http://localhost/Verify_email/backend/includes/retry_smtp.php?csv_list_id=${listId}`,
+        { method: "POST" }
+      );
+      const startData = await resStart.json();
+
+      if (startData.status !== "success") {
+        throw new Error(startData.message || "Failed to start retry");
+      }
+
+      setStatus({
+        type: "success",
+        message: `Retry started for ${countData.total} emails in list ${listId}`,
+      });
+
+      fetchLists();
+    } catch (error) {
+      setStatus({ type: "error", message: error.message });
+    } finally {
+      setRetryingList((prev) => ({ ...prev, [listId]: false }));
     }
   };
 
@@ -639,7 +686,7 @@ const EmailVerification = () => {
                 </svg>
                 Export Invalid
               </button> */}
-              <button
+              {/* <button
                 onClick={handleRetryFailed}
                 disabled={loading || retryFailedCount === 0}
                 className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors flex items-center"
@@ -654,11 +701,12 @@ const EmailVerification = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9H9m6 4a8.001 8.001 0 01-15.418 2M15 9h5v5"
+                    d="M4 4v5h5M20 20v-5h-5M5.5 8.5a8 8 0 0113 0M18.5 15.5a8 8 0 01-13 0"
                   />
                 </svg>
                 {loading ? "Retrying..." : `Retry Failed (${retryFailedCount})`}
-              </button>
+              </button> */}
+           
             </div>
           </div>
         </div>
@@ -797,6 +845,29 @@ const EmailVerification = () => {
                           />
                         </svg>
                         Invalid
+                      </button>
+                      <button
+                        onClick={() => handleRetryFailedByList(list.id)}
+                        disabled={retryingList[list.id] || !list.failed_count}
+                        className="text-yellow-600 hover:text-yellow-800 transition-colors flex items-center border border-yellow-300 rounded px-2 py-1 disabled:opacity-60"
+                        title="Retry failed emails for this list"
+                      >
+                        <svg
+                          className={`w-4 h-4 mr-1 ${retryingList[list.id] ? "animate-spin" : ""}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 4v5h5M20 20v-5h-5M5.5 8.5a8 8 0 0113 0M18.5 15.5a8 8 0 01-13 0"
+                          />
+                        </svg>
+                        {retryingList[list.id]
+                          ? "Retrying..."
+                          : `Retry (${list.failed_count || 0})`}
                       </button>
                     </td>
                   </tr>

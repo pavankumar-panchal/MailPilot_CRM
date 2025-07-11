@@ -27,10 +27,9 @@ const StatusMessage = ({ status, onClose }) =>
         flex items-center gap-3
         transition-all duration-300
         backdrop-blur-md
-        ${
-          status.type === "error"
-            ? "bg-red-200/60 border border-red-400 text-red-800"
-            : "bg-green-200/60 border border-green-400 text-green-800"
+        ${status.type === "error"
+          ? "bg-red-200/60 border border-red-400 text-red-800"
+          : "bg-green-200/60 border border-green-400 text-green-800"
         }
       `}
       style={{
@@ -48,11 +47,10 @@ const StatusMessage = ({ status, onClose }) =>
       role="alert"
     >
       <i
-        className={`fas text-lg ${
-          status.type === "error"
-            ? "fa-exclamation-circle text-red-500"
-            : "fa-check-circle text-green-500"
-        }`}
+        className={`fas text-lg ${status.type === "error"
+          ? "fa-exclamation-circle text-red-500"
+          : "fa-check-circle text-green-500"
+          }`}
       ></i>
       <span className="flex-1">{status.message}</span>
       <button
@@ -299,11 +297,10 @@ const Smtp = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          server.is_active
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${server.is_active
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                          }`}
                       >
                         {server.is_active ? "Active" : "Inactive"}
                       </span>
@@ -319,13 +316,13 @@ const Smtp = () => {
                         onClick={() => handleEdit(server)}
                         className="text-indigo-600 hover:text-indigo-900 mr-3"
                       >
-                        <i className="fas fa-edit mr-1"></i> Edit
+                        <i className="fas fa-edit mr-1"></i> 
                       </button>
                       <button
                         onClick={() => handleDelete(server.id)}
                         className="text-red-600 hover:text-red-900"
                       >
-                        <i className="fas fa-trash mr-1"></i> Delete
+                        <i className="fas fa-trash mr-1"></i> 
                       </button>
                     </td>
                   </tr>
@@ -338,7 +335,8 @@ const Smtp = () => {
 
       {/* Add Server Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-md backdrop-saturate-150 border border-white/20 shadow-xl overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+
           <div className="relative mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900">
@@ -514,7 +512,8 @@ const Smtp = () => {
 
       {/* Edit Server Modal */}
       {editModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-md backdrop-saturate-150 border border-white/20 shadow-xl overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+
           <div className="relative mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900">

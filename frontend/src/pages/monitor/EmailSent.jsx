@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 const statusColors = {
   pending: "bg-yellow-500",
@@ -8,22 +8,38 @@ const statusColors = {
   failed: "bg-red-600",
 };
 
+const ROWS_PER_PAGE = 10;
+
 const EmailSent = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState(null);
+  const isFirstLoad = useRef(true);
+
+  // Pagination state
+  const [pagination, setPagination] = useState({
+    page: 1,
+    rowsPerPage: ROWS_PER_PAGE,
+    total: 0,
+  });
 
   // Fetch campaigns
   const fetchCampaigns = async () => {
-    setLoading(true);
+    // Only show loading on first load
+    if (isFirstLoad.current) setLoading(true);
     try {
-      const res = await fetch("/api/monitor/campaigns");
+      const res = await fetch("http://localhost/Verify_email/backend/routes/api.php/api/monitor/campaigns");
       const data = await res.json();
       setCampaigns(Array.isArray(data) ? data : []);
+      setPagination((prev) => ({
+        ...prev,
+        total: Array.isArray(data) ? data.length : 0,
+      }));
     } catch {
       setMessage({ type: "error", text: "Failed to load campaigns." });
     }
     setLoading(false);
+    isFirstLoad.current = false;
   };
 
   useEffect(() => {
@@ -32,6 +48,20 @@ const EmailSent = () => {
     const interval = setInterval(fetchCampaigns, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(pagination.total / pagination.rowsPerPage);
+  const paginatedCampaigns = campaigns.slice(
+    (pagination.page - 1) * pagination.rowsPerPage,
+    pagination.page * pagination.rowsPerPage
+  );
+
+  // Reset to first page if campaigns change and page is out of range
+  useEffect(() => {
+    if (pagination.page > totalPages && totalPages > 0) {
+      setPagination((prev) => ({ ...prev, page: 1 }));
+    }
+  }, [campaigns, totalPages]);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -70,14 +100,14 @@ const EmailSent = () => {
                     Loading...
                   </td>
                 </tr>
-              ) : campaigns.length === 0 ? (
+              ) : paginatedCampaigns.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-4 text-center text-sm text-gray-500">
                     No campaigns found.
                   </td>
                 </tr>
               ) : (
-                campaigns.map((campaign) => {
+                paginatedCampaigns.map((campaign) => {
                   const total = Math.max(campaign.total_emails || 0, 1);
                   const sent = Math.min(campaign.sent_emails || 0, total);
                   const progress = Math.round((sent / total) * 100);
@@ -89,15 +119,13 @@ const EmailSent = () => {
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-sm font-medium text-gray-900">
-                          {/* You can link to a details page if needed */}
                           {campaign.description}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`status-badge px-2 py-1 rounded text-xs font-semibold ${
-                            statusColors[status] || "bg-gray-400"
-                          } text-white`}
+                          className={`status-badge px-2 py-1 rounded text-xs font-semibold ${statusColors[status] || "bg-gray-400"
+                            } text-white`}
                         >
                           {campaign.campaign_status || "Not started"}
                         </span>
@@ -127,6 +155,146 @@ const EmailSent = () => {
           </table>
         </div>
       </div>
+      {/* Pagination Controls */}
+      {pagination.total > 0 && (
+        <div className="flex flex-col items-center justify-center mt-6 px-1 gap-2">
+          <div className="flex items-center gap-4 mb-2">
+            <div className="text-xs sm:text-sm text-gray-500">
+              Showing{" "}
+              <span className="font-medium">
+                {(pagination.page - 1) * pagination.rowsPerPage + 1}
+              </span>{" "}
+              to{" "}
+              <span className="font-medium">
+                {Math.min(
+                  pagination.page * pagination.rowsPerPage,
+                  pagination.total
+                )}
+              </span>{" "}
+              of <span className="font-medium">{pagination.total}</span>{" "}
+              campaigns
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() =>
+                setPagination((prev) => ({ ...prev, page: 1 }))
+              }
+              disabled={pagination.page === 1}
+              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+            >
+              <svg
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={() =>
+                setPagination((prev) => ({
+                  ...prev,
+                  page: prev.page - 1,
+                }))
+              }
+              disabled={pagination.page === 1}
+              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+            >
+              <svg
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <span className="text-xs sm:text-sm font-medium text-gray-700">
+              Page {pagination.page} of {totalPages}
+            </span>
+            <button
+              onClick={() =>
+                setPagination((prev) => ({
+                  ...prev,
+                  page: Math.min(totalPages, prev.page + 1),
+                }))
+              }
+              disabled={pagination.page >= totalPages}
+              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+            >
+              <svg
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={() =>
+                setPagination((prev) => ({
+                  ...prev,
+                  page: totalPages,
+                }))
+              }
+              disabled={pagination.page >= totalPages}
+              className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+            >
+              <svg
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 5l7 7-7 7M5 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+            {/* Add rows per page select to the right */}
+            <div className="flex items-center gap-1 ml-4">
+
+              <select
+                id="rowsPerPage"
+                value={pagination.rowsPerPage}
+                onChange={e => {
+                  setPagination(prev => ({
+                    ...prev,
+                    rowsPerPage: Number(e.target.value),
+                    page: 1, // Reset to first page
+                  }));
+                }}
+                className="border border-gray-300 rounded px-2 py-2 text-xs sm:text-sm"
+              >
+                {[10, 25, 50, 100].map(opt => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

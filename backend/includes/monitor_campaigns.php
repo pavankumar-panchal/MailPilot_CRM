@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
 
-
 $result = $conn->query("
     SELECT cm.campaign_id, cm.description, 
         COALESCE(cs.status, 'pending') as campaign_status, 
@@ -15,6 +14,9 @@ $result = $conn->query("
 ");
 $rows = [];
 while ($row = $result->fetch_assoc()) {
+    $total = max((int)$row['total_emails'], 1);
+    $sent = min((int)$row['sent_emails'], $total);
+    $row['progress'] = round(($sent / $total) * 100);
     $rows[] = $row;
 }
 echo json_encode($rows);

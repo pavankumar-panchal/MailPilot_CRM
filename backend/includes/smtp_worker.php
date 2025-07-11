@@ -9,14 +9,29 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 $conn->set_charset("utf8mb4");
 if ($conn->connect_error) exit(1);
 
-$conn_logs = new mysqli($servername, $username, $password, $log_dbname);
-$conn_logs->set_charset("utf8mb4");
-if ($conn_logs->connect_error) exit(2);
+
+
+// Separate log DB credentials
+// $log_db_host = "127.0.0.1";           // Or your actual IP
+// $log_db_user = "CRM_logs";            // Your logs DB user
+// $log_db_pass = "55y60jgW*";           // Your logs DB password
+// $log_db_name = "CRM_logs";            // Your logs DB name
+
+// $conn_logs = new mysqli($log_db_host, $log_db_user, $log_db_pass, $log_db_name);
+// $conn_logs->set_charset("utf8mb4");
+// if ($conn_logs->connect_error) {
+//     die(json_encode(["status" => "error", "message" => "Log DB connection failed: " . $conn_logs->connect_error]));
+// }
+
+
+$worker_id=1;
+
+
 
 $start_id = $argv[1] ?? 0;
 $end_id = $argv[2] ?? 0;
 
-$query = "SELECT id, raw_emailid, sp_domain FROM emails WHERE id BETWEEN $start_id AND $end_id AND domain_status=1 AND domain_processed=0";
+$query = "SELECT id, raw_emailid, sp_domain FROM emails WHERE id BETWEEN $start_id AND $end_id AND domain_status=1 AND domain_processed=0 AND worker_id=$worker_id";
 $result = $conn->query($query);
 
 function log_worker($msg, $id_range = '') {

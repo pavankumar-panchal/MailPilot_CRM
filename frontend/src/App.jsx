@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import TopProgressBar from "./components/TopProgressBar";
 import Home from "./Home";
 import TableData from "./table_data";
@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 const App = () => {
   const location = useLocation();
   const hideNavbarRoutes = ["/table-data/2"]; // Add all routes where navbar should be hidden
+  const hideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
     <>

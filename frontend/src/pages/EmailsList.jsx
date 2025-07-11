@@ -61,14 +61,14 @@ const EmailsList = ({ listId, onClose }) => {
     fetchListEmails();
   }, [listId]);
 
-  // Reset pagination when filter changes
+  // Reset pagination when filter or rowsPerPage changes
   useEffect(() => {
     setPagination((prev) => ({
       ...prev,
       page: 1,
       total: filteredEmails.length,
     }));
-  }, [filter]);
+  }, [filter, pagination.rowsPerPage]);
 
   // Status message component
   const StatusMessage = ({ status, onClose }) =>
@@ -80,10 +80,9 @@ const EmailsList = ({ listId, onClose }) => {
           flex items-center gap-3
           transition-all duration-300
           backdrop-blur-md
-          ${
-            status.type === "error"
-              ? "bg-red-200/60 border border-red-400 text-red-800"
-              : "bg-green-200/60 border border-green-400 text-green-800"
+          ${status.type === "error"
+            ? "bg-red-200/60 border border-red-400 text-red-800"
+            : "bg-green-200/60 border border-green-400 text-green-800"
           }
         `}
         style={{
@@ -101,11 +100,10 @@ const EmailsList = ({ listId, onClose }) => {
         role="alert"
       >
         <i
-          className={`fas text-lg ${
-            status.type === "error"
-              ? "fa-exclamation-circle text-red-500"
-              : "fa-check-circle text-green-500"
-          }`}
+          className={`fas text-lg ${status.type === "error"
+            ? "fa-exclamation-circle text-red-500"
+            : "fa-check-circle text-green-500"
+            }`}
         ></i>
         <span className="flex-1">{status.message}</span>
         <button
@@ -183,7 +181,7 @@ const EmailsList = ({ listId, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-md backdrop-saturate-150 p-4">
       <div
         className="bg-white rounded-xl shadow-lg w-full max-w-6xl max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
@@ -212,41 +210,37 @@ const EmailsList = ({ listId, onClose }) => {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setFilter("all")}
-                className={`px-4 py-2 rounded-lg font-medium text-sm ${
-                  filter === "all"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium text-sm ${filter === "all"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 All ({countEmails("all")})
               </button>
               <button
                 onClick={() => setFilter("valid")}
-                className={`px-4 py-2 rounded-lg font-medium text-sm ${
-                  filter === "valid"
-                    ? "bg-green-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium text-sm ${filter === "valid"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 Valid ({countEmails("valid")})
               </button>
               <button
                 onClick={() => setFilter("invalid")}
-                className={`px-4 py-2 rounded-lg font-medium text-sm ${
-                  filter === "invalid"
-                    ? "bg-red-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium text-sm ${filter === "invalid"
+                  ? "bg-red-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 Invalid ({countEmails("invalid")})
               </button>
               <button
                 onClick={() => setFilter("timeout")}
-                className={`px-4 py-2 rounded-lg font-medium text-sm ${
-                  filter === "timeout"
-                    ? "bg-yellow-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium text-sm ${filter === "timeout"
+                  ? "bg-yellow-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 Timeout ({countEmails("timeout")})
               </button>
@@ -341,34 +335,28 @@ const EmailsList = ({ listId, onClose }) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          email.domain_verified == 1
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${email.domain_verified == 1
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                          }`}
                       >
                         {email.domain_verified == 1 ? "Verified" : "Invalid"}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          email.domain_status == 1
-                            ? "bg-blue-100 text-blue-800"
-                            : email.domain_status == 0
-                            ? "bg-orange-100 text-red-800"
-                            : isTimeout(email)
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${isTimeout(email)
                             ? "bg-yellow-100 text-yellow-800"
-                            : "bg-orange-100 text-red-800"
-                        }`}
+                            : email.domain_status == 1
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-orange-100 text-red-800"
+                          }`}
                       >
-                        {email.domain_status == 1
-                          ? "Correct"
-                          : email.domain_status == 0
-                          ? "Wrong"
-                          : isTimeout(email)
+                        {isTimeout(email)
                           ? "Timeout"
-                          : "Wrong"}
+                          : email.domain_status == 1
+                            ? "Valid"
+                            : "Invalid"}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
@@ -436,11 +424,12 @@ const EmailsList = ({ listId, onClose }) => {
                   id="rows-per-page"
                   value={pagination.rowsPerPage}
                   onChange={(e) => {
-                    setPagination({
+                    setPagination((prev) => ({
+                      ...prev,
                       page: 1,
                       rowsPerPage: Number(e.target.value),
                       total: filteredEmails.length,
-                    });
+                    }));
                   }}
                   className="border border-gray-300 rounded-md shadow-sm py-1 pl-2 pr-8 text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >

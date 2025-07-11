@@ -29,7 +29,8 @@ if ($search !== '') {
 // Get total count
 $countSql = "SELECT COUNT(*) as total FROM csv_list $where";
 $stmt = $conn->prepare($countSql);
-if ($where !== '') $stmt->bind_param(str_repeat('s', count($params)), ...$params);
+if ($where !== '')
+    $stmt->bind_param(str_repeat('s', count($params)), ...$params);
 $stmt->execute();
 $countResult = $stmt->get_result();
 $total = $countResult->fetch_assoc()['total'] ?? 0;
@@ -45,6 +46,15 @@ $result = $stmt->get_result();
 
 $lists = [];
 while ($row = $result->fetch_assoc()) {
+    // Fetch retryable (failed) count for this list
+    $failedStmt = $conn->prepare("SELECT COUNT(*) as failed_count FROM emails WHERE csv_list_id = ? AND domain_status = 2");
+    $failedStmt->bind_param("i", $row['id']);
+    $failedStmt->execute();
+    $failedResult = $failedStmt->get_result();
+    $failedRow = $failedResult->fetch_assoc();
+    $row['failed_count'] = intval($failedRow['failed_count'] ?? 0);
+    $failedStmt->close();
+
     $lists[] = $row;
 }
 
