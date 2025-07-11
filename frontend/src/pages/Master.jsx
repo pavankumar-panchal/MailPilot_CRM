@@ -481,7 +481,7 @@ const Master = () => {
                       ) : (
                         <button
                           onClick={() => startCampaign(campaign.campaign_id)}
-                          className="px-3 sm:px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs sm:text-sm font-medium"
+                          className="px-3 sm:px-4 py-2 bg-green-500 hover:bg-green-700 text-white rounded-lg text-xs sm:text-sm font-medium"
                         >
                           <i className="fas fa-play mr-1"></i> Start
                         </button>

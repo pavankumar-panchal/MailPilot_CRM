@@ -211,42 +211,24 @@ function verifyEmailViaSMTP($email, $domain, $conn, $log_conn)
     }
 }
 
-// Accept csv_list_id as GET or POST parameter
-$csv_list_id = isset($_GET['csv_list_id']) ? intval($_GET['csv_list_id']) : (isset($_POST['csv_list_id']) ? intval($_POST['csv_list_id']) : 0);
-
-if (!$csv_list_id) {
-    echo json_encode([
-        "status" => "error",
-        "message" => "csv_list_id is required"
-    ]);
-    exit;
-}
-
-function process_emails($conn, $log_conn, $csv_list_id)
+function process_emails($conn, $log_conn)
 {
     $processed = 0;
     $batch_size = 100; // Process emails in batches of 100
 
-    // Get total count of retryable emails for this list
-    $result = $conn->prepare("SELECT COUNT(*) as total FROM emails WHERE domain_status=2 AND csv_list_id=?");
-    $result->bind_param("i", $csv_list_id);
-    $result->execute();
-    $result_data = $result->get_result()->fetch_assoc();
-    $total = $result_data['total'];
-    $result->close();
-
-    write_log("Starting SMTP processing for $total retryable emails in list $csv_list_id");
+    // Get total count of retryable emails
+    $result = $conn->query("SELECT COUNT(*) as total FROM emails WHERE domain_status=2");
+    $row = $result->fetch_assoc();
+    $total = $row['total'];
+    write_log("Starting SMTP processing for $total retryable emails");
 
     $offset = 0;
     while (true) {
-        // Get batch of emails to process for this list
-        $query = $conn->prepare("SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status=2 AND csv_list_id=? LIMIT ?, ?");
-        $query->bind_param("iii", $csv_list_id, $offset, $batch_size);
-        $query->execute();
-        $result = $query->get_result();
+        // Get batch of emails to process
+        $query = "SELECT id, raw_emailid, sp_domain FROM emails WHERE domain_status=2 LIMIT $offset, $batch_size";
+        $result = $conn->query($query);
 
         if (!$result || $result->num_rows == 0) {
-            $query->close();
             break; // No more emails to process
         }
 
@@ -285,82 +267,71 @@ function process_emails($conn, $log_conn, $csv_list_id)
             $processed++;
         }
 
-        $query->close();
         $offset += $batch_size;
     }
 
     return $processed;
 }
 
-// Update csv_list status and counts for a specific list
-function updateCsvListCounts($conn, $csv_list_id)
+// Update csv_list status and counts
+function updateCsvListCounts($conn)
 {
-    $stmt = $conn->prepare("
-        SELECT 
-            COUNT(*) AS total_emails,
-            SUM(domain_status = 1) AS valid_count,
-            SUM(domain_status = 0) AS invalid_count
-        FROM emails
-        WHERE csv_list_id = ?
+    $result = $conn->query("
+        SELECT DISTINCT c.id
+        FROM csv_list c
+        JOIN emails e ON c.id = e.csv_list_id
     ");
-    $stmt->bind_param("i", $csv_list_id);
-    $stmt->execute();
-    $stmt->bind_result($total, $valid, $invalid);
-    $stmt->fetch();
-    $stmt->close();
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $campaignId = $row['id'];
+            $stmt = $conn->prepare("
+                SELECT 
+                    COUNT(*) AS total_emails,
+                    SUM(domain_status = 1) AS valid_count,
+                    SUM(domain_status = 0) AS invalid_count
+                FROM emails
+                WHERE csv_list_id = ?
+            ");
+            $stmt->bind_param("i", $campaignId);
+            $stmt->execute();
+            $stmt->bind_result($total, $valid, $invalid);
+            $stmt->fetch();
+            $stmt->close();
 
-    $valid = $valid ?? 0;
-    $invalid = $invalid ?? 0;
-    $total = $total ?? 0;
+            $valid = $valid ?? 0;
+            $invalid = $invalid ?? 0;
+            $total = $total ?? 0;
 
-    $updateStmt = $conn->prepare("
-        UPDATE csv_list 
-        SET total_emails = ?, valid_count = ?, invalid_count = ?
-        WHERE id = ?
-    ");
-    $updateStmt->bind_param("iiii", $total, $valid, $invalid, $csv_list_id);
-    $updateStmt->execute();
-    $updateStmt->close();
+            $updateStmt = $conn->prepare("
+                UPDATE csv_list 
+                SET total_emails = ?, valid_count = ?, invalid_count = ?
+                WHERE id = ?
+            ");
+            $updateStmt->bind_param("iiii", $total, $valid, $invalid, $campaignId);
+            $updateStmt->execute();
+            $updateStmt->close();
+        }
+    }
 }
 
 // Main execution
 try {
     $start_time = microtime(true);
-    $processed = process_emails($conn, $log_conn, $csv_list_id);
+    $processed = process_emails($conn, $log_conn);
     $total_time = microtime(true) - $start_time;
 
-    // Update campaign stats for this list
-    updateCsvListCounts($conn, $csv_list_id);
+    // Update campaign stats
+    updateCsvListCounts($conn);
 
-    // Check if all emails are processed (no more retryable) for this list
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM emails WHERE domain_status=2 AND csv_list_id=?");
-    $stmt->bind_param("i", $csv_list_id);
-    $stmt->execute();
-    $stmt->bind_result($remainingOtherStatus);
-    $stmt->fetch();
-    $stmt->close();
-
+    // Check if all emails are processed (no more retryable)
+    $remainingOtherStatus = $conn->query("SELECT COUNT(*) FROM emails WHERE domain_status=2")->fetch_row()[0];
     if ($remainingOtherStatus == 0) {
-        $updateStatus = $conn->prepare("UPDATE csv_list SET status = 'completed' WHERE id = ? AND status = 'running'");
-        $updateStatus->bind_param("i", $csv_list_id);
-        $updateStatus->execute();
-        $updateStatus->close();
+        $conn->query("UPDATE csv_list SET status = 'completed' WHERE status = 'running'");
     }
 
-    // Get verification stats for this list
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM emails WHERE csv_list_id=?");
-    $stmt->bind_param("i", $csv_list_id);
-    $stmt->execute();
-    $stmt->bind_result($total);
-    $stmt->fetch();
-    $stmt->close();
-
-    $stmt = $conn->prepare("SELECT COUNT(*) as verified FROM emails WHERE validation_status = 'valid' AND csv_list_id=?");
-    $stmt->bind_param("i", $csv_list_id);
-    $stmt->execute();
-    $stmt->bind_result($verified);
-    $stmt->fetch();
-    $stmt->close();
+    // Get verification stats
+    $total = $conn->query("SELECT COUNT(*) as total FROM emails")->fetch_row()[0];
+    $verified = $conn->query("SELECT COUNT(*) as verified FROM emails WHERE validation_status = 'valid'")->fetch_row()[0];
 
     echo json_encode([
         "status" => "success",
@@ -368,8 +339,8 @@ try {
         "total_emails" => (int) $total,
         "verified_emails" => (int) $verified,
         "time_seconds" => round($total_time, 2),
-        "rate_per_second" => $total_time > 0 ? round($processed / $total_time, 2) : 0,
-        "message" => "Retry SMTP processing completed for list $csv_list_id"
+        "rate_per_second" => round($processed / $total_time, 2),
+        "message" => "Retry SMTP processing completed"
     ]);
 
 } catch (Exception $e) {

@@ -46,6 +46,15 @@ $result = $stmt->get_result();
 
 $lists = [];
 while ($row = $result->fetch_assoc()) {
+    // Fetch retryable (failed) count for this list
+    $failedStmt = $conn->prepare("SELECT COUNT(*) as failed_count FROM emails WHERE csv_list_id = ? AND domain_status = 2");
+    $failedStmt->bind_param("i", $row['id']);
+    $failedStmt->execute();
+    $failedResult = $failedStmt->get_result();
+    $failedRow = $failedResult->fetch_assoc();
+    $row['failed_count'] = intval($failedRow['failed_count'] ?? 0);
+    $failedStmt->close();
+
     $lists[] = $row;
 }
 

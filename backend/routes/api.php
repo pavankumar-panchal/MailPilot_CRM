@@ -73,6 +73,10 @@ try {
             ]);
             break;
 
+        case '/api/workers':
+            require __DIR__ . '/../includes/workers.php';
+            break;
+
         default:
             http_response_code(404);
             echo json_encode(['error' => 'Endpoint not found']);

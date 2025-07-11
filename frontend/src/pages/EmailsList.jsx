@@ -355,8 +355,8 @@ const EmailsList = ({ listId, onClose }) => {
                         {isTimeout(email)
                           ? "Timeout"
                           : email.domain_status == 1
-                            ? "Correct"
-                            : "Wrong"}
+                            ? "Valid"
+                            : "Invalid"}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">

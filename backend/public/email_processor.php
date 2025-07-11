@@ -46,7 +46,6 @@ try {
     }
 
     echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
 } catch (Exception $e) {
     // Clean any output buffer
     ob_clean();
@@ -302,6 +301,31 @@ function handlePostRequest()
     $updateListStmt->bind_param("iiii", $total, $valid, $invalid, $campaignListId);
     $updateListStmt->execute();
 
+    // Assign emails to workers in equal batches
+    $workers = getWorkers($conn);
+    $workerCount = count($workers);
+
+    if ($workerCount > 0) {
+        $result = $conn->query("SELECT id FROM emails WHERE csv_list_id = $campaignListId AND worker_id IS NULL");
+        $emails = [];
+        while ($row = $result->fetch_assoc()) {
+            $emails[] = $row['id'];
+        }
+
+        $totalEmails = count($emails);
+        $batchSize = ceil($totalEmails / $workerCount);
+
+        $emailIndex = 0;
+        foreach ($workers as $worker) {
+            $assignedEmails = array_slice($emails, $emailIndex, $batchSize);
+            if (count($assignedEmails) > 0) {
+                $ids = implode(',', $assignedEmails);
+                $conn->query("UPDATE emails SET worker_id = {$worker['id']} WHERE id IN ($ids)");
+            }
+            $emailIndex += $batchSize;
+        }
+    }
+
     return [
         "status" => "success",
         "message" => "CSV processed successfully",
@@ -352,4 +376,14 @@ function handleDeleteRequest()
     } else {
         return ["status" => "error", "message" => "Deletion failed"];
     }
+}
+
+function getWorkers($conn)
+{
+    $result = $conn->query("SELECT id, workername, ip FROM workers");
+    $workers = [];
+    while ($row = $result->fetch_assoc()) {
+        $workers[] = $row;
+    }
+    return $workers;
 }

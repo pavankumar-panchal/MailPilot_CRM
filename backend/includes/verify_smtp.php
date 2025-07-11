@@ -16,6 +16,8 @@ $password = "";
 $dbname = "CRM";
 $log_dbname = "CRM_logs";
 
+$worker_id=1;
+
 // Create main connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 $conn->set_charset("utf8mb4");
@@ -61,6 +63,7 @@ $conn->set_charset("utf8mb4");
 if ($conn->connect_error) exit(1);
 
 
+$worker_id=1;
 
 // Separate log DB credentials
 // $log_db_host = "127.0.0.1";           // Or your actual IP
@@ -81,7 +84,7 @@ if ($conn->connect_error) exit(1);
 $start_id = $argv[1] ?? 0;
 $end_id = $argv[2] ?? 0;
 
-$query = "SELECT id, raw_emailid, sp_domain FROM emails WHERE id BETWEEN $start_id AND $end_id AND domain_status=1 AND domain_processed=0";
+$query = "SELECT id, raw_emailid, sp_domain FROM emails WHERE id BETWEEN $start_id AND $end_id AND domain_status=1 AND domain_processed=0 AND worker_id=$worker_id";
 $result = $conn->query($query);
 
 function log_worker($msg, $id_range = '') {
@@ -433,7 +436,6 @@ try {
         "rate_per_second"  => $total_time > 0 ? round($processed / $total_time, 2) : 0,
         "message"          => "Parallel SMTP processing completed"
     ]);
-
 } catch (Exception $e) {
     echo json_encode([
         "status"  => "error",
@@ -442,4 +444,3 @@ try {
 } finally {
     $conn->close();
 }
-?>
