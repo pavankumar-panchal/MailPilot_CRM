@@ -1,4 +1,20 @@
 <?php
+// Check required PHP functions for Plesk compatibility
+$required_functions = ['system', 'proc_open', 'fsockopen'];
+$missing = [];
+foreach ($required_functions as $fn) {
+    if (!is_callable($fn)) $missing[] = $fn;
+}
+if ($missing) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => "Missing required PHP functions: " . implode(', ', $missing),
+        'data' => null
+    ]);
+    exit;
+}
+
 require_once __DIR__ . '/../config/db.php';
 
 header('Content-Type: application/json');
@@ -61,6 +77,10 @@ try {
 } catch (Exception $e) {
     $response['success'] = false;
     $response['message'] = $e->getMessage();
+}
+
+if (empty($response['message'])) {
+    $response['message'] = $response['success'] ? "Operation completed successfully!" : "Operation failed!";
 }
 
 echo json_encode($response);
@@ -180,7 +200,7 @@ function safe_exec($cmd, $background = false) {
         ob_start();
         system($cmd);
         $output = ob_get_clean();
-        return $output;
+        return trim($output);
     }
     // Fallback to proc_open
     if (is_callable('proc_open')) {
@@ -214,7 +234,7 @@ function startEmailBlasterProcess($campaign_id)
             unlink($lock_file);
         }
     }
-    $php_path = '/opt/lampp/bin/php';
+    $php_path = '/usr/bin/php';
     $script_path = '/opt/lampp/htdocs/Verify_email/backend/public/email_blaster.php';
     $command = "$php_path $script_path $campaign_id";
     $pid = safe_exec($command, true); // run in background
