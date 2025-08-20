@@ -370,7 +370,7 @@ const Smtp = () => {
   };
 
   return (
-    <main className="max-w-7xl mx-auto px-4 mt-14 sm:px-6 py-6">
+    <main className="max-w-7xl mx-auto px-2 sm:px-4 mt-10 sm:mt-14 py-4 sm:py-6">
       {/* Glassmorphism Status Popup */}
       <StatusMessage status={status} onClose={() => setStatus(null)} />
 
@@ -391,29 +391,29 @@ const Smtp = () => {
       </div>
 
       {/* SMTP Servers Table */}
-      <div className="card overflow-hidden bg-white/80 backdrop-blur-md rounded-xl shadow-lg">
-        <div className="overflow-x-auto">
+      <div className="card overflow-x-auto bg-white/80 backdrop-blur-md rounded-xl shadow-lg">
+        <div className="w-full min-w-[350px]">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50/80">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                   Server
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                   Accounts
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                   Total Limits
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white/60 divide-y divide-gray-200">
+            <tbody className="bg-white/60 divide-y divide-gray-200 text-xs sm:text-sm">
               {loading ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-sm text-gray-500">
@@ -640,7 +640,7 @@ const Smtp = () => {
       {/* Add Server Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-md">
-          <div className="relative w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg flex flex-col"
+          <div className="relative w-full max-w-lg sm:max-w-2xl mx-auto bg-white rounded-lg shadow-lg flex flex-col"
                style={{ maxHeight: "90vh" }}>
             {/* Sticky header */}
             <div className="sticky top-0 z-10 bg-white border-b flex justify-between items-center px-5 py-3 rounded-t-lg">
@@ -657,7 +657,7 @@ const Smtp = () => {
             </div>
             {/* Scrollable content */}
             <form
-              className="overflow-y-auto px-5 py-4"
+              className="overflow-y-auto px-2 sm:px-5 py-4"
               style={{ maxHeight: "75vh" }}
               onSubmit={handleAdd}
             >
@@ -767,7 +767,7 @@ const Smtp = () => {
                     key={idx}
                     className="border rounded p-3 mb-2 bg-gray-50 relative"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Email
@@ -819,7 +819,7 @@ const Smtp = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 mt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Hourly Limit
@@ -895,7 +895,7 @@ const Smtp = () => {
       {/* Edit Server Modal */}
       {editModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-md">
-          <div className="relative w-full max-w-xl mx-auto bg-white rounded-lg shadow-lg flex flex-col"
+          <div className="relative w-full max-w-lg sm:max-w-xl mx-auto bg-white rounded-lg shadow-lg flex flex-col"
                style={{ maxHeight: "90vh" }}>
             {/* Sticky header */}
             <div className="sticky top-0 z-10 bg-white border-b flex justify-between items-center px-5 py-3 rounded-t-lg">
@@ -912,13 +912,12 @@ const Smtp = () => {
             </div>
             {/* Scrollable content */}
             <form
-              className="overflow-y-auto px-5 py-4"
+              className="overflow-y-auto px-2 sm:px-5 py-4"
               style={{ maxHeight: "75vh" }}
               onSubmit={handleUpdate}
             >
-              <input type="hidden" name="id" value={editId} />
-              {/* Name + Host + Received Email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Name + Host + Received Email */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Name
@@ -999,7 +998,7 @@ const Smtp = () => {
                     key={idx}
                     className="border rounded p-3 mb-2 bg-gray-50"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Email
@@ -1050,7 +1049,7 @@ const Smtp = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 mt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Hourly Limit
